@@ -1,8 +1,20 @@
 # Butterfly Judger
 
-一個以教學為目的、逐步打造的 Python Online Judge。目前 Phase 1 已完成，Phase 2 的 Docker runner 已加入並等待 Docker 環境整合測試，Phase 3 的 FastAPI 骨架也已建立。
+一個以教學為目的的 Python 練習系統。公開版本部署在 GitHub Pages，使用 Pyodide 在學生自己的瀏覽器執行程式，不需要常駐後端或付費運算資源。
 
-## 目前功能
+## 公開網站功能
+
+- Pyodide + Web Worker 瀏覽器判題
+- 支援 `AC`、`WA`、`RE`、`TLE`
+- 每筆測資前重建獨立虛擬檔案系統
+- 支援 `open()`、讀檔、寫檔與檔案內容驗證
+- 公開顯示測資、預期輸出與預期檔案
+- 最近 50 次 submission 保存在學生瀏覽器的 `localStorage`
+- 901～910 檔案處理題庫；題目重新表述且不收錄參考解答
+
+第一次判題時，瀏覽器需要從 CDN 下載 Pyodide。執行學生程式會使用學生裝置的 CPU 與記憶體，不會消耗網站擁有者的伺服器資源。
+
+## CLI Judge 功能
 
 - 從 `problems/<題號>/tests` 載入 `.in` / `.out` 測資組
 - 每筆測資分開執行提交的 Python 程式
@@ -80,7 +92,7 @@ GET  /api/submissions/{id}
 
 公開 API 強制使用 Docker runner。測試才透過 dependency override 使用 local runner，因此缺少 Docker 時不會意外在 host 執行網路使用者送來的程式。
 
-## GitHub Pages 前端（Phase 4）
+## GitHub Pages Browser Judge
 
 本機預覽：
 
@@ -88,13 +100,13 @@ GET  /api/submissions/{id}
 python -m http.server 8080 --directory frontend
 ```
 
-開啟 `http://127.0.0.1:8080`，按右上角「API 設定」連到 backend。推送到 `main` 後，`.github/workflows/pages.yml` 會部署 `frontend/`。第一次使用仍須到 repository 的 **Settings → Pages → Source** 選擇 **GitHub Actions**。
+開啟 `http://127.0.0.1:8080`。推送到 `main` 後，`.github/workflows/pages.yml` 會部署 `frontend/`，不需要設定 API URL。
 
-部署到網路時，API URL 必須使用 HTTPS，而且 backend 的 `FRONTEND_ORIGINS` 必須包含 `https://danny-owo.github.io`。
+Browser Judge 的題庫位於 `frontend/problems.json`，執行器位於 `frontend/pyodide-worker.mjs`。公開測資不是安全機密；任何人都能透過瀏覽器開發者工具讀取。
 
-## Submission history（Phase 5）
+## 可選 Backend
 
-API 會自動建立 `data/judge.db`，保存 submission 的原始程式碼與判題摘要。公開的 `GET /api/submissions/{id}` 只回傳狀態、時間與通過數，不回傳原始程式碼；等帳號與權限完成後，才應加入使用者自己的程式碼查詢功能。
+FastAPI、SQLite 與 Docker runner 暫時保留，供未來需要隱藏測資、跨裝置紀錄、帳號或正式成績時使用。現在的 GitHub Pages 網站不會呼叫這個 backend。
 
 部署時可透過 `JUDGE_DB_PATH` 指定資料庫位置。該位置必須使用 persistent volume，否則平台重啟或重新部署時紀錄會消失。
 
@@ -133,7 +145,7 @@ problems/
 2. 🚧 Phase 2：Docker sandbox（程式已加入，待 Docker 環境整合測試）
 3. ✅ Phase 3：FastAPI 與整合測試
 4. ✅ Phase 4：GitHub Pages 靜態前端與部署 workflow
-5. ✅ Phase 5：SQLite submission history
-6. ⬜ Phase 6：帳號、教師後台與統計
+5. ✅ Phase 5：Pyodide Browser Judge 與 901～910 公開題庫
+6. ⬜ Phase 6：擴充題庫、submission history 介面與教師工具
 
-GitHub Pages 只負責靜態前端；真正執行程式碼的 API 與 sandbox 會部署在另一個支援 Docker 的服務上。
+目前公開版完全使用瀏覽器判題。只有未來需要可信任的隱藏測資或正式評分時，才需要部署 API 與 sandbox。
