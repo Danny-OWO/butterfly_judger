@@ -1,8 +1,10 @@
-import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs";
-
+const PYODIDE_BASE_URL = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
 let pyodide;
 try {
-  pyodide = await loadPyodide();
+  self.postMessage({ type: "status", message: "正在連接 Pyodide CDN…" });
+  const { loadPyodide } = await import(`${PYODIDE_BASE_URL}pyodide.mjs`);
+  self.postMessage({ type: "status", message: "正在下載 Python 執行環境（第一次會比較久）…" });
+  pyodide = await loadPyodide({ indexURL: PYODIDE_BASE_URL });
   self.postMessage({ type: "ready" });
 } catch (error) {
   self.postMessage({ type: "load-error", message: String(error) });

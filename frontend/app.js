@@ -1,5 +1,5 @@
 const HISTORY_KEY = "butterfly-browser-submissions";
-const PYODIDE_LOAD_TIMEOUT_MS = 45_000;
+const PYODIDE_LOAD_TIMEOUT_MS = 120_000;
 
 const elements = {
   banner: document.querySelector("#connection-banner"),
@@ -152,6 +152,8 @@ function ensureWorker() {
         window.clearTimeout(timeout);
         worker.removeEventListener("message", onMessage);
         resolve(worker);
+      } else if (event.data.type === "status") {
+        showBanner(event.data.message, "info");
       } else if (event.data.type === "load-error") {
         window.clearTimeout(timeout);
         worker.removeEventListener("message", onMessage);

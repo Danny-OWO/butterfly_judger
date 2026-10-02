@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head><meta charset="utf-8"><title>Browser Judge Smoke Test</title></head>
+  <body data-status="loading">loading</body>
+  <script type="module">
+    const worker = new Worker("../frontend/pyodide-worker.mjs", { type: "module" });
+    const timeout = setTimeout(() => finish("timeout", "Pyodide did not finish in time"), 120000);
+
+    function finish(status, message) {
+      clearTimeout(timeout);
+      document.body.dataset.status = status;
+      document.body.textContent = message;
+      if (status !== "loading") worker.terminate();
+    }
+
+    worker.addEventListener("error", (event) => finish("error", event.message));
+    worker.addEventListener("message", (event) => {
+      if (event.data.type === "load-error") {
+        finish("error", event.data.message);
+      } else if (event.data.type === "ready") {
+        worker.postMessage({
+          type: "judge",
+          code: "print(1 + 2)",
+          tests: [{
+            name: "smoke",
+            input: "",
+            expected_output: "3\n",
+            files: {},
+            expected_files: {},
+          }],
+        });
+      } else if (event.data.type === "test-result") {
+        const result = event.data.result;
+        finish(result.status === "AC" ? "passed" : "failed", JSON.stringify(result));
+      }
+    });
+  </script>
+</html>
