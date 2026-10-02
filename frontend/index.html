@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Butterfly Judger — 一個輕量的 Python 程式練習平台">
+    <title>Butterfly Judger</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Butterfly Judger 首頁">
+        <span class="brand-mark" aria-hidden="true">ʚɞ</span>
+        <span>Butterfly Judger</span>
+      </a>
+      <button id="settings-button" class="secondary-button" type="button">API 設定</button>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">PYTHON PRACTICE LAB</p>
+        <h1>寫下答案，讓測資說真話。</h1>
+        <p>沒有玄學，只有輸入、輸出，以及偶爾冷酷但誠實的 WA。</p>
+      </section>
+
+      <div id="connection-banner" class="banner" role="status" hidden></div>
+
+      <section id="problem-list-view" aria-labelledby="problem-list-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PROBLEM SET</p>
+            <h2 id="problem-list-title">題目列表</h2>
+          </div>
+          <span id="problem-count" class="count-badge">載入中</span>
+        </div>
+        <div id="problem-list" class="problem-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="problem-view" hidden>
+        <button id="back-button" class="text-button" type="button">← 回到題目列表</button>
+        <div class="workspace">
+          <article class="problem-panel">
+            <p id="problem-id" class="eyebrow"></p>
+            <h2 id="problem-title"></h2>
+            <p id="problem-description" class="lead"></p>
+
+            <h3>輸入說明</h3>
+            <p id="problem-input"></p>
+            <h3>輸出說明</h3>
+            <p id="problem-output"></p>
+
+            <div class="sample-grid">
+              <div>
+                <h3>範例輸入</h3>
+                <pre id="sample-input"></pre>
+              </div>
+              <div>
+                <h3>範例輸出</h3>
+                <pre id="sample-output"></pre>
+              </div>
+            </div>
+          </article>
+
+          <section class="editor-panel" aria-labelledby="editor-title">
+            <div class="editor-heading">
+              <div>
+                <p class="eyebrow">SUBMISSION</p>
+                <h2 id="editor-title">你的 Python 程式</h2>
+              </div>
+              <span id="limits" class="limits"></span>
+            </div>
+            <textarea id="code-editor" spellcheck="false" aria-label="Python 程式碼"></textarea>
+            <button id="submit-button" class="primary-button" type="button">送出判題</button>
+            <div id="result-panel" class="result-panel" aria-live="polite" hidden></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="settings-dialog">
+      <form id="settings-form" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">CONNECTION</p>
+            <h2>API 設定</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="關閉">×</button>
+        </div>
+        <label for="api-url">Backend URL</label>
+        <input id="api-url" name="api-url" type="url" placeholder="http://127.0.0.1:8000" required>
+        <p class="field-help">本機開發通常使用 http://127.0.0.1:8000；部署後請填 HTTPS API 網址。</p>
+        <button class="primary-button" value="save">儲存並重新連線</button>
+      </form>
+    </dialog>
+
+    <footer>Built for learning, tested by edge cases.</footer>
+  </body>
+</html>

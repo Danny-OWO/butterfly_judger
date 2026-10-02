@@ -1,0 +1,11 @@
+{
+  "id": "001",
+  "title": "兩數相加",
+  "description": "輸入兩個整數 a、b，輸出 a + b。",
+  "input": "一行包含兩個整數 a 與 b。",
+  "output": "輸出 a + b。",
+  "sample_input": "3 5",
+  "sample_output": "8",
+  "time_limit": 2.0,
+  "memory_limit": 128
+}
