@@ -1,5 +1,240 @@
 [
   {
+    "id": "101",
+    "title": "整數格式化輸出",
+    "description": "依序讀入四個整數字串。先以欄寬 5 靠右排列成兩列，再以相同欄寬靠左排列成兩列；每列使用直線符號包住，兩欄之間保留一格。",
+    "input": "四行，每行一個整數。",
+    "output": "共四行：前兩行靠右、後兩行靠左。每個欄位寬度為 5。",
+    "sample_input": "85\n4\n299\n478",
+    "sample_output": "|   85     4|\n|  299   478|\n|85    4    |\n|299   478  |",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-101-%E6%95%B4%E6%95%B8%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BC%B8%E5%87%BA",
+    "tests": [
+      {
+        "name": "不同位數",
+        "input": "85\n4\n299\n478\n",
+        "expected_output": "|   85     4|\n|  299   478|\n|85    4    |\n|299   478  |\n",
+        "files": {},
+        "expected_files": {}
+      },
+      {
+        "name": "含負數",
+        "input": "-1\n20\n3000\n0\n",
+        "expected_output": "|   -1    20|\n| 3000     0|\n|-1    20   |\n|3000  0    |\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "title": "浮點數格式化輸出",
+    "description": "讀入四個浮點數，以小數點後兩位及欄寬 7 顯示。前兩列靠右，後兩列靠左，每列兩欄並以直線符號包住。",
+    "input": "四行，每行一個浮點數。",
+    "output": "四行格式化結果；每個數值保留兩位小數，欄寬為 7。",
+    "sample_input": "23.12\n395.3\n100.4617\n564.329",
+    "sample_output": "|  23.12  395.30|\n| 100.46  564.33|\n|23.12   395.30 |\n|100.46  564.33 |",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-102-%E6%B5%AE%E9%BB%9E%E6%95%B8%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BC%B8%E5%87%BA",
+    "tests": [
+      {
+        "name": "小數四捨五入",
+        "input": "23.12\n395.3\n100.4617\n564.329\n",
+        "expected_output": "|  23.12  395.30|\n| 100.46  564.33|\n|23.12   395.30 |\n|100.46  564.33 |\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "103",
+    "title": "字串格式化輸出",
+    "description": "依序讀入四個字串。使用欄寬 10 排成兩欄：先輸出靠右對齊的兩列，再輸出靠左對齊的兩列。",
+    "input": "四行，每行一個不含換行的字串。",
+    "output": "共四行，每列以直線符號包住，兩欄之間保留一格。",
+    "sample_input": "TQC+\nPython\nCoding\nPractice",
+    "sample_output": "|      TQC+     Python|\n|    Coding   Practice|\n|TQC+       Python    |\n|Coding     Practice  |",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-103-%E5%AD%97%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BC%B8%E5%87%BA",
+    "tests": [
+      {
+        "name": "英文單字",
+        "input": "TQC+\nPython\nCoding\nPractice\n",
+        "expected_output": "|      TQC+     Python|\n|    Coding   Practice|\n|TQC+       Python    |\n|Coding     Practice  |\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "104",
+    "title": "圓形計算",
+    "description": "讀入圓的半徑，計算直徑意義下的圓周長 2πr 與面積 πr²。",
+    "input": "一行正數，代表半徑。",
+    "output": "依序輸出 Radius、Perimeter、Area，三個數值皆保留兩位小數。",
+    "sample_input": "10",
+    "sample_output": "Radius = 10.00\nPerimeter = 62.83\nArea = 314.16",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-104-%E5%9C%93%E5%BD%A2%E9%9D%A2%E7%A9%8D%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "整數半徑",
+        "input": "10\n",
+        "expected_output": "Radius = 10.00\nPerimeter = 62.83\nArea = 314.16\n",
+        "files": {},
+        "expected_files": {}
+      },
+      {
+        "name": "小數半徑",
+        "input": "2.5\n",
+        "expected_output": "Radius = 2.50\nPerimeter = 15.71\nArea = 19.63\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "105",
+    "title": "矩形計算",
+    "description": "依序讀入矩形的高與寬，計算周長與面積。",
+    "input": "兩行正數，第一行為高度，第二行為寬度。",
+    "output": "依序輸出 Height、Width、Perimeter、Area，數值皆保留兩位小數。",
+    "sample_input": "10.5\n5",
+    "sample_output": "Height = 10.50\nWidth = 5.00\nPerimeter = 31.00\nArea = 52.50",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-105-%E7%9F%A9%E5%BD%A2%E9%9D%A2%E7%A9%8D%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "小數邊長",
+        "input": "10.5\n5\n",
+        "expected_output": "Height = 10.50\nWidth = 5.00\nPerimeter = 31.00\nArea = 52.50\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "106",
+    "title": "公里英哩換算",
+    "description": "依序讀入行駛時間的分鐘、秒數，以及距離公里數。以 1 英哩等於 1.6 公里換算平均時速。",
+    "input": "三行數值：分鐘、秒數、公里數。",
+    "output": "以 Speed = x.x 的格式輸出英哩時速，保留一位小數。",
+    "sample_input": "1\n40\n5",
+    "sample_output": "Speed = 112.5",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-106-%E5%85%AC%E9%87%8C%E8%8B%B1%E5%93%A9%E6%8F%9B%E7%AE%97",
+    "tests": [
+      {
+        "name": "短程速度",
+        "input": "1\n40\n5\n",
+        "expected_output": "Speed = 112.5\n",
+        "files": {},
+        "expected_files": {}
+      },
+      {
+        "name": "一般速度",
+        "input": "10\n30\n3\n",
+        "expected_output": "Speed = 10.7\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "107",
+    "title": "五個數值統計",
+    "description": "讀入五個數值，先在同一行依原順序輸出，再計算總和與平均。",
+    "input": "五行，每行一個數值。",
+    "output": "第一行輸出五個值並以空格隔開；接著輸出 Sum 與 Average，兩者保留一位小數。",
+    "sample_input": "1\n2.5\n-3\n4\n5.5",
+    "sample_output": "1 2.5 -3 4 5.5\nSum = 10.0\nAverage = 2.0",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-107-%E6%95%B8%E5%80%BC%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "整數與小數",
+        "input": "1\n2.5\n-3\n4\n5.5\n",
+        "expected_output": "1 2.5 -3 4 5.5\nSum = 10.0\nAverage = 2.0\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "108",
+    "title": "座標距離",
+    "description": "讀入平面上兩個點的 x、y 座標，顯示兩組座標並計算歐式距離。",
+    "input": "四行數值，依序為 x1、y1、x2、y2。",
+    "output": "前兩行以 ( x , y ) 格式顯示座標，第三行輸出 Distance，距離保留四位小數。",
+    "sample_input": "1\n2\n4\n6",
+    "sample_output": "( 1 , 2 )\n( 4 , 6 )\nDistance = 5.0000",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-108-%E5%BA%A7%E6%A8%99%E8%B7%9D%E9%9B%A2%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "三四五距離",
+        "input": "1\n2\n4\n6\n",
+        "expected_output": "( 1 , 2 )\n( 4 , 6 )\nDistance = 5.0000\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "109",
+    "title": "正五邊形面積",
+    "description": "讀入正五邊形邊長 s，使用公式 5s² ÷ (4 tan(π/5)) 計算面積。",
+    "input": "一行正數，代表邊長。",
+    "output": "以 Area = x.xxxx 格式輸出，保留四位小數。",
+    "sample_input": "5",
+    "sample_output": "Area = 43.0119",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-109-%E6%AD%A3%E4%BA%94%E9%82%8A%E5%BD%A2%E9%9D%A2%E7%A9%8D%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "整數邊長",
+        "input": "5\n",
+        "expected_output": "Area = 43.0119\n",
+        "files": {},
+        "expected_files": {}
+      },
+      {
+        "name": "小數邊長",
+        "input": "3.2\n",
+        "expected_output": "Area = 17.6177\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "110",
+    "title": "正 n 邊形面積",
+    "description": "讀入正多邊形的邊數 n 與邊長 s，使用公式 ns² ÷ (4 tan(π/n)) 計算面積。",
+    "input": "兩行正數，第一行是邊數 n，第二行是邊長 s。",
+    "output": "以 Area = x.xxxx 格式輸出，保留四位小數。",
+    "sample_input": "6\n4",
+    "sample_output": "Area = 41.5692",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-110-%E6%AD%A3n%E9%82%8A%E5%BD%A2%E9%9D%A2%E7%A9%8D%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "正六邊形",
+        "input": "6\n4\n",
+        "expected_output": "Area = 41.5692\n",
+        "files": {},
+        "expected_files": {}
+      },
+      {
+        "name": "正八邊形",
+        "input": "8\n2.5\n",
+        "expected_output": "Area = 30.1777\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
     "id": "901",
     "title": "成績資料寫入",
     "description": "讀入五行學生資料，每行由姓名與期末總分組成，並依原順序寫入 write.txt。每筆資料在檔案中各占一行。",

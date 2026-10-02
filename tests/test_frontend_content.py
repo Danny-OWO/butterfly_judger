@@ -29,10 +29,11 @@ class FrontendContentTests(unittest.TestCase):
             (FRONTEND / "problems.json").read_text(encoding="utf-8")
         )
 
-    def test_contains_complete_901_to_910_set(self) -> None:
+    def test_contains_complete_unit_one_and_unit_nine_sets(self) -> None:
         self.assertEqual(
             [problem["id"] for problem in self.problems],
-            [str(number) for number in range(901, 911)],
+            [str(number) for number in range(101, 111)]
+            + [str(number) for number in range(901, 911)],
         )
 
     def test_every_problem_has_public_tests_and_no_solution_field(self) -> None:
