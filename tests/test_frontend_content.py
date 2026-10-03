@@ -48,17 +48,19 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("problem.title", list_renderer)
         self.assertNotIn("problem.description", list_renderer)
 
-    def test_catalog_navigation_has_nine_tqc_units(self) -> None:
+    def test_tqc_opens_directly_to_nine_units(self) -> None:
         javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
         html = (FRONTEND / "index.html").read_text(encoding="utf-8")
-        self.assertIn('id="catalog-list-view"', html)
+        self.assertNotIn('id="catalog-list-view"', html)
         self.assertIn('id="unit-list-view"', html)
         self.assertIn('id="problem-list-view"', html)
+        self.assertIn('href="../">← 回到題庫</a>', html)
         unit_definitions = javascript.split("const TQC_UNITS = [", 1)[1].split(
             "];", 1
         )[0]
         self.assertEqual(unit_definitions.count("{ id:"), 9)
         self.assertIn('updateRoute({ catalog: "tqc", unit: unit.id })', javascript)
+        self.assertNotIn("openHome", javascript)
 
     def test_every_problem_has_public_tests_and_no_solution_field(self) -> None:
         forbidden = {"answer", "solution", "reference_code"}

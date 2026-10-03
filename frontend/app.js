@@ -3,15 +3,12 @@ const PYODIDE_LOAD_TIMEOUT_MS = 120_000;
 
 const elements = {
   banner: document.querySelector("#connection-banner"),
-  catalogListView: document.querySelector("#catalog-list-view"),
-  tqcCatalogButton: document.querySelector("#tqc-catalog-button"),
   unitListView: document.querySelector("#unit-list-view"),
   unitList: document.querySelector("#unit-list"),
   problemListView: document.querySelector("#problem-list-view"),
   problemList: document.querySelector("#problem-list"),
   problemCount: document.querySelector("#problem-count"),
   problemView: document.querySelector("#problem-view"),
-  catalogBackButton: document.querySelector("#catalog-back-button"),
   unitBackButton: document.querySelector("#unit-back-button"),
   problemBackButton: document.querySelector("#problem-back-button"),
   submitButton: document.querySelector("#submit-button"),
@@ -88,7 +85,6 @@ function clearBanner() {
 
 function showOnly(view) {
   for (const candidate of [
-    elements.catalogListView,
     elements.unitListView,
     elements.problemListView,
     elements.problemView,
@@ -107,21 +103,12 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function openHome(updateHistory = true) {
-  currentProblem = null;
-  currentUnit = null;
-  clearBanner();
-  showOnly(elements.catalogListView);
-  if (updateHistory) updateRoute({});
-  scrollToTop();
-}
-
 function openCatalog(updateHistory = true) {
   currentProblem = null;
   currentUnit = null;
   clearBanner();
   showOnly(elements.unitListView);
-  if (updateHistory) updateRoute({ catalog: "tqc" });
+  if (updateHistory) updateRoute({});
   scrollToTop();
 }
 
@@ -440,15 +427,11 @@ function routeFromUrl() {
     openProblem(problemId, false);
   } else if (unitId >= 1 && unitId <= 9) {
     openUnit(unitId, false);
-  } else if (parameters.get("catalog") === "tqc") {
-    openCatalog(false);
   } else {
-    openHome(false);
+    openCatalog(false);
   }
 }
 
-elements.tqcCatalogButton.addEventListener("click", () => openCatalog());
-elements.catalogBackButton.addEventListener("click", () => openHome());
 elements.unitBackButton.addEventListener("click", () => openCatalog());
 elements.problemBackButton.addEventListener("click", () => openUnit(currentUnit));
 window.addEventListener("popstate", routeFromUrl);

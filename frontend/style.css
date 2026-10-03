@@ -28,6 +28,7 @@ body {
 
 button, input, textarea { font: inherit; }
 button { cursor: pointer; }
+.back-link { display: inline-block; text-decoration: none; }
 
 .site-header {
   display: flex;
