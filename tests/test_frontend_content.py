@@ -85,6 +85,15 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("execution.stdout === (test.expected_output", worker)
         self.assertIn("actual !== expected", worker)
 
+    def test_python_editor_has_syntax_highlighting(self) -> None:
+        html = (FRONTEND / "index.html").read_text(encoding="utf-8")
+        javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
+        css = (FRONTEND / "style.css").read_text(encoding="utf-8")
+        self.assertIn("codemirror@5.65.21", html)
+        self.assertIn('mode: { name: "python", version: 3 }', javascript)
+        self.assertIn("highlightedEditor.getValue()", javascript)
+        self.assertIn(".cm-s-butterfly .cm-keyword", css)
+
 
 if __name__ == "__main__":
     unittest.main()

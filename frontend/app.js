@@ -18,6 +18,43 @@ let problems = [];
 let currentProblem = null;
 let worker = null;
 let workerReady = null;
+let highlightedEditor = null;
+
+function initializeEditor() {
+  if (!window.CodeMirror) return;
+  highlightedEditor = window.CodeMirror.fromTextArea(elements.codeEditor, {
+    mode: { name: "python", version: 3 },
+    theme: "butterfly",
+    lineNumbers: true,
+    indentUnit: 4,
+    tabSize: 4,
+    indentWithTabs: false,
+    lineWrapping: false,
+    extraKeys: {
+      Tab(editor) {
+        if (editor.somethingSelected()) {
+          editor.indentSelection("add");
+        } else {
+          editor.replaceSelection("    ", "end", "+input");
+        }
+      },
+      "Shift-Tab": "indentLess",
+    },
+  });
+}
+
+function setEditorValue(value) {
+  if (highlightedEditor) {
+    highlightedEditor.setValue(value);
+    window.requestAnimationFrame(() => highlightedEditor.refresh());
+  } else {
+    elements.codeEditor.value = value;
+  }
+}
+
+function getEditorValue() {
+  return highlightedEditor ? highlightedEditor.getValue() : elements.codeEditor.value;
+}
 
 function showBanner(message, tone = "error") {
   elements.banner.textContent = message;
@@ -124,7 +161,7 @@ function openProblem(problemId) {
   setText("#sample-output", problem.sample_output || "（空）");
   setText("#limits", `${problem.time_limit}s`);
   renderPublicTests(problem);
-  elements.codeEditor.value = "";
+  setEditorValue("");
   elements.resultPanel.hidden = true;
   elements.problemListView.hidden = true;
   elements.problemView.hidden = false;
@@ -274,7 +311,7 @@ function saveHistory(problem, code, summary) {
 
 async function submitCode() {
   if (!currentProblem) return;
-  const code = elements.codeEditor.value;
+  const code = getEditorValue();
   elements.submitButton.disabled = true;
   elements.submitButton.textContent = workerReady ? "判題中…" : "載入…";
   clearBanner();
@@ -307,6 +344,7 @@ elements.codeEditor.addEventListener("keydown", (event) => {
   elements.codeEditor.setRangeText("    ", start, end, "end");
 });
 
+initializeEditor();
 loadProblems().then(() => {
   const requestedProblem = new URLSearchParams(window.location.search).get("problem");
   if (requestedProblem) openProblem(requestedProblem);

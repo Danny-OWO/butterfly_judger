@@ -62,10 +62,18 @@ def main() -> int:
 
         browser.get(args.app_url)
         editor = WebDriverWait(browser, 15).until(
-            lambda driver: driver.find_element(By.ID, "code-editor")
+            lambda driver: driver.find_element(By.CLASS_NAME, "CodeMirror")
         )
-        editor.clear()
-        editor.send_keys('print("smoke")')
+        browser.execute_script(
+            'arguments[0].CodeMirror.setValue(\'print("smoke")\')', editor
+        )
+        highlighted_tokens = editor.find_elements(
+            By.CSS_SELECTOR, ".cm-builtin, .cm-string"
+        )
+        if len(highlighted_tokens) < 2:
+            print("syntax_status=failed")
+            return 1
+        print("syntax_status=passed")
         browser.find_element(By.ID, "submit-button").click()
         result = WebDriverWait(browser, 130).until(
             lambda driver: (
