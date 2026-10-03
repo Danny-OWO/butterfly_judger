@@ -81,9 +81,9 @@ function showSignedOut() {
 async function submitCredentials(event, action) {
   event.preventDefault();
   clearAccountMessage();
+  const credentials = credentialsFrom(event.currentTarget);
   setFormsDisabled(true);
   try {
-    const credentials = credentialsFrom(event.currentTarget);
     const student = await action(credentials.username, credentials.password);
     event.currentTarget.reset();
     await showSignedIn(student);

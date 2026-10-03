@@ -116,6 +116,13 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn('from("submissions")', api_javascript)
         self.assertIn("@supabase/supabase-js@2.117.2", account_html)
         self.assertEqual(account_html.count('pattern="[A-Za-z0-9_\\-]+"'), 2)
+        submit_credentials = account_javascript.split(
+            "async function submitCredentials", 1
+        )[1].split("accountElements.loginForm", 1)[0]
+        self.assertLess(
+            submit_credentials.index("credentialsFrom(event.currentTarget)"),
+            submit_credentials.index("setFormsDisabled(true)"),
+        )
 
     def test_browser_judge_saves_authenticated_practice_history(self) -> None:
         javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
