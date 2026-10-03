@@ -36,6 +36,7 @@ jobs:
           cp -R portal/. _site/
           cp -R frontend/. _site/tqc/
           cp -R dist/. _site/snakify-cpp/
+          cp frontend/api.js frontend/supabase-config.js _site/snakify-cpp/
       - name: Upload complete judge site
         uses: actions/upload-pages-artifact@v4
         with:

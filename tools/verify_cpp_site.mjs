@@ -40,7 +40,7 @@ for (const problem of problems) {
   if (problem.tests.length < 3) throw new Error(`${problem.id} needs at least 3 tests`);
 }
 
-for (const id of ["unit-list", "problem-list", "source-link", "code-editor", "submit-button", "result-panel"]) {
+for (const id of ["unit-list", "problem-list", "source-link", "code-editor", "submit-button", "result-panel", "account-link", "cloud-save-status"]) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Missing HTML target #${id}`);
 }
 if (!css.includes("@media (max-width: 820px)")) throw new Error("Missing mobile breakpoint");
@@ -58,6 +58,9 @@ if (!portal.includes('href="./tqc/"') || !portal.includes('href="./snakify-cpp/"
 }
 if (!tqc.includes('href="../">題庫首頁</a>') || !html.includes("題庫首頁")) {
   throw new Error("Both problem libraries must link back to the portal");
+}
+if (!app.includes("ButterflyAccount.saveSubmission") || !app.includes("problem-status-badge")) {
+  throw new Error("C++ page must save signed-in submissions and show solved badges");
 }
 
 console.log(`Verified shared design, empty highlighted C++ editor, ${units.length} units, ${problems.length} problems, and ${problems.reduce((n, p) => n + p.tests.length, 0)} tests.`);

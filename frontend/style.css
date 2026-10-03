@@ -103,10 +103,12 @@ p { color: var(--muted); line-height: 1.7; }
 .unit-card-content strong { font-size: 1rem; }
 
 .problem-list { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
-.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; width: 100%; padding: 1rem 1.15rem; text-align: left; color: inherit; border: 1px solid #23232a; border-radius: 0.8rem; background: linear-gradient(100deg, #0d0d11, #09090b); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
+.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto auto; align-items: center; gap: 1rem; width: 100%; padding: 1rem 1.15rem; text-align: left; color: inherit; border: 1px solid #23232a; border-radius: 0.8rem; background: linear-gradient(100deg, #0d0d11, #09090b); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
 .problem-list-item:hover, .problem-list-item:focus-visible { transform: translateX(4px); color: white; border-color: #553c82; background: var(--violet-soft); outline: none; }
 .problem-list-id { color: var(--violet); font-family: ui-monospace, monospace; font-weight: 800; }
 .problem-list-title { font-weight: 700; }
+.problem-list-item .card-arrow { grid-column: -1; }
+.problem-status-badge { padding: 0.25rem 0.55rem; color: #071a10; border: 1px solid var(--green); border-radius: 999px; background: var(--green); font: 850 0.72rem/1 ui-monospace, monospace; letter-spacing: 0.05em; }
 
 .banner { margin-bottom: 2rem; padding: 1rem 1.1rem; color: var(--red); border: 1px solid #6d2532; border-radius: 0.8rem; background: var(--red-soft); }
 .banner.info { color: #c4b5fd; border-color: #4c3675; background: var(--violet-soft); }

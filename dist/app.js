@@ -15,12 +15,57 @@ const elements = {
   submitButton: $("#submit-button"),
   resultPanel: $("#result-panel"),
   publicTests: $("#public-tests"),
+  accountLink: $("#account-link"),
+  cloudSaveStatus: $("#cloud-save-status"),
 };
 
 let currentUnit = null;
 let currentProblem = null;
 let highlightedEditor = null;
 let running = false;
+let currentStudent = null;
+let solvedProblemIds = new Set();
+
+function cloudProblemId(problemId) {
+  return `snakify-${problemId}`;
+}
+
+function updateProblemBadges() {
+  for (const button of elements.problemList.querySelectorAll("[data-problem-id]")) {
+    const solved = solvedProblemIds.has(cloudProblemId(button.dataset.problemId));
+    let badge = button.querySelector(".problem-status-badge");
+    if (solved && !badge) {
+      badge = document.createElement("span");
+      badge.className = "problem-status-badge";
+      badge.textContent = "AC";
+      badge.setAttribute("aria-label", "已通過");
+      button.querySelector(".card-arrow").before(badge);
+    } else if (!solved && badge) {
+      badge.remove();
+    }
+  }
+}
+
+async function refreshAccountState() {
+  if (!window.ButterflyAccount?.configured) return;
+  try {
+    currentStudent = await window.ButterflyAccount.currentStudent();
+  } catch (_) {
+    currentStudent = null;
+  }
+  if (!currentStudent) return;
+  elements.accountLink.textContent = `已登入 · ${currentStudent.username}`;
+  elements.accountLink.classList.add("signed-in");
+  try {
+    const progress = await window.ButterflyAccount.progress();
+    solvedProblemIds = new Set(
+      progress.filter((item) => item.solved).map((item) => item.problem_id)
+    );
+    updateProblemBadges();
+  } catch (_) {
+    // The session indicator should remain accurate even if progress cannot load.
+  }
+}
 
 function initializeEditor() {
   if (!window.CodeMirror) return;
@@ -91,7 +136,11 @@ function createProblemListItem(problem) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "problem-list-item";
-  button.innerHTML = `<span class="problem-list-id">${problem.id}</span><span class="problem-list-title">${escapeHtml(problem.title)}</span><span class="card-arrow" aria-hidden="true">→</span>`;
+  button.dataset.problemId = problem.id;
+  const badge = solvedProblemIds.has(cloudProblemId(problem.id))
+    ? '<span class="problem-status-badge" aria-label="已通過">AC</span>'
+    : "";
+  button.innerHTML = `<span class="problem-list-id">${problem.id}</span><span class="problem-list-title">${escapeHtml(problem.title)}</span>${badge}<span class="card-arrow" aria-hidden="true">→</span>`;
   button.addEventListener("click", () => openProblem(problem.id));
   item.append(button);
   return item;
@@ -146,6 +195,7 @@ function openProblem(problemId, updateHistory = true) {
   renderPublicTests(problem);
   setEditorValue("");
   elements.resultPanel.hidden = true;
+  elements.cloudSaveStatus.textContent = "";
   showOnly(elements.problemView);
   if (updateHistory) updateRoute({ unit: problem.unit, problem: problem.id });
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -208,6 +258,32 @@ function renderResults(rows, total) {
   elements.resultPanel.className = `result-panel ${accepted ? "ac" : "failed"}`;
   elements.resultPanel.innerHTML = `<div class="result-title">${accepted ? "AC" : rows.at(-1)?.status || "錯誤"} · ${passed}/${total}</div>${rows.map((row) => `<div class="test-row"><span>測資 ${row.index}</span><span>${row.status}</span></div>`).join("")}${rows.at(-1)?.error ? `<pre>${escapeHtml(rows.at(-1).error)}</pre>` : ""}`;
   elements.resultPanel.hidden = false;
+  return { status: accepted ? "AC" : rows.at(-1)?.status || "RE", passed };
+}
+
+async function saveCloudHistory(problem, code, summary) {
+  elements.cloudSaveStatus.textContent = "";
+  if (!currentStudent || !window.ButterflyAccount?.configured) return;
+  try {
+    const saved = await window.ButterflyAccount.saveSubmission({
+      problem_id: cloudProblemId(problem.id),
+      code,
+      status: summary.status === "CE" ? "RE" : summary.status,
+      passed: summary.passed,
+      total: problem.tests.length,
+    });
+    if (saved) {
+      elements.cloudSaveStatus.textContent = "✓ 已儲存到帳號";
+      elements.cloudSaveStatus.className = "cloud-save-status saved";
+      if (summary.status === "AC") {
+        solvedProblemIds.add(cloudProblemId(problem.id));
+        updateProblemBadges();
+      }
+    }
+  } catch (error) {
+    elements.cloudSaveStatus.textContent = `判題完成，但雲端紀錄儲存失敗：${error.message}`;
+    elements.cloudSaveStatus.className = "cloud-save-status failed";
+  }
 }
 
 async function submitCode() {
@@ -230,7 +306,8 @@ async function submitCode() {
       rows.push({ index: index + 1, ...judged });
       if (judged.status !== "AC") break;
     }
-    renderResults(rows, currentProblem.tests.length);
+    const summary = renderResults(rows, currentProblem.tests.length);
+    await saveCloudHistory(currentProblem, code, summary);
   } catch (error) {
     elements.banner.textContent = `判題服務錯誤：${error.message}`;
     elements.banner.hidden = false;
@@ -256,5 +333,6 @@ elements.submitButton.addEventListener("click", submitCode);
 window.addEventListener("popstate", routeFromUrl);
 
 initializeEditor();
+refreshAccountState();
 renderUnits();
 routeFromUrl();

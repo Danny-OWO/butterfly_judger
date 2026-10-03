@@ -38,19 +38,42 @@ let worker = null;
 let workerReady = null;
 let highlightedEditor = null;
 let currentStudent = null;
+let solvedProblemIds = new Set();
+
+function updateProblemBadges() {
+  for (const button of elements.problemList.querySelectorAll("[data-problem-id]")) {
+    const solved = solvedProblemIds.has(button.dataset.problemId);
+    let badge = button.querySelector(".problem-status-badge");
+    if (solved && !badge) {
+      badge = document.createElement("span");
+      badge.className = "problem-status-badge";
+      badge.textContent = "AC";
+      badge.setAttribute("aria-label", "已通過");
+      button.querySelector(".card-arrow").before(badge);
+    } else if (!solved && badge) {
+      badge.remove();
+    }
+  }
+}
 
 async function refreshAccountLink() {
   if (!window.ButterflyAccount?.configured) return;
   try {
     currentStudent = await window.ButterflyAccount.currentStudent();
-    if (currentStudent) {
-      elements.accountLink.textContent = currentStudent.username;
-      elements.accountLink.classList.add("signed-in");
-    }
   } catch (_) {
     currentStudent = null;
-    elements.accountLink.textContent = "登入 / 註冊";
-    elements.accountLink.classList.remove("signed-in");
+  }
+  if (!currentStudent) return;
+  elements.accountLink.textContent = `已登入 · ${currentStudent.username}`;
+  elements.accountLink.classList.add("signed-in");
+  try {
+    const progress = await window.ButterflyAccount.progress();
+    solvedProblemIds = new Set(
+      progress.filter((item) => item.solved).map((item) => item.problem_id)
+    );
+    updateProblemBadges();
+  } catch (_) {
+    // The session indicator should remain accurate even if progress cannot load.
   }
 }
 
@@ -158,6 +181,7 @@ function createProblemListItem(problem) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "problem-list-item";
+  button.dataset.problemId = problem.id;
   const id = document.createElement("span");
   id.className = "problem-list-id";
   id.textContent = problem.id;
@@ -169,6 +193,13 @@ function createProblemListItem(problem) {
   arrow.setAttribute("aria-hidden", "true");
   arrow.textContent = "→";
   button.append(id, title, arrow);
+  if (solvedProblemIds.has(problem.id)) {
+    const badge = document.createElement("span");
+    badge.className = "problem-status-badge";
+    badge.textContent = "AC";
+    badge.setAttribute("aria-label", "已通過");
+    button.insertBefore(badge, arrow);
+  }
   button.addEventListener("click", () => openProblem(problem.id));
   item.append(button);
   return item;
@@ -433,6 +464,10 @@ async function saveCloudHistory(problem, code, summary) {
     if (saved) {
       elements.cloudSaveStatus.textContent = "✓ 已儲存到帳號";
       elements.cloudSaveStatus.className = "cloud-save-status saved";
+      if (summary.status === "AC") {
+        solvedProblemIds.add(problem.id);
+        updateProblemBadges();
+      }
     }
   } catch (error) {
     elements.cloudSaveStatus.textContent = `判題完成，但雲端紀錄儲存失敗：${error.message}`;

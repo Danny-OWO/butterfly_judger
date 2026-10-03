@@ -61,6 +61,11 @@ button { cursor: pointer; }
   box-shadow: 0 8px 20px rgba(139, 92, 246, 0.22);
 }
 
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+.account-link { padding: 0.55rem 0.8rem; color: white; border: 1px solid #4c3675; border-radius: 0.65rem; background: var(--violet-soft); text-decoration: none; font-size: 0.86rem; font-weight: 750; }
+.account-link:hover, .account-link:focus-visible { border-color: var(--violet); outline: none; }
+.account-link.signed-in::before { content: "●"; margin-right: 0.45rem; color: var(--green); font-size: 0.65rem; }
+
 .page-shell { width: min(1180px, 90vw); margin: 0 auto; }
 .directory-view { padding: 3rem 0 5rem; }
 #problem-view { padding-top: 2rem; }
@@ -97,10 +102,12 @@ p { color: var(--muted); line-height: 1.7; }
 .unit-card-content strong { font-size: 1rem; }
 
 .problem-list { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
-.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; width: 100%; padding: 1rem 1.15rem; text-align: left; color: inherit; border: 1px solid #23232a; border-radius: 0.8rem; background: linear-gradient(100deg, #0d0d11, #09090b); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
+.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto auto; align-items: center; gap: 1rem; width: 100%; padding: 1rem 1.15rem; text-align: left; color: inherit; border: 1px solid #23232a; border-radius: 0.8rem; background: linear-gradient(100deg, #0d0d11, #09090b); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
 .problem-list-item:hover, .problem-list-item:focus-visible { transform: translateX(4px); color: white; border-color: #553c82; background: var(--violet-soft); outline: none; }
 .problem-list-id { color: var(--violet); font-family: ui-monospace, monospace; font-weight: 800; }
 .problem-list-title { font-weight: 700; }
+.problem-list-item .card-arrow { grid-column: -1; }
+.problem-status-badge { padding: 0.25rem 0.55rem; color: #071a10; border: 1px solid var(--green); border-radius: 999px; background: var(--green); font: 850 0.72rem/1 ui-monospace, monospace; letter-spacing: 0.05em; }
 
 .banner { margin-bottom: 2rem; padding: 1rem 1.1rem; color: var(--red); border: 1px solid #6d2532; border-radius: 0.8rem; background: var(--red-soft); }
 .banner.info { color: #c4b5fd; border-color: #4c3675; background: var(--violet-soft); }
@@ -175,6 +182,9 @@ p { color: var(--muted); line-height: 1.7; }
 .result-panel.ac { color: var(--green); background: var(--mint); }
 .result-panel.failed { color: var(--red); background: var(--red-soft); }
 .result-title { font-size: 1.15rem; font-weight: 850; }
+.cloud-save-status { min-height: 1.2rem; margin: 0.65rem 0 0; font-size: 0.8rem; }
+.cloud-save-status.saved { color: var(--green); }
+.cloud-save-status.failed { color: var(--red); }
 .test-list { display: grid; gap: 0.35rem; margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.82rem; }
 
 dialog { width: min(470px, 90vw); padding: 0; border: 0; border-radius: 1rem; box-shadow: var(--shadow); }
@@ -197,6 +207,7 @@ footer { padding: 2rem 5vw; color: var(--muted); text-align: center; font-size: 
   .unit-grid { grid-template-columns: 1fr; }
   .catalog-card { min-height: 124px; }
   .brand span:last-child { display: none; }
+  .library-home-link { display: none; }
 }
 
 .back-link { display: inline-block; text-decoration: none; }

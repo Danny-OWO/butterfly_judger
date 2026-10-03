@@ -130,6 +130,32 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("ButterflyAccount.saveSubmission", javascript)
         self.assertIn("await saveCloudHistory(currentProblem, code, summary)", javascript)
 
+    def test_authenticated_problem_lists_show_solved_badges(self) -> None:
+        tqc_javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
+        cpp_javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
+        for javascript in (tqc_javascript, cpp_javascript):
+            self.assertIn("ButterflyAccount.progress()", javascript)
+            self.assertIn('badge.textContent = "AC"', javascript)
+            self.assertIn("problem-status-badge", javascript)
+            self.assertIn("已登入 · ${currentStudent.username}", javascript)
+
+    def test_snakify_saves_authenticated_practice_history(self) -> None:
+        html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")
+        javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github" / "workflows" / "pages.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('id="account-link"', html)
+        self.assertIn('id="cloud-save-status"', html)
+        self.assertIn("@supabase/supabase-js@2.117.2", html)
+        self.assertIn("ButterflyAccount.saveSubmission", javascript)
+        self.assertIn("snakify-${problemId}", javascript)
+        self.assertIn("await saveCloudHistory(currentProblem, code, summary)", javascript)
+        self.assertIn(
+            "cp frontend/api.js frontend/supabase-config.js _site/snakify-cpp/",
+            workflow,
+        )
+
     def test_supabase_schema_enforces_per_student_access(self) -> None:
         schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
         config = (FRONTEND / "supabase-config.js").read_text(encoding="utf-8")
