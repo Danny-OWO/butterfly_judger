@@ -65,7 +65,7 @@ async function showSignedIn(student) {
   accountElements.forms.hidden = true;
   accountElements.sessionPanel.hidden = false;
   try {
-    renderProgress(await window.ButterflyAPI.request("/api/progress"));
+    renderProgress(await window.ButterflyAccount.progress());
   } catch (error) {
     accountElements.progressSummary.textContent = "讀取失敗";
     showAccountMessage(error.message);
@@ -78,15 +78,13 @@ function showSignedOut() {
   setFormsDisabled(false);
 }
 
-async function submitCredentials(event, endpoint) {
+async function submitCredentials(event, action) {
   event.preventDefault();
   clearAccountMessage();
   setFormsDisabled(true);
   try {
-    const student = await window.ButterflyAPI.request(endpoint, {
-      method: "POST",
-      body: JSON.stringify(credentialsFrom(event.currentTarget)),
-    });
+    const credentials = credentialsFrom(event.currentTarget);
+    const student = await action(credentials.username, credentials.password);
     event.currentTarget.reset();
     await showSignedIn(student);
   } catch (error) {
@@ -96,15 +94,15 @@ async function submitCredentials(event, endpoint) {
 }
 
 accountElements.loginForm.addEventListener("submit", (event) =>
-  submitCredentials(event, "/api/auth/login")
+  submitCredentials(event, window.ButterflyAccount.login)
 );
 accountElements.registerForm.addEventListener("submit", (event) =>
-  submitCredentials(event, "/api/auth/register")
+  submitCredentials(event, window.ButterflyAccount.register)
 );
 accountElements.logoutButton.addEventListener("click", async () => {
   accountElements.logoutButton.disabled = true;
   try {
-    await window.ButterflyAPI.request("/api/auth/logout", { method: "POST" });
+    await window.ButterflyAccount.logout();
     clearAccountMessage();
     showSignedOut();
   } catch (error) {
@@ -115,23 +113,21 @@ accountElements.logoutButton.addEventListener("click", async () => {
 });
 
 async function initializeAccountPage() {
-  if (!window.ButterflyAPI.configured) {
+  if (!window.ButterflyAccount.configured) {
     setFormsDisabled(true);
     showAccountMessage(
-      "帳號後端尚未部署。請在頁面的 butterfly-api-url 設定 API 網址後再登入。",
+      "Supabase 尚未設定。請先在 supabase-config.js 填入 Project URL 與 publishable key。",
       "info"
     );
     return;
   }
   try {
-    await showSignedIn(await window.ButterflyAPI.request("/api/auth/me"));
+    const student = await window.ButterflyAccount.currentStudent();
+    if (student) await showSignedIn(student);
+    else showSignedOut();
   } catch (error) {
-    if (error.status === 401) {
-      showSignedOut();
-    } else {
-      setFormsDisabled(true);
-      showAccountMessage(error.message);
-    }
+    setFormsDisabled(true);
+    showAccountMessage(error.message);
   }
 }
 

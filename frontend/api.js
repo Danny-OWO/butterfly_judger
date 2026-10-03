@@ -1,49 +1,151 @@
-(function initializeButterflyApi() {
-  const configuredUrl = document
-    .querySelector('meta[name="butterfly-api-url"]')
-    ?.content.trim()
-    .replace(/\/$/, "");
-  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const isGitHubPages = window.location.hostname.endsWith(".github.io");
-  const baseUrl = configuredUrl || (isLocal ? `http://${window.location.hostname}:8000` : "");
-  const configured = Boolean(configuredUrl || isLocal || !isGitHubPages);
+(function initializeButterflyAccount() {
+  const config = window.BUTTERFLY_SUPABASE || {};
+  const url = String(config.url || "").trim().replace(/\/$/, "");
+  const publishableKey = String(config.publishableKey || "").trim();
+  const authEmailDomain = String(
+    config.authEmailDomain || "users.butterfly.invalid"
+  ).trim().toLowerCase();
+  const configured =
+    /^https:\/\/.+\.supabase\.co$/i.test(url) &&
+    publishableKey.length > 20 &&
+    !publishableKey.startsWith("YOUR_");
+  const client = configured
+    ? window.supabase.createClient(url, publishableKey, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
+        },
+      })
+    : null;
 
-  async function request(path, options = {}) {
-    if (!configured) {
-      const error = new Error("帳號後端尚未設定");
-      error.code = "API_NOT_CONFIGURED";
+  function requireClient() {
+    if (!client) {
+      const error = new Error("Supabase 尚未設定，請先填入 Project URL 與 publishable key");
+      error.code = "SUPABASE_NOT_CONFIGURED";
       throw error;
     }
-
-    const headers = new Headers(options.headers || {});
-    if (options.body && !headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/json");
-    }
-
-    let response;
-    try {
-      response = await fetch(`${baseUrl}${path}`, {
-        ...options,
-        headers,
-        credentials: "include",
-      });
-    } catch (_) {
-      const error = new Error("無法連線帳號服務，請確認後端是否啟動");
-      error.code = "API_UNREACHABLE";
-      throw error;
-    }
-
-    const contentType = response.headers.get("content-type") || "";
-    const payload = contentType.includes("application/json")
-      ? await response.json()
-      : null;
-    if (!response.ok) {
-      const error = new Error(payload?.detail || `帳號服務錯誤（HTTP ${response.status}）`);
-      error.status = response.status;
-      throw error;
-    }
-    return payload;
+    return client;
   }
 
-  window.ButterflyAPI = Object.freeze({ baseUrl, configured, request });
+  function normalizeUsername(username) {
+    const normalized = String(username || "").trim().toLowerCase();
+    if (!/^[a-z0-9_-]{3,24}$/.test(normalized)) {
+      throw new Error("使用者名稱須為 3–24 個英文字母、數字、底線或連字號");
+    }
+    return normalized;
+  }
+
+  function usernameToEmail(username) {
+    return `${normalizeUsername(username)}@${authEmailDomain}`;
+  }
+
+  function studentFromUser(user) {
+    if (!user) return null;
+    return {
+      id: user.id,
+      username:
+        user.user_metadata?.username ||
+        String(user.email || "student").split("@", 1)[0],
+    };
+  }
+
+  function readableError(error) {
+    const message = String(error?.message || error || "未知錯誤");
+    if (/invalid login credentials/i.test(message)) return "使用者名稱或密碼錯誤";
+    if (/user already registered/i.test(message)) return "這個使用者名稱已被註冊";
+    if (/password should be/i.test(message)) return "密碼至少需要 8 個字元";
+    if (/failed to fetch|network/i.test(message)) return "無法連線 Supabase，請稍後重試";
+    return message;
+  }
+
+  async function register(username, password) {
+    const normalized = normalizeUsername(username);
+    const { data, error } = await requireClient().auth.signUp({
+      email: usernameToEmail(normalized),
+      password,
+      options: { data: { username: normalized } },
+    });
+    if (error) throw new Error(readableError(error));
+    if (!data.session) {
+      throw new Error("Supabase 尚未關閉 Confirm email，內部帳號無法完成登入");
+    }
+    return studentFromUser(data.user);
+  }
+
+  async function login(username, password) {
+    const { data, error } = await requireClient().auth.signInWithPassword({
+      email: usernameToEmail(username),
+      password,
+    });
+    if (error) throw new Error(readableError(error));
+    return studentFromUser(data.user);
+  }
+
+  async function logout() {
+    const { error } = await requireClient().auth.signOut();
+    if (error) throw new Error(readableError(error));
+  }
+
+  async function currentStudent() {
+    if (!client) return null;
+    const { data, error } = await client.auth.getSession();
+    if (error) throw new Error(readableError(error));
+    return studentFromUser(data.session?.user);
+  }
+
+  async function saveSubmission(submission) {
+    const student = await currentStudent();
+    if (!student) return false;
+    const { error } = await requireClient().from("submissions").insert({
+      problem_id: submission.problem_id,
+      code: submission.code,
+      status: submission.status,
+      passed: submission.passed,
+      total: submission.total,
+    });
+    if (error) throw new Error(readableError(error));
+    return true;
+  }
+
+  async function progress() {
+    const { data, error } = await requireClient()
+      .from("submissions")
+      .select("problem_id,status,passed,total,submitted_at")
+      .order("submitted_at", { ascending: false });
+    if (error) throw new Error(readableError(error));
+
+    const byProblem = new Map();
+    for (const submission of data || []) {
+      const previous = byProblem.get(submission.problem_id);
+      if (!previous) {
+        byProblem.set(submission.problem_id, {
+          problem_id: submission.problem_id,
+          attempts: 1,
+          best_passed: submission.passed,
+          total: submission.total,
+          solved: submission.status === "AC",
+          last_submitted_at: submission.submitted_at,
+        });
+      } else {
+        previous.attempts += 1;
+        previous.best_passed = Math.max(previous.best_passed, submission.passed);
+        previous.total = Math.max(previous.total, submission.total);
+        previous.solved ||= submission.status === "AC";
+      }
+    }
+    return [...byProblem.values()].sort((a, b) =>
+      a.problem_id.localeCompare(b.problem_id)
+    );
+  }
+
+  window.ButterflyAccount = Object.freeze({
+    configured,
+    currentStudent,
+    login,
+    logout,
+    progress,
+    register,
+    saveSubmission,
+  });
 })();

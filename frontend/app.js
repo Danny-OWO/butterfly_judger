@@ -16,6 +16,7 @@ const elements = {
   resultPanel: document.querySelector("#result-panel"),
   publicTests: document.querySelector("#public-tests"),
   accountLink: document.querySelector("#account-link"),
+  cloudSaveStatus: document.querySelector("#cloud-save-status"),
 };
 
 const TQC_UNITS = [
@@ -36,14 +37,18 @@ let currentUnit = null;
 let worker = null;
 let workerReady = null;
 let highlightedEditor = null;
+let currentStudent = null;
 
 async function refreshAccountLink() {
-  if (!window.ButterflyAPI?.configured) return;
+  if (!window.ButterflyAccount?.configured) return;
   try {
-    const student = await window.ButterflyAPI.request("/api/auth/me");
-    elements.accountLink.textContent = student.username;
-    elements.accountLink.classList.add("signed-in");
+    currentStudent = await window.ButterflyAccount.currentStudent();
+    if (currentStudent) {
+      elements.accountLink.textContent = currentStudent.username;
+      elements.accountLink.classList.add("signed-in");
+    }
   } catch (_) {
+    currentStudent = null;
     elements.accountLink.textContent = "登入 / 註冊";
     elements.accountLink.classList.remove("signed-in");
   }
@@ -266,6 +271,7 @@ function openProblem(problemId, updateHistory = true) {
   renderPublicTests(problem);
   setEditorValue("");
   elements.resultPanel.hidden = true;
+  elements.cloudSaveStatus.textContent = "";
   showOnly(elements.problemView);
   if (updateHistory) {
     updateRoute({ catalog: "tqc", unit: currentUnit, problem: problem.id });
@@ -413,6 +419,27 @@ function saveHistory(problem, code, summary) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(saved.slice(0, 50)));
 }
 
+async function saveCloudHistory(problem, code, summary) {
+  elements.cloudSaveStatus.textContent = "";
+  if (!currentStudent || !window.ButterflyAccount?.configured) return;
+  try {
+    const saved = await window.ButterflyAccount.saveSubmission({
+      problem_id: problem.id,
+      code,
+      status: summary.status,
+      passed: summary.passed,
+      total: problem.tests.length,
+    });
+    if (saved) {
+      elements.cloudSaveStatus.textContent = "✓ 已儲存到帳號";
+      elements.cloudSaveStatus.className = "cloud-save-status saved";
+    }
+  } catch (error) {
+    elements.cloudSaveStatus.textContent = `判題完成，但雲端紀錄儲存失敗：${error.message}`;
+    elements.cloudSaveStatus.className = "cloud-save-status failed";
+  }
+}
+
 async function submitCode() {
   if (!currentProblem) return;
   const code = getEditorValue();
@@ -424,6 +451,7 @@ async function submitCode() {
     clearBanner();
     const summary = renderResult(results, currentProblem.tests.length);
     saveHistory(currentProblem, code, summary);
+    await saveCloudHistory(currentProblem, code, summary);
   } catch (error) {
     showBanner(`判題失敗：${error.message}`);
   } finally {

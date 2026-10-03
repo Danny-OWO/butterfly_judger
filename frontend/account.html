@@ -6,9 +6,10 @@
     <meta name="theme-color" content="#000000">
     <meta name="color-scheme" content="dark">
     <meta name="description" content="Butterfly Judger 學生帳號登入與註冊">
-    <meta name="butterfly-api-url" content="">
     <title>學生帳號｜Butterfly Judger</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2" defer></script>
+    <script src="supabase-config.js" defer></script>
     <script src="api.js" defer></script>
     <script src="account.js" defer></script>
   </head>
@@ -25,7 +26,7 @@
       <div class="account-heading">
         <p class="eyebrow">STUDENT ACCOUNT</p>
         <h1>保留你的解題足跡</h1>
-        <p>登入後，伺服器會把提交紀錄與每題進度綁定到你的帳號。</p>
+        <p>登入後，Supabase 會把提交紀錄與每題進度綁定到你的帳號。</p>
       </div>
 
       <div id="account-message" class="banner" role="status" hidden></div>
@@ -34,7 +35,7 @@
         <div>
           <p class="eyebrow">SIGNED IN</p>
           <h2 id="session-title">你好，<span id="session-username"></span></h2>
-          <p>這台瀏覽器已安全登入。Session token 只存在 HttpOnly cookie，JavaScript 讀不到它。</p>
+          <p>這台瀏覽器已登入，登入狀態與資料權限由 Supabase Auth 管理。</p>
         </div>
         <button id="logout-button" class="secondary-button" type="button">登出</button>
         <div class="progress-section">
@@ -51,7 +52,7 @@
           <p class="eyebrow">WELCOME BACK</p>
           <h2>登入</h2>
           <label for="login-username">帳號</label>
-          <input id="login-username" name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" required>
+          <input id="login-username" name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_-]+" autocapitalize="none" required>
           <label for="login-password">密碼</label>
           <input id="login-password" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required>
           <button class="primary-button" type="submit">登入</button>
@@ -61,11 +62,12 @@
           <p class="eyebrow">NEW STUDENT</p>
           <h2>建立帳號</h2>
           <label for="register-username">帳號</label>
-          <input id="register-username" name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" required aria-describedby="username-help">
-          <p id="username-help" class="field-help">3–32 字元，只能使用英文字母、數字、底線與連字號。</p>
+          <input id="register-username" name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_-]+" autocapitalize="none" required aria-describedby="username-help">
+          <p id="username-help" class="field-help">3–24 字元，只能使用英文字母、數字、底線與連字號。</p>
           <label for="register-password">密碼</label>
           <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
           <button class="primary-button" type="submit">註冊並登入</button>
+          <p class="account-warning">本平台不提供帳號或密碼找回；遺失後可直接建立新帳號。</p>
         </form>
       </section>
     </main>

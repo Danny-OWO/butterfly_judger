@@ -88,6 +88,7 @@ class FrontendContentTests(unittest.TestCase):
             "account.html",
             "account.js",
             "api.js",
+            "supabase-config.js",
             "style.css",
             "app.js",
             "pyodide-worker.mjs",
@@ -96,7 +97,7 @@ class FrontendContentTests(unittest.TestCase):
         ):
             self.assertTrue((FRONTEND / filename).exists(), filename)
 
-    def test_account_page_supports_register_login_and_cookie_sessions(self) -> None:
+    def test_account_page_uses_supabase_auth_and_progress(self) -> None:
         index_html = (FRONTEND / "index.html").read_text(encoding="utf-8")
         portal_html = (ROOT / "portal" / "index.html").read_text(encoding="utf-8")
         account_html = (FRONTEND / "account.html").read_text(encoding="utf-8")
@@ -106,10 +107,29 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn('href="./tqc/account.html"', portal_html)
         self.assertIn('id="login-form"', account_html)
         self.assertIn('id="register-form"', account_html)
-        self.assertIn('"/api/auth/login"', account_javascript)
-        self.assertIn('"/api/auth/register"', account_javascript)
-        self.assertIn('"/api/progress"', account_javascript)
-        self.assertIn('credentials: "include"', api_javascript)
+        self.assertIn("ButterflyAccount.login", account_javascript)
+        self.assertIn("ButterflyAccount.register", account_javascript)
+        self.assertIn("ButterflyAccount.progress", account_javascript)
+        self.assertIn("auth.signInWithPassword", api_javascript)
+        self.assertIn("auth.signUp", api_javascript)
+        self.assertIn('from("submissions")', api_javascript)
+        self.assertIn("@supabase/supabase-js@2.117.2", account_html)
+
+    def test_browser_judge_saves_authenticated_practice_history(self) -> None:
+        javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
+        self.assertIn("async function saveCloudHistory", javascript)
+        self.assertIn("ButterflyAccount.saveSubmission", javascript)
+        self.assertIn("await saveCloudHistory(currentProblem, code, summary)", javascript)
+
+    def test_supabase_schema_enforces_per_student_access(self) -> None:
+        schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
+        config = (FRONTEND / "supabase-config.js").read_text(encoding="utf-8")
+        self.assertIn("enable row level security", schema.lower())
+        self.assertIn("auth.uid()) = user_id", schema)
+        self.assertIn("for select", schema.lower())
+        self.assertIn("for insert", schema.lower())
+        self.assertNotIn("service_role", config)
+        self.assertIn("YOUR_SUPABASE_PUBLISHABLE_KEY", config)
 
     def test_browser_judge_uses_strict_output_comparison(self) -> None:
         worker = (FRONTEND / "pyodide-worker.mjs").read_text(encoding="utf-8")
