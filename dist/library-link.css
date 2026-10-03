@@ -1,22 +1,17 @@
 .library-home-link {
-  padding: 0.5rem 0.75rem;
-  color: var(--cyan);
-  border: 1px solid var(--line);
-  border-radius: 0.6rem;
-  background: var(--panel2);
+  padding: 0.55rem 0.8rem;
+  color: var(--violet);
+  border: 1px solid #4c3675;
+  border-radius: 0.65rem;
+  background: var(--violet-soft);
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 750;
 }
 
 .library-home-link:hover,
 .library-home-link:focus-visible {
   color: white;
-  border-color: var(--cyan);
+  border-color: var(--violet);
   outline: none;
-}
-
-@media (max-width: 620px) {
-  .library-home-link { font-size: 0; }
-  .library-home-link::after { content: "題庫"; font-size: 0.8rem; }
 }

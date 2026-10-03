@@ -3,99 +3,77 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#07111f">
-    <meta name="description" content="從輸入輸出到字典，為 C++ 初學者設計的 11 單元線上題庫與即時判題器。">
-    <title>Butterfly C++ Judger</title>
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Butterfly Judger — Snakify C++ 題庫">
+    <title>Butterfly Judger</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/lib/codemirror.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="library-link.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/lib/codemirror.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/mode/clike/clike.min.js" defer></script>
     <script src="problems.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
-    <header class="topbar">
-      <button class="brand" id="home-button" type="button" aria-label="回到題庫首頁">
-        <span class="brand-mark" aria-hidden="true">B</span>
-        <span><strong>Butterfly</strong><small>C++ Judger</small></span>
-      </button>
-      <div class="header-meta">
-        <a class="library-home-link" href="../">題庫首頁</a>
-        <span id="progress-label">0 solved</span>
-        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-      </div>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Butterfly Judger 首頁">
+        <span class="brand-mark" aria-hidden="true">ʚɞ</span>
+        <span>Butterfly Judger</span>
+      </a>
+      <a class="library-home-link" href="../">← 題庫首頁</a>
     </header>
 
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="課程單元">
-        <div class="sidebar-title">
-          <span>COURSE MAP</span>
-          <strong>11 Units</strong>
+    <main class="page-shell">
+      <div id="connection-banner" class="banner" role="status" hidden></div>
+
+      <section id="unit-list-view" class="directory-view" aria-labelledby="unit-list-title">
+        <a class="text-button back-link" href="../">← 回到題庫</a>
+        <div class="directory-heading">
+          <p class="eyebrow">SNAKIFY C++</p>
+          <h1 id="unit-list-title">選擇單元</h1>
         </div>
-        <nav id="unit-nav"></nav>
-        <button class="settings-button" id="settings-button" type="button">Compiler settings</button>
-      </aside>
+        <div id="unit-list" class="unit-grid" aria-live="polite"></div>
+      </section>
 
-      <main id="main-content" tabindex="-1">
-        <section id="library-view" class="view">
-          <div class="library-heading">
-            <div>
-              <p class="eyebrow">C++ FOUNDATIONS</p>
-              <h1>Write code. Test the idea.</h1>
-              <p>依照 Snakify 1–11 單元的概念重新設計，不照抄原題；每題都有範例、測資與即時結果。</p>
+      <section id="problem-list-view" class="directory-view" aria-labelledby="problem-list-title" hidden>
+        <button id="unit-back-button" class="text-button" type="button">← 回到 Snakify 單元</button>
+        <div class="section-heading">
+          <h1 id="problem-list-title">題目列表</h1>
+          <span id="problem-count" class="count-badge">載入中</span>
+        </div>
+        <ol id="problem-list" class="problem-list" aria-live="polite"></ol>
+      </section>
+
+      <section id="problem-view" hidden>
+        <button id="problem-back-button" class="text-button" type="button">← 回到題目列表</button>
+        <div class="workspace">
+          <article class="problem-panel">
+            <p id="problem-id" class="eyebrow"></p>
+            <h2 id="problem-title"></h2>
+            <a id="source-link" class="source-link" href="#" target="_blank" rel="noopener noreferrer">閱讀 Snakify 原題</a>
+            <p class="lead">題目敘述與輸入輸出格式請見原題。</p>
+
+            <div class="sample-grid">
+              <div><h3>範例輸入</h3><pre id="sample-input"></pre></div>
+              <div><h3>範例輸出</h3><pre id="sample-output"></pre></div>
             </div>
-            <div class="stat-card"><strong id="solved-count">0</strong><span>problems solved</span></div>
-          </div>
-          <div id="problem-grid" class="problem-grid"></div>
-        </section>
+            <h3>測資</h3>
+            <div id="public-tests" class="public-tests"></div>
+          </article>
 
-        <section id="problem-view" class="view" hidden>
-          <button class="back-button" id="back-button" type="button">Back to problem set</button>
-          <div class="workspace">
-            <article class="problem-pane">
-              <div class="problem-kicker"><span id="problem-unit"></span><span id="problem-difficulty"></span></div>
-              <h1 id="problem-title"></h1>
-              <a id="source-link" class="source-link" href="#" target="_blank" rel="noopener noreferrer">閱讀 Snakify 原題</a>
-              <p id="problem-statement" class="statement"></p>
-              <section><h2>Input</h2><p id="problem-input"></p></section>
-              <section><h2>Output</h2><p id="problem-output"></p></section>
-              <div class="sample-grid">
-                <div><h2>Sample input</h2><pre id="sample-input"></pre></div>
-                <div><h2>Sample output</h2><pre id="sample-output"></pre></div>
-              </div>
-              <details class="hint"><summary>Need a hint?</summary><p id="problem-hint"></p></details>
-            </article>
-
-            <section class="code-pane" aria-label="C++ 程式碼編輯器">
-              <div class="editor-toolbar">
-                <div><span class="language-dot"></span><strong>C++17</strong></div>
-                <span id="save-state">Saved locally</span>
-              </div>
-              <textarea id="code-editor" aria-label="C++ 程式碼" spellcheck="false"></textarea>
-              <label class="stdin-label" for="custom-input">Custom input</label>
-              <textarea id="custom-input" class="custom-input" aria-label="自訂輸入" spellcheck="false"></textarea>
-              <div class="actions">
-                <button id="run-button" class="button secondary" type="button">Run code</button>
-                <button id="submit-button" class="button primary" type="button">Submit solution</button>
-              </div>
-              <section id="result-panel" class="result-panel" aria-live="polite">
-                <div class="empty-result"><span>&gt;_</span><p>Run your code or submit it against the tests.</p></div>
-              </section>
-            </section>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <dialog id="settings-dialog">
-      <form method="dialog">
-        <div class="dialog-heading"><div><p class="eyebrow">EXECUTION ENGINE</p><h2>Compiler settings</h2></div><button value="cancel" aria-label="關閉">×</button></div>
-        <label for="judge-url">Judge0 base URL</label>
-        <input id="judge-url" type="url" value="https://ce.judge0.com">
-        <p class="field-help">課堂正式使用建議換成你自架的 Judge0；公開服務可能限流。</p>
-        <label for="judge-token">API token（optional）</label>
-        <input id="judge-token" type="password" autocomplete="off">
-        <menu><button value="cancel" class="button secondary">Cancel</button><button id="save-settings" value="default" class="button primary">Save</button></menu>
-      </form>
-    </dialog>
+          <section class="editor-panel" aria-labelledby="editor-title">
+            <div class="editor-heading">
+              <h2 id="editor-title">程式碼</h2>
+              <span class="limits">C++17</span>
+            </div>
+            <textarea id="code-editor" spellcheck="false" aria-label="C++ 程式碼" placeholder="在此輸入 C++ 程式"></textarea>
+            <button id="submit-button" class="primary-button" type="button">送出</button>
+            <div id="result-panel" class="result-panel" aria-live="polite" hidden></div>
+          </section>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
