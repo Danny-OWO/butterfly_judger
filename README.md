@@ -10,7 +10,7 @@
 - 支援 `open()`、讀檔、寫檔與檔案內容驗證
 - 公開顯示測資、預期輸出與預期檔案
 - 最近 50 次 submission 保存在學生瀏覽器的 `localStorage`
-- 101～110 基本程式設計與 901～910 檔案處理題庫；題目重新表述且不收錄參考解答
+- 101～910 共九類、90 題完整題庫；題目重新表述且不收錄參考解答
 
 第一次判題時，瀏覽器需要從 CDN 下載 Pyodide。執行學生程式會使用學生裝置的 CPU 與記憶體，不會消耗網站擁有者的伺服器資源。
 
@@ -145,7 +145,7 @@ problems/
 2. 🚧 Phase 2：Docker sandbox（程式已加入，待 Docker 環境整合測試）
 3. ✅ Phase 3：FastAPI 與整合測試
 4. ✅ Phase 4：GitHub Pages 靜態前端與部署 workflow
-5. ✅ Phase 5：Pyodide Browser Judge 與 101～110、901～910 公開題庫
-6. ⬜ Phase 6：擴充題庫、submission history 介面與教師工具
+5. ✅ Phase 5：Pyodide Browser Judge 與 101～910 完整公開題庫
+6. ⬜ Phase 6：submission history 介面與教師工具
 
 目前公開版完全使用瀏覽器判題。只有未來需要可信任的隱藏測資或正式評分時，才需要部署 API 與 sandbox。

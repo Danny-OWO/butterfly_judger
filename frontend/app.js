@@ -30,20 +30,21 @@ function clearBanner() {
   elements.banner.textContent = "";
 }
 
-function createProblemCard(problem) {
+function createProblemListItem(problem) {
+  const item = document.createElement("li");
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "problem-card";
+  button.className = "problem-list-item";
   const id = document.createElement("span");
-  id.className = "eyebrow";
-  id.textContent = `PROBLEM ${problem.id}`;
-  const title = document.createElement("h3");
+  id.className = "problem-list-id";
+  id.textContent = problem.id;
+  const title = document.createElement("span");
+  title.className = "problem-list-title";
   title.textContent = problem.title;
-  const description = document.createElement("p");
-  description.textContent = problem.description;
-  button.append(id, title, description);
+  button.append(id, title);
   button.addEventListener("click", () => openProblem(problem.id));
-  return button;
+  item.append(button);
+  return item;
 }
 
 async function loadProblems() {
@@ -55,7 +56,7 @@ async function loadProblems() {
     problems = await response.json();
     clearBanner();
     elements.problemCount.textContent = `${problems.length} 題`;
-    elements.problemList.append(...problems.map(createProblemCard));
+    elements.problemList.append(...problems.map(createProblemListItem));
   } catch (error) {
     elements.problemCount.textContent = "載入失敗";
     showBanner(`無法載入題庫：${error.message}`);

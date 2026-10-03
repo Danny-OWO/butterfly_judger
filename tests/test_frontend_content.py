@@ -29,12 +29,24 @@ class FrontendContentTests(unittest.TestCase):
             (FRONTEND / "problems.json").read_text(encoding="utf-8")
         )
 
-    def test_contains_complete_unit_one_and_unit_nine_sets(self) -> None:
+    def test_contains_all_nine_units(self) -> None:
         self.assertEqual(
             [problem["id"] for problem in self.problems],
-            [str(number) for number in range(101, 111)]
-            + [str(number) for number in range(901, 911)],
+            [
+                str(unit * 100 + number)
+                for unit in range(1, 10)
+                for number in range(1, 11)
+            ],
         )
+
+    def test_homepage_list_only_renders_problem_id_and_title(self) -> None:
+        javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
+        list_renderer = javascript.split("function createProblemListItem", 1)[1].split(
+            "async function loadProblems", 1
+        )[0]
+        self.assertIn("problem.id", list_renderer)
+        self.assertIn("problem.title", list_renderer)
+        self.assertNotIn("problem.description", list_renderer)
 
     def test_every_problem_has_public_tests_and_no_solution_field(self) -> None:
         forbidden = {"answer", "solution", "reference_code"}

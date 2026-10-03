@@ -45,6 +45,21 @@ def main() -> int:
         if status != "passed":
             return 1
 
+        list_url = args.app_url.split("?", 1)[0]
+        browser.get(list_url)
+        items = WebDriverWait(browser, 15).until(
+            lambda driver: (
+                found
+                if len(found := driver.find_elements(By.CLASS_NAME, "problem-list-item"))
+                == 90
+                else False
+            )
+        )
+        if items[0].text.splitlines() != ["101", "整數格式化輸出"]:
+            print(f"list_status=failed: {items[0].text!r}")
+            return 1
+        print("list_status=passed")
+
         browser.get(args.app_url)
         editor = WebDriverWait(browser, 15).until(
             lambda driver: driver.find_element(By.ID, "code-editor")

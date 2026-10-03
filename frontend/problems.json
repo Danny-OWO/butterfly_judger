@@ -235,6 +235,1406 @@
     ]
   },
   {
+    "id": "201",
+    "title": "偶數判斷",
+    "description": "判斷輸入的正整數是否為偶數。",
+    "input": "輸入一個正整數。",
+    "output": "依指定英文格式輸出判斷結果。",
+    "sample_input": "8",
+    "sample_output": "8 is an even number.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-201-%E5%81%B6%E6%95%B8%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "8\n",
+        "expected_output": "8 is an even number.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "202",
+    "title": "倍數判斷",
+    "description": "判斷整數是 3、5、兩者或皆非的倍數。",
+    "input": "輸入一個正整數。",
+    "output": "依指定英文格式輸出倍數關係。",
+    "sample_input": "15",
+    "sample_output": "15 is a multiple of 3 and 5.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-202-%E5%80%8D%E6%95%B8%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "15\n",
+        "expected_output": "15 is a multiple of 3 and 5.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "203",
+    "title": "閏年判斷",
+    "description": "依四年一閏、百年不閏、四百年再閏的規則判斷年份。",
+    "input": "輸入一個西元年份。",
+    "output": "輸出該年是否為閏年。",
+    "sample_input": "2000",
+    "sample_output": "2000 is a leap year.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-203-%E9%96%8F%E5%B9%B4%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2000\n",
+        "expected_output": "2000 is a leap year.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "204",
+    "title": "算術運算",
+    "description": "對兩個整數執行指定的算術運算。",
+    "input": "依序輸入兩個整數與運算子（+、-、*、/、//、%）。",
+    "output": "輸出運算結果。",
+    "sample_input": "10\n3\n//",
+    "sample_output": "3",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-204-%E7%AE%97%E8%A1%93%E9%81%8B%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "10\n3\n//\n",
+        "expected_output": "3\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "205",
+    "title": "字元判斷",
+    "description": "判斷字元屬於英文字母、數字或其他符號。",
+    "input": "輸入一個字元。",
+    "output": "依指定英文格式輸出字元類型。",
+    "sample_input": "$",
+    "sample_output": "$ is a symbol.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-205-%E5%AD%97%E5%85%83%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "$\n",
+        "expected_output": "$ is a symbol.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "206",
+    "title": "等級判斷",
+    "description": "將百分制分數轉換為 A、B、C 或 F。",
+    "input": "輸入一個整數分數。",
+    "output": "輸出對應等級。",
+    "sample_input": "75",
+    "sample_output": "B",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-206-%E7%AD%89%E7%B4%9A%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "75\n",
+        "expected_output": "B\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "207",
+    "title": "折扣方案",
+    "description": "依購物金額級距計算折扣後的實付金額。",
+    "input": "輸入大於等於 8000 的購物金額。",
+    "output": "輸出折扣後金額。",
+    "sample_input": "20000",
+    "sample_output": "18000.0",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-207-%E6%8A%98%E6%89%A3%E6%96%B9%E6%A1%88",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "20000\n",
+        "expected_output": "18000.0\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "208",
+    "title": "十進位換算",
+    "description": "將 0 到 15 的十進位整數轉成一位十六進位表示。",
+    "input": "輸入 0 到 15 的整數。",
+    "output": "輸出對應的 0–9 或 A–F。",
+    "sample_input": "15",
+    "sample_output": "F",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-208-%E5%8D%81%E9%80%B2%E4%BD%8D%E6%8F%9B%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "15\n",
+        "expected_output": "F\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "209",
+    "title": "距離判斷",
+    "description": "判斷平面座標與點 (5, 6) 的距離是否不超過 15。",
+    "input": "依序輸入 x、y 座標。",
+    "output": "輸出 Inside 或 Outside。",
+    "sample_input": "5\n21",
+    "sample_output": "Inside",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-209-%E8%B7%9D%E9%9B%A2%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "5\n21\n",
+        "expected_output": "Inside\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "210",
+    "title": "三角形判斷",
+    "description": "判斷三個邊長能否構成三角形。",
+    "input": "依序輸入三個邊長。",
+    "output": "可以時輸出周長，否則輸出 Invalid。",
+    "sample_input": "3\n4\n5",
+    "sample_output": "12",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-210-%E4%B8%89%E8%A7%92%E5%BD%A2%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n4\n5\n",
+        "expected_output": "12\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "301",
+    "title": "迴圈整數連加",
+    "description": "計算從 a 到 b（含）的整數總和。",
+    "input": "依序輸入正整數 a、b，且 a < b。",
+    "output": "輸出總和。",
+    "sample_input": "1\n100",
+    "sample_output": "5050",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-301-%E8%BF%B4%E5%9C%88%E6%95%B4%E6%95%B8%E9%80%A3%E5%8A%A0",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n100\n",
+        "expected_output": "5050\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "302",
+    "title": "迴圈偶數連加",
+    "description": "計算指定範圍內所有偶數的總和。",
+    "input": "依序輸入正整數 a、b，且 a < b。",
+    "output": "輸出偶數總和。",
+    "sample_input": "1\n10",
+    "sample_output": "30",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-302-%E8%BF%B4%E5%9C%88%E5%81%B6%E6%95%B8%E9%80%A3%E5%8A%A0",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n10\n",
+        "expected_output": "30\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "303",
+    "title": "迴圈數值相乘",
+    "description": "以三角形排列輸出乘法結果。",
+    "input": "輸入小於 100 的正整數。",
+    "output": "每個乘積欄寬為 4 且靠右對齊。",
+    "sample_input": "3",
+    "sample_output": "   1\n   2   4\n   3   6   9",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-303-%E8%BF%B4%E5%9C%88%E6%95%B8%E5%80%BC%E7%9B%B8%E4%B9%98",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n",
+        "expected_output": "   1\n   2   4\n   3   6   9\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "304",
+    "title": "迴圈倍數總和",
+    "description": "計算 1 到 a 間所有 5 的倍數總和。",
+    "input": "輸入一個正整數 a。",
+    "output": "輸出總和。",
+    "sample_input": "21",
+    "sample_output": "50",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-304-%E8%BF%B4%E5%9C%88%E5%80%8D%E6%95%B8%E7%B8%BD%E5%92%8C",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "21\n",
+        "expected_output": "50\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "305",
+    "title": "數字反轉",
+    "description": "將正整數的數字順序反轉。",
+    "input": "輸入一個正整數。",
+    "output": "輸出反轉後的數字。",
+    "sample_input": "12345",
+    "sample_output": "54321",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-305-%E6%95%B8%E5%AD%97%E5%8F%8D%E8%BD%89",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "12345\n",
+        "expected_output": "54321\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "306",
+    "title": "迴圈階乘計算",
+    "description": "以迴圈計算 n 階乘。",
+    "input": "輸入一個正整數 n。",
+    "output": "輸出 n!。",
+    "sample_input": "5",
+    "sample_output": "120",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-306-%E8%BF%B4%E5%9C%88%E9%9A%8E%E4%B9%98%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "5\n",
+        "expected_output": "120\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "307",
+    "title": "乘法表",
+    "description": "顯示 n × n 的乘法表。",
+    "input": "輸入小於 10 的正整數 n。",
+    "output": "依指定欄寬輸出乘法表。",
+    "sample_input": "2",
+    "sample_output": "1 * 1 = 1   2 * 1 = 2   \n1 * 2 = 2   2 * 2 = 4   ",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-307-%E4%B9%98%E6%B3%95%E8%A1%A8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2\n",
+        "expected_output": "1 * 1 = 1   2 * 1 = 2   \n1 * 2 = 2   2 * 2 = 4   \n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "308",
+    "title": "迴圈位數加總",
+    "description": "逐筆計算正整數的各位數字總和。",
+    "input": "先輸入資料筆數，再逐行輸入正整數。",
+    "output": "每筆依指定英文句型輸出位數總和。",
+    "sample_input": "2\n123\n405",
+    "sample_output": "Sum of all digits of 123 is 6\nSum of all digits of 405 is 9",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-308-%E8%BF%B4%E5%9C%88%E4%BD%8D%E6%95%B8%E5%8A%A0%E7%B8%BD",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2\n123\n405\n",
+        "expected_output": "Sum of all digits of 123 is 6\nSum of all digits of 405 is 9\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "309",
+    "title": "存款總額",
+    "description": "依年收益率逐月計算存款總額。",
+    "input": "依序輸入本金、年收益率與月份數。",
+    "output": "列出每月存款總額，四捨五入至小數點後兩位。",
+    "sample_input": "10000\n5.75\n3",
+    "sample_output": "Month \t Amount\n  1 \t 10047.92\n  2 \t 10096.06\n  3 \t 10144.44",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-309-%E5%AD%98%E6%AC%BE%E7%B8%BD%E9%A1%8D",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "10000\n5.75\n3\n",
+        "expected_output": "Month \t Amount\n  1 \t 10047.92\n  2 \t 10096.06\n  3 \t 10144.44\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "310",
+    "title": "迴圈公式計算",
+    "description": "計算相鄰平方根分母所組成的級數。",
+    "input": "輸入大於 1 的正整數 n。",
+    "output": "輸出至小數點後四位。",
+    "sample_input": "4",
+    "sample_output": "1.0000",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-310-%E8%BF%B4%E5%9C%88%E5%85%AC%E5%BC%8F%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "4\n",
+        "expected_output": "1.0000\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "401",
+    "title": "最小值",
+    "description": "從十個輸入數字中找出最小值。",
+    "input": "輸入十個數字。",
+    "output": "輸出最小值。",
+    "sample_input": "8\n3\n9\n2\n7\n5\n6\n1\n4\n10",
+    "sample_output": "1",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-401-%E6%9C%80%E5%B0%8F%E5%80%BC",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "8\n3\n9\n2\n7\n5\n6\n1\n4\n10\n",
+        "expected_output": "1\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "402",
+    "title": "不定數迴圈-最小值",
+    "description": "持續讀入數字直到 9999，並找出最小值。",
+    "input": "逐行輸入數字，以 9999 結束。",
+    "output": "輸出結束值以前的最小值。",
+    "sample_input": "8\n-3\n4\n9999",
+    "sample_output": "-3",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-402-%E4%B8%8D%E5%AE%9A%E6%95%B8%E8%BF%B4%E5%9C%88-%E6%9C%80%E5%B0%8F%E5%80%BC",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "8\n-3\n4\n9999\n",
+        "expected_output": "-3\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "403",
+    "title": "倍數總和計算",
+    "description": "列出範圍內 4 或 9 的倍數，並計算個數與總和。",
+    "input": "輸入正整數 a、b，且 a <= b。",
+    "output": "每列最多十個、欄寬 4，最後輸出個數與總和。",
+    "sample_input": "1\n20",
+    "sample_output": "4   8   9   12  16  18  20  \n7\n87",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-403-%E5%80%8D%E6%95%B8%E7%B8%BD%E5%92%8C%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n20\n",
+        "expected_output": "4   8   9   12  16  18  20  \n7\n87\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "404",
+    "title": "數字反轉判斷",
+    "description": "以反轉順序輸出正整數，輸入 0 時輸出 0。",
+    "input": "輸入一個非負整數。",
+    "output": "輸出反轉結果。",
+    "sample_input": "12030",
+    "sample_output": "03021",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-404-%E6%95%B8%E5%AD%97%E5%8F%8D%E8%BD%89%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "12030\n",
+        "expected_output": "03021\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "405",
+    "title": "不定數迴圈-分數等級",
+    "description": "持續將分數轉換為 GPA 等級，直到輸入 -9999。",
+    "input": "逐行輸入 0 到 100 的分數，以 -9999 結束。",
+    "output": "逐行輸出 A、B、C、D 或 E。",
+    "sample_input": "95\n72\n59\n-9999",
+    "sample_output": "A\nC\nE",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-405-%E4%B8%8D%E5%AE%9A%E6%95%B8%E8%BF%B4%E5%9C%88-%E5%88%86%E6%95%B8%E7%AD%89%E7%B4%9A",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "95\n72\n59\n-9999\n",
+        "expected_output": "A\nC\nE\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "406",
+    "title": "不定數迴圈-BMI計算",
+    "description": "重複讀入身高體重並計算 BMI 與狀態。",
+    "input": "每筆依序輸入身高（公分）與體重（公斤）；身高 -9999 結束。",
+    "output": "輸出 BMI（兩位小數）與英文狀態。",
+    "sample_input": "170\n65\n-9999",
+    "sample_output": "BMI: 22.49\nState: normal",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-406-%E4%B8%8D%E5%AE%9A%E6%95%B8%E8%BF%B4%E5%9C%88-BMI%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "170\n65\n-9999\n",
+        "expected_output": "BMI: 22.49\nState: normal\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "407",
+    "title": "不定數迴圈-閏年判斷",
+    "description": "重複判斷西元年份是否為閏年。",
+    "input": "逐行輸入年份，以 -9999 結束。",
+    "output": "逐行輸出閏年判斷。",
+    "sample_input": "2000\n1900\n-9999",
+    "sample_output": "2000 is a leap year.\n1900 is not a leap year.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-407-%E4%B8%8D%E5%AE%9A%E6%95%B8%E8%BF%B4%E5%9C%88-%E9%96%8F%E5%B9%B4%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2000\n1900\n-9999\n",
+        "expected_output": "2000 is a leap year.\n1900 is not a leap year.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "408",
+    "title": "奇偶數個數計算",
+    "description": "統計十個整數中偶數與奇數的個數。",
+    "input": "輸入十個整數。",
+    "output": "依指定英文格式輸出兩種個數。",
+    "sample_input": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+    "sample_output": "Even numbers: 5\nOdd numbers: 5",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-408-%E5%A5%87%E5%81%B6%E6%95%B8%E5%80%8B%E6%95%B8%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n",
+        "expected_output": "Even numbers: 5\nOdd numbers: 5\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "409",
+    "title": "得票數計算",
+    "description": "統計 Nami、Chopper 與廢票，並宣布選舉結果。",
+    "input": "輸入五張選票；1、2 以外皆為廢票。",
+    "output": "輸出各類票數與當選結果。",
+    "sample_input": "1\n2\n1\n3\n1",
+    "sample_output": "Total votes of No.1: Nami = 3\nTotal votes of No.2: Chopper = 1\nTotal null votes = 1\n=> No.1 Nami won the election.",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-409-%E5%BE%97%E7%A5%A8%E6%95%B8%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n1\n3\n1\n",
+        "expected_output": "Total votes of No.1: Nami = 3\nTotal votes of No.2: Chopper = 1\nTotal null votes = 1\n=> No.1 Nami won the election.\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "410",
+    "title": "繪製等腰三角形",
+    "description": "依高度繪製置中的星號等腰三角形。",
+    "input": "輸入正整數 n。",
+    "output": "輸出 n 層三角形。",
+    "sample_input": "3",
+    "sample_output": "  *\n ***\n*****",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-410-%E7%B9%AA%E8%A3%BD%E7%AD%89%E8%85%B0%E4%B8%89%E8%A7%92%E5%BD%A2",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n",
+        "expected_output": "  *\n ***\n*****\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "501",
+    "title": "訊息顯示",
+    "description": "透過 compute() 讀入並顯示系別、學號與姓名。",
+    "input": "依序輸入系別、學號與姓名。",
+    "output": "依指定標籤輸出三筆資料。",
+    "sample_input": "Computer Science\nB12345678\nAmy",
+    "sample_output": "Department: Computer Science\nStudent ID: B12345678\nName: Amy",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-501-%E8%A8%8A%E6%81%AF%E9%A1%AF%E7%A4%BA",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "Computer Science\nB12345678\nAmy\n",
+        "expected_output": "Department: Computer Science\nStudent ID: B12345678\nName: Amy\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "502",
+    "title": "乘積",
+    "description": "以 compute(x, y) 回傳兩整數乘積。",
+    "input": "依序輸入兩個整數。",
+    "output": "輸出乘積。",
+    "sample_input": "7\n8",
+    "sample_output": "56",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-502-%E4%B9%98%E7%A9%8D",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "7\n8\n",
+        "expected_output": "56\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "503",
+    "title": "連加計算",
+    "description": "以 compute(a, b) 回傳從 a 到 b 的總和。",
+    "input": "依序輸入整數 a、b。",
+    "output": "輸出連加總和。",
+    "sample_input": "3\n7",
+    "sample_output": "25",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-503-%E9%80%A3%E5%8A%A0%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n7\n",
+        "expected_output": "25\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "504",
+    "title": "次方計算",
+    "description": "以 compute(a, b) 回傳 a 的 b 次方。",
+    "input": "依序輸入兩個整數 a、b。",
+    "output": "輸出 a^b。",
+    "sample_input": "2\n10",
+    "sample_output": "1024",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-504-%E6%AC%A1%E6%96%B9%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2\n10\n",
+        "expected_output": "1024\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "505",
+    "title": "依參數格式化輸出",
+    "description": "以 compute() 將指定字元印成 x 欄、y 列。",
+    "input": "依序輸入字元 a、個數 x、列數 y。",
+    "output": "每個字元後保留一個空白。",
+    "sample_input": "*\n3\n2",
+    "sample_output": "* * * \n* * * ",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-505-%E4%BE%9D%E5%8F%83%E6%95%B8%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BC%B8%E5%87%BA",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "*\n3\n2\n",
+        "expected_output": "* * * \n* * * \n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "506",
+    "title": "一元二次方程式",
+    "description": "以 compute() 求 ax² + bx + c = 0 的根。",
+    "input": "依序輸入整數 a、b、c。",
+    "output": "有根時依序輸出，無實根時輸出指定訊息。",
+    "sample_input": "1\n-3\n2",
+    "sample_output": "2.0, 1.0",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-506-%E4%B8%80%E5%85%83%E4%BA%8C%E6%AC%A1%E6%96%B9%E7%A8%8B%E5%BC%8F",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n-3\n2\n",
+        "expected_output": "2.0, 1.0\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "507",
+    "title": "質數",
+    "description": "以 compute() 判斷整數是否為質數。",
+    "input": "輸入一個整數。",
+    "output": "輸出 Prime 或 Not Prime。",
+    "sample_input": "17",
+    "sample_output": "Prime",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-507-%E8%B3%AA%E6%95%B8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "17\n",
+        "expected_output": "Prime\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "508",
+    "title": "最大公因數",
+    "description": "以 compute() 求兩正整數的最大公因數。",
+    "input": "同一行輸入以逗號分隔的 x、y。",
+    "output": "輸出最大公因數。",
+    "sample_input": "12, 18",
+    "sample_output": "6",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-508-%E6%9C%80%E5%A4%A7%E5%85%AC%E5%9B%A0%E6%95%B8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "12, 18\n",
+        "expected_output": "6\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "509",
+    "title": "最簡分數",
+    "description": "將兩個分數相加並約成最簡分數。",
+    "input": "分兩行輸入 x,y 與 m,n。",
+    "output": "依指定算式格式輸出結果。",
+    "sample_input": "1, 2\n1, 3",
+    "sample_output": "1/2 + 1/3 = 5/6",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-509-%E6%9C%80%E7%B0%A1%E5%88%86%E6%95%B8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1, 2\n1, 3\n",
+        "expected_output": "1/2 + 1/3 = 5/6\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "510",
+    "title": "費氏數列",
+    "description": "以 compute() 輸出費氏數列前 num 項。",
+    "input": "輸入大於等於 2 的正整數 num。",
+    "output": "以空白分隔輸出數列。",
+    "sample_input": "7",
+    "sample_output": "0 1 1 2 3 5 8 ",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-510-%E8%B2%BB%E6%B0%8F%E6%95%B8%E5%88%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "7\n",
+        "expected_output": "0 1 1 2 3 5 8 \n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "601",
+    "title": "偶數索引值加總",
+    "description": "儲存 12 個正整數並加總偶數索引位置的值。",
+    "input": "輸入 12 個 1 到 99 的正整數。",
+    "output": "欄寬 3、每列三個，最後輸出加總。",
+    "sample_input": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12",
+    "sample_output": "  1  2  3\n  4  5  6\n  7  8  9\n 10 11 12\n36",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-601-%E5%81%B6%E6%95%B8%E7%B4%A2%E5%BC%95%E5%80%BC%E5%8A%A0%E7%B8%BD",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n",
+        "expected_output": "  1  2  3\n  4  5  6\n  7  8  9\n 10 11 12\n36\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "602",
+    "title": "撲克牌總和",
+    "description": "計算五張撲克牌的點數總和。",
+    "input": "輸入五張牌；A、J、Q、K 分別為 1、11、12、13。",
+    "output": "輸出總點數。",
+    "sample_input": "A\n10\nJ\nQ\nK",
+    "sample_output": "47",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-602-%E6%92%B2%E5%85%8B%E7%89%8C%E7%B8%BD%E5%92%8C",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "A\n10\nJ\nQ\nK\n",
+        "expected_output": "47\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "603",
+    "title": "數字排序",
+    "description": "將十個數字排序並顯示最大的三個。",
+    "input": "輸入十個數字。",
+    "output": "由大到小輸出最大的三個數字。",
+    "sample_input": "1\n9\n3\n8\n5\n7\n2\n10\n4\n6",
+    "sample_output": "10 9 8",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-603-%E6%95%B8%E5%AD%97%E6%8E%92%E5%BA%8F",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n9\n3\n8\n5\n7\n2\n10\n4\n6\n",
+        "expected_output": "10 9 8\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "604",
+    "title": "眾數",
+    "description": "找出十個整數的唯一眾數及出現次數。",
+    "input": "輸入十個 0 到 99 的整數。",
+    "output": "先輸出眾數，再輸出其次數。",
+    "sample_input": "1\n2\n2\n3\n2\n4\n5\n2\n6\n7",
+    "sample_output": "2\n4",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-604-%E7%9C%BE%E6%95%B8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n2\n3\n2\n4\n5\n2\n6\n7\n",
+        "expected_output": "2\n4\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "605",
+    "title": "成績計算",
+    "description": "移除唯一最高與最低分後計算總分與平均。",
+    "input": "輸入十個成績。",
+    "output": "輸出總分與小數點後兩位的平均。",
+    "sample_input": "60\n70\n80\n90\n100\n50\n65\n75\n85\n95",
+    "sample_output": "620\n77.50",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-605-%E6%88%90%E7%B8%BE%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "60\n70\n80\n90\n100\n50\n65\n75\n85\n95\n",
+        "expected_output": "620\n77.50\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "606",
+    "title": "二維串列行列數",
+    "description": "建立元素值為 col - row 的二維串列。",
+    "input": "依序輸入 rows、cols。",
+    "output": "以欄寬 4 輸出串列。",
+    "sample_input": "3\n4",
+    "sample_output": "   0   1   2   3\n  -1   0   1   2\n  -2  -1   0   1",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-606-%E4%BA%8C%E7%B6%AD%E4%B8%B2%E5%88%97%E8%A1%8C%E5%88%97%E6%95%B8",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n4\n",
+        "expected_output": "   0   1   2   3\n  -1   0   1   2\n  -2  -1   0   1\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "607",
+    "title": "成績計算",
+    "description": "計算三位學生各五科的總分與平均。",
+    "input": "依學生順序輸入共 15 筆成績。",
+    "output": "先顯示輸入提示，再列出各學生總分與平均。",
+    "sample_input": "80\n81\n82\n83\n84\n70\n71\n72\n73\n74\n90\n91\n92\n93\n94",
+    "sample_output": "The 1st student:\nThe 2nd student:\nThe 3rd student:\nStudent 1\n#Sum 410\n#Average 82.00\nStudent 2\n#Sum 360\n#Average 72.00\nStudent 3\n#Sum 460\n#Average 92.00",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-607-%E6%88%90%E7%B8%BE%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "80\n81\n82\n83\n84\n70\n71\n72\n73\n74\n90\n91\n92\n93\n94\n",
+        "expected_output": "The 1st student:\nThe 2nd student:\nThe 3rd student:\nStudent 1\n#Sum 410\n#Average 82.00\nStudent 2\n#Sum 360\n#Average 72.00\nStudent 3\n#Sum 460\n#Average 92.00\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "608",
+    "title": "最大最小值索引",
+    "description": "找出 3×3 矩陣最大值與最小值的索引。",
+    "input": "輸入九個不重複的整數。",
+    "output": "依指定格式輸出最大值與最小值的零起始索引。",
+    "sample_input": "5\n2\n9\n4\n7\n1\n8\n3\n6",
+    "sample_output": "Index of the largest number 9 is: (0, 2)\nIndex of the smallest number 1 is: (1, 2)",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-608-%E6%9C%80%E5%A4%A7%E6%9C%80%E5%B0%8F%E5%80%BC%E7%B4%A2%E5%BC%95",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "5\n2\n9\n4\n7\n1\n8\n3\n6\n",
+        "expected_output": "Index of the largest number 9 is: (0, 2)\nIndex of the smallest number 1 is: (1, 2)\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "609",
+    "title": "矩陣相加",
+    "description": "建立兩個 2×2 矩陣並輸出其和。",
+    "input": "依序輸入兩個矩陣的八個整數。",
+    "output": "顯示輸入提示、兩矩陣及相加結果。",
+    "sample_input": "1\n2\n3\n4\n5\n6\n7\n8",
+    "sample_output": "Enter matrix 1:\n[1, 1]: [1, 2]: [2, 1]: [2, 2]: Enter matrix 2:\n[1, 1]: [1, 2]: [2, 1]: [2, 2]: Matrix 1:\n1 2 \n3 4 \nMatrix 2:\n5 6 \n7 8 \nSum of 2 matrices:\n6 8 \n10 12 ",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-609-%E7%9F%A9%E9%99%A3%E7%9B%B8%E5%8A%A0",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n3\n4\n5\n6\n7\n8\n",
+        "expected_output": "Enter matrix 1:\n[1, 1]: [1, 2]: [2, 1]: [2, 2]: Enter matrix 2:\n[1, 1]: [1, 2]: [2, 1]: [2, 2]: Matrix 1:\n1 2 \n3 4 \nMatrix 2:\n5 6 \n7 8 \nSum of 2 matrices:\n6 8 \n10 12 \n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "610",
+    "title": "平均溫度",
+    "description": "計算四週、每週三天溫度的平均、最高與最低值。",
+    "input": "依提示輸入共 12 筆溫度。",
+    "output": "輸出提示及統計結果，平均至小數點後兩位。",
+    "sample_input": "20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31",
+    "sample_output": "Week 1:\nDay 1:Day 2:Day 3:Week 2:\nDay 1:Day 2:Day 3:Week 3:\nDay 1:Day 2:Day 3:Week 4:\nDay 1:Day 2:Day 3:Average: 25.50\nHighest: 31\nLowest: 20",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-610-%E5%B9%B3%E5%9D%87%E6%BA%AB%E5%BA%A6",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n",
+        "expected_output": "Week 1:\nDay 1:Day 2:Day 3:Week 2:\nDay 1:Day 2:Day 3:Week 3:\nDay 1:Day 2:Day 3:Week 4:\nDay 1:Day 2:Day 3:Average: 25.50\nHighest: 31\nLowest: 20\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "701",
+    "title": "串列數組轉換",
+    "description": "將結束值以前的整數串列轉為數組並統計。",
+    "input": "逐行輸入整數，以 -9999 結束。",
+    "output": "輸出數組、長度、最大值、最小值與總和。",
+    "sample_input": "3\n1\n4\n-9999",
+    "sample_output": "(3, 1, 4)\nLength: 3\nMax: 4\nMin: 1\nSum: 8",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-701-%E4%B8%B2%E5%88%97%E6%95%B8%E7%B5%84%E8%BD%89%E6%8F%9B",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n1\n4\n-9999\n",
+        "expected_output": "(3, 1, 4)\nLength: 3\nMax: 4\nMin: 1\nSum: 8\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "title": "數組合併排序",
+    "description": "建立兩組數組，合併後由小到大排序。",
+    "input": "兩組資料各以 -9999 結束。",
+    "output": "輸出提示、排序前數組與排序後串列。",
+    "sample_input": "3\n1\n-9999\n4\n2\n-9999",
+    "sample_output": "Create tuple1:\nCreate tuple2:\nCombined tuple before sorting: (3, 1, 4, 2)\nCombined list after sorting: [1, 2, 3, 4]",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-702-%E6%95%B8%E7%B5%84%E5%90%88%E4%BD%B5%E6%8E%92%E5%BA%8F",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n1\n-9999\n4\n2\n-9999\n",
+        "expected_output": "Create tuple1:\nCreate tuple2:\nCombined tuple before sorting: (3, 1, 4, 2)\nCombined list after sorting: [1, 2, 3, 4]\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "703",
+    "title": "數組條件判斷",
+    "description": "建立字串數組並顯示前三與後三個元素。",
+    "input": "輸入至少五個字串，以 end 結束。",
+    "output": "輸出完整數組、前三個與後三個元素。",
+    "sample_input": "a\nb\nc\nd\ne\nend",
+    "sample_output": "('a', 'b', 'c', 'd', 'e')\n('a', 'b', 'c')\n('c', 'd', 'e')",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-703-%E6%95%B8%E7%B5%84%E6%A2%9D%E4%BB%B6%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "a\nb\nc\nd\ne\nend\n",
+        "expected_output": "('a', 'b', 'c', 'd', 'e')\n('a', 'b', 'c')\n('c', 'd', 'e')\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "704",
+    "title": "集合條件判斷",
+    "description": "將整數存入集合並計算基本統計。",
+    "input": "逐行輸入整數，以 -9999 結束；重複值只計一次。",
+    "output": "輸出集合長度、最大值、最小值與總和。",
+    "sample_input": "3\n1\n3\n5\n-9999",
+    "sample_output": "Length: 3\nMax: 5\nMin: 1\nSum: 9",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-704-%E9%9B%86%E5%90%88%E6%A2%9D%E4%BB%B6%E5%88%A4%E6%96%B7",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "3\n1\n3\n5\n-9999\n",
+        "expected_output": "Length: 3\nMax: 5\nMin: 1\nSum: 9\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "705",
+    "title": "子集合與超集合",
+    "description": "判斷 set2 是否為 set1 子集合及 set3 是否為 set1 超集合。",
+    "input": "依序輸入 5、3、9 個整數。",
+    "output": "輸出提示與兩個布林判斷。",
+    "sample_input": "1\n2\n3\n4\n5\n1\n2\n3\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+    "sample_output": "Input to set1:\nInput to set2:\nInput to set3:\nset2 is subset of set1: True\nset3 is superset of set1: True",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-705-%E5%AD%90%E9%9B%86%E5%90%88%E8%88%87%E8%B6%85%E9%9B%86%E5%90%88",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1\n2\n3\n4\n5\n1\n2\n3\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+        "expected_output": "Input to set1:\nInput to set2:\nInput to set3:\nset2 is subset of set1: True\nset3 is superset of set1: True\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "706",
+    "title": "全字母句",
+    "description": "判斷每個句子是否包含全部 26 個英文字母。",
+    "input": "先輸入資料筆數 k，再輸入 k 個句子；不分大小寫。",
+    "output": "每筆輸出 True 或 False。",
+    "sample_input": "2\nThe quick brown fox jumps over the lazy dog\nHello world",
+    "sample_output": "True\nFalse",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-706-%E5%85%A8%E5%AD%97%E6%AF%8D%E5%8F%A5",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2\nThe quick brown fox jumps over the lazy dog\nHello world\n",
+        "expected_output": "True\nFalse\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "707",
+    "title": "共同科目",
+    "description": "比較 X、Y 兩組科目集合。",
+    "input": "分別輸入兩組科目，各以 end 結束。",
+    "output": "依序輸出聯集、交集、Y 差集及對稱差集的排序串列。",
+    "sample_input": "math\nenglish\nend\nenglish\nscience\nend",
+    "sample_output": "Enter group X's subjects:\nEnter group Y's subjects:\n['english', 'math', 'science']\n['english']\n['science']\n['math', 'science']",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-707-%E5%85%B1%E5%90%8C%E7%A7%91%E7%9B%AE",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "math\nenglish\nend\nenglish\nscience\nend\n",
+        "expected_output": "Enter group X's subjects:\nEnter group Y's subjects:\n['english', 'math', 'science']\n['english']\n['science']\n['math', 'science']\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "708",
+    "title": "詞典合併",
+    "description": "合併兩個詞典，重複鍵由後者覆蓋。",
+    "input": "逐對輸入鍵和值；每個詞典以鍵 end 結束。",
+    "output": "依鍵的字母順序輸出合併結果。",
+    "sample_input": "b\n2\na\n1\nend\nb\n9\nc\n3\nend",
+    "sample_output": "Create dict1:\nKey: Value: Key: Value: Key: Create dict2:\nKey: Value: Key: Value: Key: a: 1\nb: 9\nc: 3",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-708-%E8%A9%9E%E5%85%B8%E5%90%88%E4%BD%B5",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "b\n2\na\n1\nend\nb\n9\nc\n3\nend\n",
+        "expected_output": "Create dict1:\nKey: Value: Key: Value: Key: Create dict2:\nKey: Value: Key: Value: Key: a: 1\nb: 9\nc: 3\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "709",
+    "title": "詞典排序",
+    "description": "建立顏色詞典並依鍵排序輸出。",
+    "input": "逐對輸入鍵和值，以鍵 end 結束。",
+    "output": "依鍵的字母順序輸出。",
+    "sample_input": "red\n#ff0000\nblue\n#0000ff\nend",
+    "sample_output": "Key: Value: Key: Value: Key: blue: #0000ff\nred: #ff0000",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-709-%E8%A9%9E%E5%85%B8%E6%8E%92%E5%BA%8F",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "red\n#ff0000\nblue\n#0000ff\nend\n",
+        "expected_output": "Key: Value: Key: Value: Key: blue: #0000ff\nred: #ff0000\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "710",
+    "title": "詞典搜尋",
+    "description": "建立詞典後檢查指定鍵是否存在。",
+    "input": "逐對輸入鍵和值，以鍵 end 結束，再輸入搜尋鍵。",
+    "output": "輸出 True 或 False。",
+    "sample_input": "name\nAmy\nage\n20\nend\nage",
+    "sample_output": "Key: Value: Key: Value: Key: Search key: True",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-710-%E8%A9%9E%E5%85%B8%E6%90%9C%E5%B0%8B",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "name\nAmy\nage\n20\nend\nage\n",
+        "expected_output": "Key: Value: Key: Value: Key: Search key: True\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "801",
+    "title": "字串索引",
+    "description": "顯示字串每個字元的索引。",
+    "input": "輸入一個字串。",
+    "output": "逐行輸出字元及其零起始索引。",
+    "sample_input": "Code",
+    "sample_output": "Index of 'C': 0\nIndex of 'o': 1\nIndex of 'd': 2\nIndex of 'e': 3",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-801-%E5%AD%97%E4%B8%B2%E7%B4%A2%E5%BC%95",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "Code\n",
+        "expected_output": "Index of 'C': 0\nIndex of 'o': 1\nIndex of 'd': 2\nIndex of 'e': 3\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "802",
+    "title": "字元對應",
+    "description": "顯示每個字元的 ASCII 碼並計算總和。",
+    "input": "輸入一個字串。",
+    "output": "逐行輸出字元 ASCII 碼，最後輸出總和。",
+    "sample_input": "ABC",
+    "sample_output": "ASCII code for 'A' is 65\nASCII code for 'B' is 66\nASCII code for 'C' is 67\n198",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-802-%E5%AD%97%E5%85%83%E5%B0%8D%E6%87%89",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "ABC\n",
+        "expected_output": "ASCII code for 'A' is 65\nASCII code for 'B' is 66\nASCII code for 'C' is 67\n198\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "803",
+    "title": "倒數三個詞",
+    "description": "輸出句子中的最後三個詞。",
+    "input": "輸入至少包含五個詞的句子。",
+    "output": "以空白分隔輸出最後三個詞。",
+    "sample_input": "one two three four five",
+    "sample_output": "three four five",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-803-%E5%80%92%E6%95%B8%E4%B8%89%E5%80%8B%E8%A9%9E",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "one two three four five\n",
+        "expected_output": "three four five\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "804",
+    "title": "大寫轉換",
+    "description": "將字串轉成全大寫及各單字首字大寫。",
+    "input": "輸入一個字串。",
+    "output": "分兩行輸出兩種轉換結果。",
+    "sample_input": "hello python world",
+    "sample_output": "HELLO PYTHON WORLD\nHello Python World",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-804-%E5%A4%A7%E5%AF%AB%E8%BD%89%E6%8F%9B",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "hello python world\n",
+        "expected_output": "HELLO PYTHON WORLD\nHello Python World\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "805",
+    "title": "字串輸出",
+    "description": "將六字元字串在寬度 10 中靠左、置中與靠右。",
+    "input": "輸入長度為 6 的字串。",
+    "output": "三行皆以 | 作為邊界。",
+    "sample_input": "abcdef",
+    "sample_output": "|abcdef    |\n|  abcdef  |\n|    abcdef|",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-805-%E5%AD%97%E4%B8%B2%E8%BC%B8%E5%87%BA",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "abcdef\n",
+        "expected_output": "|abcdef    |\n|  abcdef  |\n|    abcdef|\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "806",
+    "title": "字元次數計算",
+    "description": "以 compute() 計算指定字元出現次數。",
+    "input": "依序輸入字串與要搜尋的字元。",
+    "output": "依指定英文句型輸出次數。",
+    "sample_input": "banana\na",
+    "sample_output": "a occurs 3 time(s)",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-806-%E5%AD%97%E5%85%83%E6%AC%A1%E6%95%B8%E8%A8%88%E7%AE%97",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "banana\na\n",
+        "expected_output": "a occurs 3 time(s)\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "807",
+    "title": "字串加總",
+    "description": "加總以空白分隔的五個數字並計算平均。",
+    "input": "同一行輸入五個數字。",
+    "output": "輸出 Total 與 Average。",
+    "sample_input": "1 2 3 4 5",
+    "sample_output": "Total = 15\nAverage = 3.0",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-807-%E5%AD%97%E4%B8%B2%E5%8A%A0%E7%B8%BD",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "1 2 3 4 5\n",
+        "expected_output": "Total = 15\nAverage = 3.0\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "808",
+    "title": "社會安全碼",
+    "description": "檢查輸入是否符合 ddd-dd-dddd 格式。",
+    "input": "輸入一個社會安全碼。",
+    "output": "輸出 Valid SSN 或 Invalid SSN。",
+    "sample_input": "123-45-6789",
+    "sample_output": "Valid SSN",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-808-%E7%A4%BE%E6%9C%83%E5%AE%89%E5%85%A8%E7%A2%BC",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "123-45-6789\n",
+        "expected_output": "Valid SSN\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "809",
+    "title": "密碼規則",
+    "description": "檢查密碼長度、字元種類與大寫字母規則。",
+    "input": "輸入一個密碼。",
+    "output": "輸出 Valid password 或 Invalid password。",
+    "sample_input": "Python123",
+    "sample_output": "Valid password",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-809-%E5%AF%86%E7%A2%BC%E8%A6%8F%E5%89%87",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "Python123\n",
+        "expected_output": "Valid password\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
+    "id": "810",
+    "title": "最大值與最小值之差",
+    "description": "計算每筆數列中最大值與最小值的差。",
+    "input": "先輸入資料筆數，再逐行輸入以空白分隔的數字。",
+    "output": "每筆輸出至小數點後兩位。",
+    "sample_input": "2\n1 2 3.5 8\n-2 0 4",
+    "sample_output": "7.00\n6.00",
+    "time_limit": 2,
+    "source": "https://hackmd.io/@J-Liang1122/r1AACpUH9#Python-810-%E6%9C%80%E5%A4%A7%E5%80%BC%E8%88%87%E6%9C%80%E5%B0%8F%E5%80%BC%E4%B9%8B%E5%B7%AE",
+    "tests": [
+      {
+        "name": "基本測試",
+        "input": "2\n1 2 3.5 8\n-2 0 4\n",
+        "expected_output": "7.00\n6.00\n",
+        "files": {},
+        "expected_files": {}
+      }
+    ]
+  },
+  {
     "id": "901",
     "title": "成績資料寫入",
     "description": "讀入五行學生資料，每行由姓名與期末總分組成，並依原順序寫入 write.txt。每筆資料在檔案中各占一行。",
@@ -250,14 +1650,18 @@
         "input": "Amy 88\nBob 75\nCindy 92\nDavid 64\nEva 81\n",
         "expected_output": "",
         "files": {},
-        "expected_files": {"write.txt": "Amy 88\nBob 75\nCindy 92\nDavid 64\nEva 81\n"}
+        "expected_files": {
+          "write.txt": "Amy 88\nBob 75\nCindy 92\nDavid 64\nEva 81\n"
+        }
       },
       {
         "name": "中文姓名",
         "input": "王小明 100\n陳同學 59\nLin 73\nWu 86\nLee 91\n",
         "expected_output": "",
         "files": {},
-        "expected_files": {"write.txt": "王小明 100\n陳同學 59\nLin 73\nWu 86\nLee 91\n"}
+        "expected_files": {
+          "write.txt": "王小明 100\n陳同學 59\nLin 73\nWu 86\nLee 91\n"
+        }
       }
     ]
   },
@@ -276,14 +1680,18 @@
         "name": "整數與小數",
         "input": "",
         "expected_output": "24.5\n",
-        "files": {"read.txt": "10 -2 3.5 13"},
+        "files": {
+          "read.txt": "10 -2 3.5 13"
+        },
         "expected_files": {}
       },
       {
         "name": "跨行空白",
         "input": "",
         "expected_output": "21\n",
-        "files": {"read.txt": "1 2 3\n4 5 6\n"},
+        "files": {
+          "read.txt": "1 2 3\n4 5 6\n"
+        },
         "expected_files": {}
       }
     ]
@@ -303,8 +1711,12 @@
         "name": "追加五筆姓名",
         "input": "Mia\nNoah\nOlivia\nPeter\nRuby\n",
         "expected_output": "Append completed!\nContent of \"data.txt\":\nAda\nBen\nMia\nNoah\nOlivia\nPeter\nRuby\n",
-        "files": {"data.txt": "Ada\nBen\n"},
-        "expected_files": {"data.txt": "Ada\nBen\nMia\nNoah\nOlivia\nPeter\nRuby\n"}
+        "files": {
+          "data.txt": "Ada\nBen\n"
+        },
+        "expected_files": {
+          "data.txt": "Ada\nBen\nMia\nNoah\nOlivia\nPeter\nRuby\n"
+        }
       }
     ]
   },
@@ -323,7 +1735,9 @@
         "name": "三人統計",
         "input": "",
         "expected_output": "Alice 165 50\nBob 180 80\nCathy 170 55\nAverage height: 171.67\nAverage weight: 61.67\nThe tallest is Bob with 180.00cm\nThe heaviest is Bob with 80.00kg\n",
-        "files": {"read.txt": "Alice 165 50\nBob 180 80\nCathy 170 55\n"},
+        "files": {
+          "read.txt": "Alice 165 50\nBob 180 80\nCathy 170 55\n"
+        },
         "expected_files": {}
       }
     ]
@@ -343,8 +1757,12 @@
         "name": "區分大小寫",
         "input": "data.txt\ncat\n",
         "expected_output": "=== Before the deletion\ncat and catfish\nCat stays\n=== After the deletion\n and fish\nCat stays\n",
-        "files": {"data.txt": "cat and catfish\nCat stays\n"},
-        "expected_files": {"data.txt": " and fish\nCat stays\n"}
+        "files": {
+          "data.txt": "cat and catfish\nCat stays\n"
+        },
+        "expected_files": {
+          "data.txt": " and fish\nCat stays\n"
+        }
       }
     ]
   },
@@ -363,8 +1781,12 @@
         "name": "多次取代",
         "input": "data.txt\nblue\ngreen\n",
         "expected_output": "=== Before the replacement\nblue sky\nblue sea\n=== After the replacement\ngreen sky\ngreen sea\n",
-        "files": {"data.txt": "blue sky\nblue sea\n"},
-        "expected_files": {"data.txt": "green sky\ngreen sea\n"}
+        "files": {
+          "data.txt": "blue sky\nblue sea\n"
+        },
+        "expected_files": {
+          "data.txt": "green sky\ngreen sea\n"
+        }
       }
     ]
   },
@@ -383,7 +1805,9 @@
         "name": "兩行英文",
         "input": "read.txt\n",
         "expected_output": "2 line(s)\n5 word(s)\n23 character(s)\n",
-        "files": {"read.txt": "Hello world!\nPython is fun.\n"},
+        "files": {
+          "read.txt": "Hello world!\nPython is fun.\n"
+        },
         "expected_files": {}
       }
     ]
@@ -403,7 +1827,9 @@
         "name": "出現兩次",
         "input": "read.txt\n2\n",
         "expected_output": "apple\nbanana\n",
-        "files": {"read.txt": "apple banana apple\npear banana kiwi\n"},
+        "files": {
+          "read.txt": "apple banana apple\npear banana kiwi\n"
+        },
         "expected_files": {}
       }
     ]
@@ -424,7 +1850,9 @@
         "input": "Amy 0911000001\nBob 0911000002\nCindy 0911000003\nDavid 0911000004\nEva 0911000005\n",
         "expected_output": "The content of \"data.dat\":\nAmy 0911000001\nBob 0911000002\nCindy 0911000003\nDavid 0911000004\nEva 0911000005\n",
         "files": {},
-        "expected_files": {"data.dat": "Amy 0911000001\nBob 0911000002\nCindy 0911000003\nDavid 0911000004\nEva 0911000005\n"}
+        "expected_files": {
+          "data.dat": "Amy 0911000001\nBob 0911000002\nCindy 0911000003\nDavid 0911000004\nEva 0911000005\n"
+        }
       }
     ]
   },
@@ -443,7 +1871,9 @@
         "name": "四位學生",
         "input": "",
         "expected_output": "Name ID Gender\nAmy A01 0\nBob B02 1\nCathy C03 0\nDan D04 1\nNumber of males: 2\nNumber of females: 2\n",
-        "files": {"read.dat": "Name ID Gender\nAmy A01 0\nBob B02 1\nCathy C03 0\nDan D04 1\n"},
+        "files": {
+          "read.dat": "Name ID Gender\nAmy A01 0\nBob B02 1\nCathy C03 0\nDan D04 1\n"
+        },
         "expected_files": {}
       }
     ]
