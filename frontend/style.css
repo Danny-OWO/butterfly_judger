@@ -62,7 +62,7 @@ button { cursor: pointer; }
 }
 
 .page-shell { width: min(1180px, 90vw); margin: 0 auto; }
-#problem-list-view { padding: 3rem 0 5rem; }
+.directory-view { padding: 3rem 0 5rem; }
 #problem-view { padding-top: 2rem; }
 
 h1, h2, h3, p { margin-top: 0; }
@@ -73,14 +73,32 @@ p { color: var(--muted); line-height: 1.7; }
 
 .eyebrow { margin-bottom: 0.6rem; color: var(--violet); font-size: 0.74rem; font-weight: 850; letter-spacing: 0.16em; }
 .lead { font-size: 1.1rem; }
+.directory-heading { margin-bottom: 1.75rem; }
+.directory-heading .eyebrow { margin-bottom: 0.7rem; }
+.directory-heading h1 { margin-bottom: 0; }
 .section-heading, .editor-heading, .dialog-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
 .count-badge, .limits { color: var(--muted); font-size: 0.82rem; }
 .count-badge { padding: 0.4rem 0.7rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
 
-.problem-list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 0.8rem; overflow: hidden; }
-.problem-list li + li { border-top: 1px solid var(--line); }
-.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; width: 100%; padding: 0.9rem 1rem; text-align: left; color: inherit; border: 0; background: var(--surface); transition: background 140ms ease, color 140ms ease; }
-.problem-list-item:hover, .problem-list-item:focus-visible { color: white; background: var(--violet-soft); outline: none; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.catalog-card, .unit-card { position: relative; display: grid; align-items: center; width: 100%; text-align: left; color: inherit; border: 1px solid var(--line); background: linear-gradient(145deg, #111116, #09090b); transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+.catalog-card:hover, .catalog-card:focus-visible, .unit-card:hover, .unit-card:focus-visible { transform: translateY(-3px); border-color: #7255ad; box-shadow: var(--shadow); outline: none; }
+.catalog-card { grid-template-columns: auto minmax(0, 1fr) auto; gap: 1.1rem; min-height: 150px; padding: 1.4rem; border-radius: 1.2rem; }
+.catalog-icon { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; color: #0b0711; border-radius: 1rem; background: linear-gradient(135deg, #c4b5fd, #8b5cf6); font-weight: 900; }
+.catalog-card-content, .unit-card-content { display: grid; gap: 0.35rem; }
+.catalog-card-content strong { font-size: 1.3rem; }
+.catalog-card-content small, .unit-card-content small { color: var(--muted); font-size: 0.85rem; }
+.card-arrow { color: var(--violet); font-size: 1.25rem; transition: transform 160ms ease; }
+.catalog-card:hover .card-arrow, .unit-card:hover .card-arrow, .problem-list-item:hover .card-arrow { transform: translateX(4px); }
+
+.unit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.unit-card { grid-template-columns: auto minmax(0, 1fr) auto; gap: 1rem; min-height: 116px; padding: 1.2rem; border-radius: 1rem; }
+.unit-number { color: #c4b5fd; font: 800 1.5rem/1 ui-monospace, monospace; opacity: 0.82; }
+.unit-card-content strong { font-size: 1rem; }
+
+.problem-list { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
+.problem-list-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; width: 100%; padding: 1rem 1.15rem; text-align: left; color: inherit; border: 1px solid #23232a; border-radius: 0.8rem; background: linear-gradient(100deg, #0d0d11, #09090b); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
+.problem-list-item:hover, .problem-list-item:focus-visible { transform: translateX(4px); color: white; border-color: #553c82; background: var(--violet-soft); outline: none; }
 .problem-list-id { color: var(--violet); font-family: ui-monospace, monospace; font-weight: 800; }
 .problem-list-title { font-weight: 700; }
 
@@ -169,11 +187,14 @@ footer { padding: 2rem 5vw; color: var(--muted); text-align: center; font-size: 
 
 @media (max-width: 820px) {
   .workspace { grid-template-columns: 1fr; }
+  .unit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 520px) {
   .page-shell { width: min(92vw, 1180px); }
   .site-header { padding-inline: 4vw; }
   .sample-grid { grid-template-columns: 1fr; }
+  .unit-grid { grid-template-columns: 1fr; }
+  .catalog-card { min-height: 124px; }
   .brand span:last-child { display: none; }
 }

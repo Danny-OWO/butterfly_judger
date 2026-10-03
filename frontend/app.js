@@ -3,19 +3,38 @@ const PYODIDE_LOAD_TIMEOUT_MS = 120_000;
 
 const elements = {
   banner: document.querySelector("#connection-banner"),
+  catalogListView: document.querySelector("#catalog-list-view"),
+  tqcCatalogButton: document.querySelector("#tqc-catalog-button"),
+  unitListView: document.querySelector("#unit-list-view"),
+  unitList: document.querySelector("#unit-list"),
   problemListView: document.querySelector("#problem-list-view"),
   problemList: document.querySelector("#problem-list"),
   problemCount: document.querySelector("#problem-count"),
   problemView: document.querySelector("#problem-view"),
-  backButton: document.querySelector("#back-button"),
+  catalogBackButton: document.querySelector("#catalog-back-button"),
+  unitBackButton: document.querySelector("#unit-back-button"),
+  problemBackButton: document.querySelector("#problem-back-button"),
   submitButton: document.querySelector("#submit-button"),
   codeEditor: document.querySelector("#code-editor"),
   resultPanel: document.querySelector("#result-panel"),
   publicTests: document.querySelector("#public-tests"),
 };
 
+const TQC_UNITS = [
+  { id: 1, name: "基本程式設計", accent: "01" },
+  { id: 2, name: "選擇敘述", accent: "02" },
+  { id: 3, name: "迴圈敘述", accent: "03" },
+  { id: 4, name: "進階控制流程", accent: "04" },
+  { id: 5, name: "函式 Function", accent: "05" },
+  { id: 6, name: "串列 List", accent: "06" },
+  { id: 7, name: "數組、集合與詞典", accent: "07" },
+  { id: 8, name: "字串 String", accent: "08" },
+  { id: 9, name: "檔案與異常處理", accent: "09" },
+];
+
 let problems = [];
 let currentProblem = null;
+let currentUnit = null;
 let worker = null;
 let workerReady = null;
 let highlightedEditor = null;
@@ -67,6 +86,68 @@ function clearBanner() {
   elements.banner.textContent = "";
 }
 
+function showOnly(view) {
+  for (const candidate of [
+    elements.catalogListView,
+    elements.unitListView,
+    elements.problemListView,
+    elements.problemView,
+  ]) {
+    candidate.hidden = candidate !== view;
+  }
+}
+
+function updateRoute(parameters) {
+  const query = new URLSearchParams(parameters);
+  const suffix = query.size ? `?${query}` : "";
+  history.pushState(null, "", `${window.location.pathname}${suffix}`);
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openHome(updateHistory = true) {
+  currentProblem = null;
+  currentUnit = null;
+  clearBanner();
+  showOnly(elements.catalogListView);
+  if (updateHistory) updateRoute({});
+  scrollToTop();
+}
+
+function openCatalog(updateHistory = true) {
+  currentProblem = null;
+  currentUnit = null;
+  clearBanner();
+  showOnly(elements.unitListView);
+  if (updateHistory) updateRoute({ catalog: "tqc" });
+  scrollToTop();
+}
+
+function createUnitCard(unit) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "unit-card";
+  const number = document.createElement("span");
+  number.className = "unit-number";
+  number.textContent = unit.accent;
+  const content = document.createElement("span");
+  content.className = "unit-card-content";
+  const title = document.createElement("strong");
+  title.textContent = `第 ${unit.id} 類`;
+  const name = document.createElement("small");
+  name.textContent = unit.name;
+  content.append(title, name);
+  const arrow = document.createElement("span");
+  arrow.className = "card-arrow";
+  arrow.setAttribute("aria-hidden", "true");
+  arrow.textContent = "→";
+  button.append(number, content, arrow);
+  button.addEventListener("click", () => openUnit(unit.id));
+  return button;
+}
+
 function createProblemListItem(problem) {
   const item = document.createElement("li");
   const button = document.createElement("button");
@@ -78,26 +159,47 @@ function createProblemListItem(problem) {
   const title = document.createElement("span");
   title.className = "problem-list-title";
   title.textContent = problem.title;
-  button.append(id, title);
+  const arrow = document.createElement("span");
+  arrow.className = "card-arrow";
+  arrow.setAttribute("aria-hidden", "true");
+  arrow.textContent = "→";
+  button.append(id, title, arrow);
   button.addEventListener("click", () => openProblem(problem.id));
   item.append(button);
   return item;
 }
 
 async function loadProblems() {
-  elements.problemList.replaceChildren();
-  elements.problemCount.textContent = "載入中";
+  elements.unitList.replaceChildren(...TQC_UNITS.map(createUnitCard));
   try {
     const response = await fetch("problems.json", { cache: "no-cache" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     problems = await response.json();
     clearBanner();
-    elements.problemCount.textContent = `${problems.length} 題`;
-    elements.problemList.append(...problems.map(createProblemListItem));
+    routeFromUrl();
   } catch (error) {
-    elements.problemCount.textContent = "載入失敗";
     showBanner(`無法載入題庫：${error.message}`);
   }
+}
+
+function openUnit(unitId, updateHistory = true) {
+  const unit = TQC_UNITS.find((item) => item.id === Number(unitId));
+  if (!unit) {
+    showBanner(`找不到 TQC 第 ${unitId} 類`);
+    return;
+  }
+  const unitProblems = problems.filter(
+    (problem) => Math.floor(Number(problem.id) / 100) === unit.id
+  );
+  clearBanner();
+  currentProblem = null;
+  currentUnit = unit.id;
+  document.querySelector("#problem-list-title").textContent = `第 ${unit.id} 類 · ${unit.name}`;
+  elements.problemCount.textContent = `${unitProblems.length} 題`;
+  elements.problemList.replaceChildren(...unitProblems.map(createProblemListItem));
+  showOnly(elements.problemListView);
+  if (updateHistory) updateRoute({ catalog: "tqc", unit: unit.id });
+  scrollToTop();
 }
 
 function setText(selector, value) {
@@ -144,7 +246,7 @@ function renderPublicTests(problem) {
   }
 }
 
-function openProblem(problemId) {
+function openProblem(problemId, updateHistory = true) {
   const problem = problems.find((item) => item.id === problemId);
   if (!problem) {
     showBanner(`找不到題目 ${problemId}`);
@@ -152,6 +254,7 @@ function openProblem(problemId) {
   }
   clearBanner();
   currentProblem = problem;
+  currentUnit = Math.floor(Number(problem.id) / 100);
   setText("#problem-id", problem.id);
   setText("#problem-title", problem.title);
   setText("#problem-description", problem.description);
@@ -163,10 +266,11 @@ function openProblem(problemId) {
   renderPublicTests(problem);
   setEditorValue("");
   elements.resultPanel.hidden = true;
-  elements.problemListView.hidden = true;
-  elements.problemView.hidden = false;
-  history.replaceState(null, "", `?problem=${encodeURIComponent(problem.id)}`);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  showOnly(elements.problemView);
+  if (updateHistory) {
+    updateRoute({ catalog: "tqc", unit: currentUnit, problem: problem.id });
+  }
+  scrollToTop();
 }
 
 function resetWorker() {
@@ -328,12 +432,26 @@ async function submitCode() {
   }
 }
 
-elements.backButton.addEventListener("click", () => {
-  currentProblem = null;
-  elements.problemView.hidden = true;
-  elements.problemListView.hidden = false;
-  history.replaceState(null, "", window.location.pathname);
-});
+function routeFromUrl() {
+  const parameters = new URLSearchParams(window.location.search);
+  const problemId = parameters.get("problem");
+  const unitId = Number(parameters.get("unit"));
+  if (problemId) {
+    openProblem(problemId, false);
+  } else if (unitId >= 1 && unitId <= 9) {
+    openUnit(unitId, false);
+  } else if (parameters.get("catalog") === "tqc") {
+    openCatalog(false);
+  } else {
+    openHome(false);
+  }
+}
+
+elements.tqcCatalogButton.addEventListener("click", () => openCatalog());
+elements.catalogBackButton.addEventListener("click", () => openHome());
+elements.unitBackButton.addEventListener("click", () => openCatalog());
+elements.problemBackButton.addEventListener("click", () => openUnit(currentUnit));
+window.addEventListener("popstate", routeFromUrl);
 
 elements.submitButton.addEventListener("click", submitCode);
 elements.codeEditor.addEventListener("keydown", (event) => {
@@ -345,7 +463,4 @@ elements.codeEditor.addEventListener("keydown", (event) => {
 });
 
 initializeEditor();
-loadProblems().then(() => {
-  const requestedProblem = new URLSearchParams(window.location.search).get("problem");
-  if (requestedProblem) openProblem(requestedProblem);
-});
+loadProblems();

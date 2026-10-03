@@ -24,7 +24,34 @@
     <main class="page-shell">
       <div id="connection-banner" class="banner" role="status" hidden></div>
 
-      <section id="problem-list-view" aria-labelledby="problem-list-title">
+      <section id="catalog-list-view" class="directory-view" aria-labelledby="catalog-list-title">
+        <div class="directory-heading">
+          <p class="eyebrow">PROBLEM LIBRARY</p>
+          <h1 id="catalog-list-title">選擇題庫</h1>
+        </div>
+        <div class="catalog-grid">
+          <button id="tqc-catalog-button" class="catalog-card" type="button">
+            <span class="catalog-icon" aria-hidden="true">Py</span>
+            <span class="catalog-card-content">
+              <strong>TQC Python</strong>
+              <small>9 個類別 · 90 題</small>
+            </span>
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="unit-list-view" class="directory-view" aria-labelledby="unit-list-title" hidden>
+        <button id="catalog-back-button" class="text-button" type="button">← 回到題庫</button>
+        <div class="directory-heading">
+          <p class="eyebrow">TQC PYTHON</p>
+          <h1 id="unit-list-title">選擇類別</h1>
+        </div>
+        <div id="unit-list" class="unit-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="problem-list-view" class="directory-view" aria-labelledby="problem-list-title" hidden>
+        <button id="unit-back-button" class="text-button" type="button">← 回到 TQC 類別</button>
         <div class="section-heading">
           <h1 id="problem-list-title">題目列表</h1>
           <span id="problem-count" class="count-badge">載入中</span>
@@ -33,7 +60,7 @@
       </section>
 
       <section id="problem-view" hidden>
-        <button id="back-button" class="text-button" type="button">← 回到題目列表</button>
+        <button id="problem-back-button" class="text-button" type="button">← 回到題目列表</button>
         <div class="workspace">
           <article class="problem-panel">
             <p id="problem-id" class="eyebrow"></p>

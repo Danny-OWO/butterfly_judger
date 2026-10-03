@@ -47,20 +47,35 @@ def main() -> int:
 
         list_url = args.app_url.split("?", 1)[0]
         browser.get(list_url)
+        browser.find_element(By.ID, "tqc-catalog-button").click()
+        units = WebDriverWait(browser, 15).until(
+            lambda driver: (
+                found
+                if len(found := driver.find_elements(By.CLASS_NAME, "unit-card")) == 9
+                else False
+            )
+        )
+        units[0].click()
         items = WebDriverWait(browser, 15).until(
             lambda driver: (
                 found
                 if len(found := driver.find_elements(By.CLASS_NAME, "problem-list-item"))
-                == 90
+                == 10
                 else False
             )
         )
-        if items[0].text.splitlines() != ["101", "整數格式化輸出"]:
+        if items[0].text.splitlines()[:2] != ["101", "整數格式化輸出"]:
             print(f"list_status=failed: {items[0].text!r}")
+            return 1
+        if "catalog=tqc" not in browser.current_url or "unit=1" not in browser.current_url:
+            print(f"unit_route_status=failed: {browser.current_url}")
+            return 1
+        items[0].click()
+        if "problem=101" not in browser.current_url:
+            print(f"problem_route_status=failed: {browser.current_url}")
             return 1
         print("list_status=passed")
 
-        browser.get(args.app_url)
         editor = WebDriverWait(browser, 15).until(
             lambda driver: driver.find_element(By.CLASS_NAME, "CodeMirror")
         )
