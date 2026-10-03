@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "frontend/**"
+      - "dist/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -28,10 +28,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload frontend
+      - name: Upload C++ judge site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: frontend
+          path: dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
