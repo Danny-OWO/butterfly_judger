@@ -10,15 +10,6 @@ try {
   self.postMessage({ type: "load-error", message: String(error) });
 }
 
-function normalizeOutput(value) {
-  return String(value ?? "")
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .map((line) => line.trimEnd())
-    .join("\n")
-    .replace(/\n+$/, "");
-}
-
 async function runTest(code, test) {
   const startedAt = performance.now();
   const setup = JSON.stringify({
@@ -76,13 +67,13 @@ for _name in _payload["expectedFiles"]:
   const fileFailures = [];
   for (const [filename, expected] of Object.entries(test.expected_files || {})) {
     const actual = execution.files[filename];
-    if (actual === null || normalizeOutput(actual) !== normalizeOutput(expected)) {
+    if (actual === null || actual !== expected) {
       fileFailures.push(`${filename}: 檔案內容不符`);
     }
   }
   let status = execution.status;
   if (status === "OK") {
-    const outputMatches = normalizeOutput(execution.stdout) === normalizeOutput(test.expected_output || "");
+    const outputMatches = execution.stdout === (test.expected_output || "");
     status = outputMatches && fileFailures.length === 0 ? "AC" : "WA";
   }
   return {

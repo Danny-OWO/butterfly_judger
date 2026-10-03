@@ -12,7 +12,6 @@ const elements = {
   codeEditor: document.querySelector("#code-editor"),
   resultPanel: document.querySelector("#result-panel"),
   publicTests: document.querySelector("#public-tests"),
-  sourceLink: document.querySelector("#source-link"),
 };
 
 let problems = [];
@@ -83,7 +82,7 @@ function renderPublicTests(problem) {
   for (const [index, test] of problem.tests.entries()) {
     const details = document.createElement("details");
     const summary = document.createElement("summary");
-    summary.textContent = `公開測資 ${index + 1}：${test.name}`;
+    summary.textContent = `測資 ${index + 1}：${test.name}`;
     details.append(summary);
     if (Object.keys(test.files || {}).length) {
       const heading = document.createElement("h4");
@@ -93,8 +92,8 @@ function renderPublicTests(problem) {
         details.append(createCodeBlock(filename, content));
       }
     }
-    details.append(createCodeBlock("標準輸入", test.input || "（無）"));
-    details.append(createCodeBlock("預期輸出", test.expected_output || "（無標準輸出）"));
+    details.append(createCodeBlock("輸入", test.input || "（空）"));
+    details.append(createCodeBlock("預期輸出", test.expected_output || "（空）"));
     if (Object.keys(test.expected_files || {}).length) {
       const heading = document.createElement("h4");
       heading.textContent = "執行後預期檔案";
@@ -115,17 +114,16 @@ function openProblem(problemId) {
   }
   clearBanner();
   currentProblem = problem;
-  setText("#problem-id", `PROBLEM ${problem.id}`);
+  setText("#problem-id", problem.id);
   setText("#problem-title", problem.title);
   setText("#problem-description", problem.description);
   setText("#problem-input", problem.input);
   setText("#problem-output", problem.output);
-  setText("#sample-input", problem.sample_input || "（無標準輸入）");
-  setText("#sample-output", problem.sample_output || "（無標準輸出）");
-  setText("#limits", `${problem.time_limit}s · Browser Judge`);
-  elements.sourceLink.href = problem.source;
+  setText("#sample-input", problem.sample_input || "（空）");
+  setText("#sample-output", problem.sample_output || "（空）");
+  setText("#limits", `${problem.time_limit}s`);
   renderPublicTests(problem);
-  elements.codeEditor.value = "# 請在這裡撰寫 Python 程式\n";
+  elements.codeEditor.value = "";
   elements.resultPanel.hidden = true;
   elements.problemListView.hidden = true;
   elements.problemView.hidden = false;
@@ -242,10 +240,10 @@ function renderResult(results, total) {
     const summary = document.createElement("summary");
     summary.textContent = `${result.name}: ${result.status} (${result.runtime_ms} ms)`;
     details.append(summary);
-    details.append(createCodeBlock("Input", result.input || "（無）"));
-    details.append(createCodeBlock("Expected", result.expected || "（無標準輸出）"));
-    details.append(createCodeBlock("Actual", result.actual || "（無標準輸出）"));
-    if (result.error) details.append(createCodeBlock("Error", result.error));
+    details.append(createCodeBlock("輸入", result.input || "（空）"));
+    details.append(createCodeBlock("預期", result.expected || "（空）"));
+    details.append(createCodeBlock("實際", result.actual || "（空）"));
+    if (result.error) details.append(createCodeBlock("錯誤", result.error));
     if (result.file_failures?.length) {
       details.append(createCodeBlock("File check", result.file_failures.join("\n")));
     }
@@ -277,8 +275,8 @@ async function submitCode() {
   if (!currentProblem) return;
   const code = elements.codeEditor.value;
   elements.submitButton.disabled = true;
-  elements.submitButton.textContent = workerReady ? "判題中…" : "載入 Python…";
-  showBanner("第一次使用需下載 Pyodide；之後會由你的瀏覽器直接執行。", "info");
+  elements.submitButton.textContent = workerReady ? "判題中…" : "載入…";
+  clearBanner();
   try {
     const results = await judgeInBrowser(currentProblem, code);
     clearBanner();
@@ -288,7 +286,7 @@ async function submitCode() {
     showBanner(`判題失敗：${error.message}`);
   } finally {
     elements.submitButton.disabled = false;
-    elements.submitButton.textContent = "在瀏覽器判題";
+    elements.submitButton.textContent = "送出";
   }
 }
 

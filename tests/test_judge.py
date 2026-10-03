@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from judge import JudgeConfigurationError, judge, normalize_output
+from judge import JudgeConfigurationError, judge
 from runners import DockerRunner
 
 
@@ -69,9 +69,20 @@ class JudgeTests(unittest.TestCase):
         )
         self.assertEqual(result.status, "TLE")
 
-    def test_normalization_ignores_trailing_whitespace(self) -> None:
-        self.assertEqual(normalize_output("8  \r\n"), normalize_output("8\n"))
-        self.assertNotEqual(normalize_output(" 8\n"), normalize_output("8\n"))
+    def test_output_comparison_is_strict(self) -> None:
+        trailing_space = judge(
+            "001",
+            self.write_solution("print('8 ')\n"),
+            self.problems_root,
+        )
+        self.assertEqual(trailing_space.status, "WA")
+
+        missing_newline = judge(
+            "001",
+            self.write_solution("import sys\nsys.stdout.write('8')\n"),
+            self.problems_root,
+        )
+        self.assertEqual(missing_newline.status, "WA")
 
     def test_rejects_incomplete_test_pair(self) -> None:
         (self.tests_dir / "01.out").unlink()

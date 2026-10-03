@@ -67,6 +67,12 @@ class FrontendContentTests(unittest.TestCase):
         ):
             self.assertTrue((FRONTEND / filename).exists(), filename)
 
+    def test_browser_judge_uses_strict_output_comparison(self) -> None:
+        worker = (FRONTEND / "pyodide-worker.mjs").read_text(encoding="utf-8")
+        self.assertNotIn("normalizeOutput", worker)
+        self.assertIn("execution.stdout === (test.expected_output", worker)
+        self.assertIn("actual !== expected", worker)
+
 
 if __name__ == "__main__":
     unittest.main()

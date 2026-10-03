@@ -16,24 +16,14 @@
         <span class="brand-mark" aria-hidden="true">ʚɞ</span>
         <span>Butterfly Judger</span>
       </a>
-      <span class="mode-badge">瀏覽器判題 · 免費模式</span>
     </header>
 
     <main class="page-shell">
-      <section class="hero">
-        <p class="eyebrow">PYTHON PRACTICE LAB</p>
-        <h1>寫下答案，讓測資說真話。</h1>
-        <p>沒有玄學，只有輸入、輸出，以及偶爾冷酷但誠實的 WA。Python 直接在你的瀏覽器執行。</p>
-      </section>
-
       <div id="connection-banner" class="banner" role="status" hidden></div>
 
       <section id="problem-list-view" aria-labelledby="problem-list-title">
         <div class="section-heading">
-          <div>
-            <p class="eyebrow">PROBLEM SET</p>
-            <h2 id="problem-list-title">題目列表</h2>
-          </div>
+          <h1 id="problem-list-title">題目列表</h1>
           <span id="problem-count" class="count-badge">載入中</span>
         </div>
         <div id="problem-list" class="problem-grid" aria-live="polite"></div>
@@ -49,7 +39,7 @@
 
             <h3>輸入說明</h3>
             <p id="problem-input"></p>
-            <h3>輸出說明</h3>
+            <h3>輸出說明（嚴格比對）</h3>
             <p id="problem-output"></p>
 
             <div class="sample-grid">
@@ -62,31 +52,24 @@
                 <pre id="sample-output"></pre>
               </div>
             </div>
-            <div class="source-row">
-              <span>題目依公開資料重新表述，未收錄解答。</span>
-              <a id="source-link" href="#" target="_blank" rel="noopener noreferrer">查看參考來源 ↗</a>
-            </div>
-
-            <h3>公開測資</h3>
+            <h3>測資</h3>
             <div id="public-tests" class="public-tests"></div>
           </article>
 
           <section class="editor-panel" aria-labelledby="editor-title">
             <div class="editor-heading">
               <div>
-                <p class="eyebrow">SUBMISSION</p>
-                <h2 id="editor-title">你的 Python 程式</h2>
+                <h2 id="editor-title">程式碼</h2>
               </div>
               <span id="limits" class="limits"></span>
             </div>
-            <textarea id="code-editor" spellcheck="false" aria-label="Python 程式碼"></textarea>
-            <button id="submit-button" class="primary-button" type="button">在瀏覽器判題</button>
+            <textarea id="code-editor" spellcheck="false" aria-label="Python 程式碼" placeholder="在此輸入 Python 程式"></textarea>
+            <button id="submit-button" class="primary-button" type="button">送出</button>
             <div id="result-panel" class="result-panel" aria-live="polite" hidden></div>
           </section>
         </div>
       </section>
     </main>
 
-    <footer>Built for learning, tested by edge cases.</footer>
   </body>
 </html>

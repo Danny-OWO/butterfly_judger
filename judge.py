@@ -46,11 +46,6 @@ class JudgeResult:
     tests: tuple[TestResult, ...]
 
 
-def normalize_output(output: str) -> str:
-    """Ignore line-ending differences and trailing whitespace on each line."""
-    return "\n".join(line.rstrip() for line in output.splitlines())
-
-
 def load_problem(problem_id: str, problems_root: Path = PROBLEMS_ROOT) -> dict:
     if not PROBLEM_ID_PATTERN.fullmatch(problem_id):
         raise JudgeConfigurationError(f"Invalid problem id: {problem_id!r}")
@@ -129,7 +124,7 @@ def run_test(
             stderr = stderr[:STDERR_LIMIT] + "\n... (stderr truncated)"
         return TestResult(test.name, "RE", execution.runtime, stderr)
 
-    if normalize_output(execution.stdout) != normalize_output(expected_output):
+    if execution.stdout != expected_output:
         return TestResult(test.name, "WA", execution.runtime)
 
     return TestResult(test.name, "AC", execution.runtime)
