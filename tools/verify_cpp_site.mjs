@@ -4,6 +4,8 @@ import vm from "node:vm";
 const html = fs.readFileSync("dist/index.html", "utf8");
 const css = fs.readFileSync("dist/style.css", "utf8");
 const source = fs.readFileSync("dist/problems.js", "utf8");
+const portal = fs.readFileSync("portal/index.html", "utf8");
+const tqc = fs.readFileSync("frontend/index.html", "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(source, context);
@@ -39,5 +41,11 @@ for (const id of ["unit-nav", "problem-grid", "code-editor", "run-button", "subm
   if (!html.includes(`id="${id}"`)) throw new Error(`Missing HTML target #${id}`);
 }
 if (!css.includes("@media(max-width:620px)")) throw new Error("Missing mobile breakpoint");
+if (!portal.includes('href="./tqc/"') || !portal.includes('href="./snakify-cpp/"')) {
+  throw new Error("Portal must link to both problem libraries");
+}
+if (!tqc.includes('href="../">題庫首頁</a>') || !html.includes('href="../">題庫首頁</a>')) {
+  throw new Error("Both problem libraries must link back to the portal");
+}
 
-console.log(`Verified ${units.length} units, ${problems.length} problems, ${problems.reduce((n, p) => n + p.tests.length, 0)} tests.`);
+console.log(`Verified portal, TQC library, ${units.length} C++ units, ${problems.length} problems, and ${problems.reduce((n, p) => n + p.tests.length, 0)} tests.`);

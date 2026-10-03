@@ -1,0 +1,17 @@
+.library-home-link {
+  padding: 0.55rem 0.8rem;
+  color: var(--violet);
+  border: 1px solid #4c3675;
+  border-radius: 0.65rem;
+  background: var(--violet-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.library-home-link:hover,
+.library-home-link:focus-visible {
+  color: white;
+  border-color: var(--violet);
+  outline: none;
+}

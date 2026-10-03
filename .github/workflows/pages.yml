@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     paths:
+      - "portal/**"
+      - "frontend/**"
       - "dist/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
@@ -28,10 +30,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload C++ judge site
+      - name: Assemble problem libraries
+        run: |
+          mkdir -p _site/tqc _site/snakify-cpp
+          cp -R portal/. _site/
+          cp -R frontend/. _site/tqc/
+          cp -R dist/. _site/snakify-cpp/
+      - name: Upload complete judge site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

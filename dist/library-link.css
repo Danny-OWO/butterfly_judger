@@ -1,0 +1,22 @@
+.library-home-link {
+  padding: 0.5rem 0.75rem;
+  color: var(--cyan);
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--panel2);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.library-home-link:hover,
+.library-home-link:focus-visible {
+  color: white;
+  border-color: var(--cyan);
+  outline: none;
+}
+
+@media (max-width: 620px) {
+  .library-home-link { font-size: 0; }
+  .library-home-link::after { content: "題庫"; font-size: 0.8rem; }
+}
