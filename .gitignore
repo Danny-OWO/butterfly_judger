@@ -1,4 +1,5 @@
 __pycache__/
+.sites-runtime/
 *.py[cod]
 .pytest_cache/
 .venv/
