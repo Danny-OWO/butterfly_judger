@@ -54,7 +54,7 @@
     const message = String(error?.message || error || "未知錯誤");
     if (/invalid login credentials/i.test(message)) return "使用者名稱或密碼錯誤";
     if (/user already registered/i.test(message)) return "這個使用者名稱已被註冊";
-    if (/password should be/i.test(message)) return "密碼至少需要 8 個字元";
+    if (/password should be/i.test(message)) return "密碼至少需要 7 個字元";
     if (/failed to fetch|network/i.test(message)) return "無法連線 Supabase，請稍後重試";
     return message;
   }

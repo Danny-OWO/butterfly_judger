@@ -107,6 +107,7 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn('href="./tqc/account.html"', portal_html)
         self.assertIn('id="login-form"', account_html)
         self.assertIn('id="register-form"', account_html)
+        self.assertEqual(account_html.count('minlength="7"'), 2)
         self.assertIn("ButterflyAccount.login", account_javascript)
         self.assertIn("ButterflyAccount.register", account_javascript)
         self.assertIn("ButterflyAccount.progress", account_javascript)
@@ -129,7 +130,10 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("for select", schema.lower())
         self.assertIn("for insert", schema.lower())
         self.assertNotIn("service_role", config)
-        self.assertIn("YOUR_SUPABASE_PUBLISHABLE_KEY", config)
+        self.assertRegex(
+            config,
+            r'publishableKey: "(?:YOUR_SUPABASE_PUBLISHABLE_KEY|sb_publishable_[^"]+)"',
+        )
 
     def test_browser_judge_uses_strict_output_comparison(self) -> None:
         worker = (FRONTEND / "pyodide-worker.mjs").read_text(encoding="utf-8")
