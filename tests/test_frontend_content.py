@@ -85,6 +85,9 @@ class FrontendContentTests(unittest.TestCase):
     def test_required_static_assets_exist(self) -> None:
         for filename in (
             "index.html",
+            "account.html",
+            "account.js",
+            "api.js",
             "style.css",
             "app.js",
             "pyodide-worker.mjs",
@@ -92,6 +95,21 @@ class FrontendContentTests(unittest.TestCase):
             ".nojekyll",
         ):
             self.assertTrue((FRONTEND / filename).exists(), filename)
+
+    def test_account_page_supports_register_login_and_cookie_sessions(self) -> None:
+        index_html = (FRONTEND / "index.html").read_text(encoding="utf-8")
+        portal_html = (ROOT / "portal" / "index.html").read_text(encoding="utf-8")
+        account_html = (FRONTEND / "account.html").read_text(encoding="utf-8")
+        account_javascript = (FRONTEND / "account.js").read_text(encoding="utf-8")
+        api_javascript = (FRONTEND / "api.js").read_text(encoding="utf-8")
+        self.assertIn('href="account.html"', index_html)
+        self.assertIn('href="./tqc/account.html"', portal_html)
+        self.assertIn('id="login-form"', account_html)
+        self.assertIn('id="register-form"', account_html)
+        self.assertIn('"/api/auth/login"', account_javascript)
+        self.assertIn('"/api/auth/register"', account_javascript)
+        self.assertIn('"/api/progress"', account_javascript)
+        self.assertIn('credentials: "include"', api_javascript)
 
     def test_browser_judge_uses_strict_output_comparison(self) -> None:
         worker = (FRONTEND / "pyodide-worker.mjs").read_text(encoding="utf-8")

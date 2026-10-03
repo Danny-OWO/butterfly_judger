@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Butterfly Judger 學生帳號登入與註冊">
+    <meta name="butterfly-api-url" content="">
+    <title>學生帳號｜Butterfly Judger</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="api.js" defer></script>
+    <script src="account.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Butterfly Judger 首頁">
+        <span class="brand-mark" aria-hidden="true">ʚɞ</span>
+        <span>Butterfly Judger</span>
+      </a>
+      <a class="library-home-link" href="./">返回題庫</a>
+    </header>
+
+    <main class="account-shell">
+      <div class="account-heading">
+        <p class="eyebrow">STUDENT ACCOUNT</p>
+        <h1>保留你的解題足跡</h1>
+        <p>登入後，伺服器會把提交紀錄與每題進度綁定到你的帳號。</p>
+      </div>
+
+      <div id="account-message" class="banner" role="status" hidden></div>
+
+      <section id="session-panel" class="session-panel" hidden aria-labelledby="session-title">
+        <div>
+          <p class="eyebrow">SIGNED IN</p>
+          <h2 id="session-title">你好，<span id="session-username"></span></h2>
+          <p>這台瀏覽器已安全登入。Session token 只存在 HttpOnly cookie，JavaScript 讀不到它。</p>
+        </div>
+        <button id="logout-button" class="secondary-button" type="button">登出</button>
+        <div class="progress-section">
+          <div class="section-heading">
+            <h3>解題進度</h3>
+            <span id="progress-summary" class="count-badge">載入中</span>
+          </div>
+          <ul id="progress-list" class="progress-list" aria-live="polite"></ul>
+        </div>
+      </section>
+
+      <section id="auth-forms" class="auth-grid" aria-label="登入或註冊">
+        <form id="login-form" class="auth-card">
+          <p class="eyebrow">WELCOME BACK</p>
+          <h2>登入</h2>
+          <label for="login-username">帳號</label>
+          <input id="login-username" name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" required>
+          <label for="login-password">密碼</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required>
+          <button class="primary-button" type="submit">登入</button>
+        </form>
+
+        <form id="register-form" class="auth-card">
+          <p class="eyebrow">NEW STUDENT</p>
+          <h2>建立帳號</h2>
+          <label for="register-username">帳號</label>
+          <input id="register-username" name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" required aria-describedby="username-help">
+          <p id="username-help" class="field-help">3–32 字元，只能使用英文字母、數字、底線與連字號。</p>
+          <label for="register-password">密碼</label>
+          <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+          <button class="primary-button" type="submit">註冊並登入</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

@@ -15,6 +15,7 @@ const elements = {
   codeEditor: document.querySelector("#code-editor"),
   resultPanel: document.querySelector("#result-panel"),
   publicTests: document.querySelector("#public-tests"),
+  accountLink: document.querySelector("#account-link"),
 };
 
 const TQC_UNITS = [
@@ -35,6 +36,18 @@ let currentUnit = null;
 let worker = null;
 let workerReady = null;
 let highlightedEditor = null;
+
+async function refreshAccountLink() {
+  if (!window.ButterflyAPI?.configured) return;
+  try {
+    const student = await window.ButterflyAPI.request("/api/auth/me");
+    elements.accountLink.textContent = student.username;
+    elements.accountLink.classList.add("signed-in");
+  } catch (_) {
+    elements.accountLink.textContent = "登入 / 註冊";
+    elements.accountLink.classList.remove("signed-in");
+  }
+}
 
 function initializeEditor() {
   if (!window.CodeMirror) return;
@@ -446,4 +459,5 @@ elements.codeEditor.addEventListener("keydown", (event) => {
 });
 
 initializeEditor();
+refreshAccountLink();
 loadProblems();

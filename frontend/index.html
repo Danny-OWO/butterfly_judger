@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/lib/codemirror.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="library-link.css">
+    <meta name="butterfly-api-url" content="">
     <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/lib/codemirror.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.21/mode/python/python.min.js" defer></script>
+    <script src="api.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -20,7 +22,10 @@
         <span class="brand-mark" aria-hidden="true">ʚɞ</span>
         <span>Butterfly Judger</span>
       </a>
-      <a class="library-home-link" href="../">題庫首頁</a>
+      <nav class="header-actions" aria-label="主要導覽">
+        <a class="library-home-link" href="../">題庫首頁</a>
+        <a id="account-link" class="account-link" href="account.html">登入 / 註冊</a>
+      </nav>
     </header>
 
     <main class="page-shell">

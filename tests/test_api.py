@@ -43,6 +43,21 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
 
+    def test_local_frontend_can_send_authenticated_requests(self) -> None:
+        response = self.client.options(
+            "/api/auth/login",
+            headers={
+                "Origin": "http://127.0.0.1:8080",
+                "Access-Control-Request-Method": "POST",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers["access-control-allow-origin"],
+            "http://127.0.0.1:8080",
+        )
+        self.assertEqual(response.headers["access-control-allow-credentials"], "true")
+
     def test_session_identifies_current_student(self) -> None:
         response = self.client.get("/api/auth/me")
         self.assertEqual(response.status_code, 200)
