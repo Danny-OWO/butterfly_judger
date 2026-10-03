@@ -14,17 +14,21 @@ const { COURSE_UNITS: units, COURSE_PROBLEMS: problems } = context.window;
 const requiredProblemFields = [
   "id", "unit", "title", "statement", "input", "output", "sampleInput",
   "sampleOutput", "hint", "starter", "tests",
+  "sourceUrl",
 ];
 
 if (units.length !== 11) throw new Error(`Expected 11 units, found ${units.length}`);
-if (problems.length !== 22) throw new Error(`Expected 22 problems, found ${problems.length}`);
+if (problems.length !== 112) throw new Error(`Expected 112 problems, found ${problems.length}`);
 if (new Set(problems.map((problem) => problem.id)).size !== problems.length) {
   throw new Error("Problem IDs must be unique");
 }
 
+const expectedCounts = [9, 10, 12, 10, 12, 16, 13, 6, 8, 8, 8];
 for (const unit of units) {
   const count = problems.filter((problem) => problem.unit === unit.id).length;
-  if (count !== 2) throw new Error(`Unit ${unit.id} has ${count} problems instead of 2`);
+  if (count !== expectedCounts[unit.id - 1]) {
+    throw new Error(`Unit ${unit.id} has ${count} problems instead of ${expectedCounts[unit.id - 1]}`);
+  }
 }
 
 for (const problem of problems) {
@@ -40,7 +44,7 @@ for (const problem of problems) {
 for (const id of ["unit-nav", "problem-grid", "code-editor", "run-button", "submit-button", "result-panel"]) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Missing HTML target #${id}`);
 }
-if (!css.includes("@media(max-width:620px)")) throw new Error("Missing mobile breakpoint");
+if (!css.includes("@media (max-width: 620px)")) throw new Error("Missing mobile breakpoint");
 if (!portal.includes('href="./tqc/"') || !portal.includes('href="./snakify-cpp/"')) {
   throw new Error("Portal must link to both problem libraries");
 }

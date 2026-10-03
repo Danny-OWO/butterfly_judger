@@ -38,6 +38,7 @@ function openProblem(problem,updateHistory=false){
   state.current=problem;state.unit=problem.unit;renderNav();library.hidden=true;problemView.hidden=false;
   $("#problem-unit").textContent=`Unit ${problem.unit}`;$("#problem-difficulty").textContent=problem.difficulty;
   $("#problem-title").textContent=problem.title;$("#problem-statement").textContent=problem.statement;
+  $("#source-link").href=problem.sourceUrl;
   $("#problem-input").textContent=problem.input;$("#problem-output").textContent=problem.output;
   $("#sample-input").textContent=problem.sampleInput;$("#sample-output").textContent=problem.sampleOutput;
   $("#problem-hint").textContent=problem.hint;$("#code-editor").value=localStorage.getItem(`code-${problem.id}`)||problem.starter;
