@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#07111f">
+    <meta name="description" content="從輸入輸出到字典，為 C++ 初學者設計的 11 單元線上題庫與即時判題器。">
+    <title>Butterfly C++ Judger</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+    <script src="problems.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="brand" id="home-button" type="button" aria-label="回到題庫首頁">
+        <span class="brand-mark" aria-hidden="true">B</span>
+        <span><strong>Butterfly</strong><small>C++ Judger</small></span>
+      </button>
+      <div class="header-meta">
+        <span id="progress-label">0 / 22 solved</span>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="課程單元">
+        <div class="sidebar-title">
+          <span>COURSE MAP</span>
+          <strong>11 Units</strong>
+        </div>
+        <nav id="unit-nav"></nav>
+        <button class="settings-button" id="settings-button" type="button">Compiler settings</button>
+      </aside>
+
+      <main id="main-content" tabindex="-1">
+        <section id="library-view" class="view">
+          <div class="library-heading">
+            <div>
+              <p class="eyebrow">C++ FOUNDATIONS</p>
+              <h1>Write code. Test the idea.</h1>
+              <p>依照 Snakify 1–11 單元的概念重新設計，不照抄原題；每題都有範例、測資與即時結果。</p>
+            </div>
+            <div class="stat-card"><strong id="solved-count">0</strong><span>problems solved</span></div>
+          </div>
+          <div id="problem-grid" class="problem-grid"></div>
+        </section>
+
+        <section id="problem-view" class="view" hidden>
+          <button class="back-button" id="back-button" type="button">Back to problem set</button>
+          <div class="workspace">
+            <article class="problem-pane">
+              <div class="problem-kicker"><span id="problem-unit"></span><span id="problem-difficulty"></span></div>
+              <h1 id="problem-title"></h1>
+              <p id="problem-statement" class="statement"></p>
+              <section><h2>Input</h2><p id="problem-input"></p></section>
+              <section><h2>Output</h2><p id="problem-output"></p></section>
+              <div class="sample-grid">
+                <div><h2>Sample input</h2><pre id="sample-input"></pre></div>
+                <div><h2>Sample output</h2><pre id="sample-output"></pre></div>
+              </div>
+              <details class="hint"><summary>Need a hint?</summary><p id="problem-hint"></p></details>
+            </article>
+
+            <section class="code-pane" aria-label="C++ 程式碼編輯器">
+              <div class="editor-toolbar">
+                <div><span class="language-dot"></span><strong>C++17</strong></div>
+                <span id="save-state">Saved locally</span>
+              </div>
+              <textarea id="code-editor" aria-label="C++ 程式碼" spellcheck="false"></textarea>
+              <label class="stdin-label" for="custom-input">Custom input</label>
+              <textarea id="custom-input" class="custom-input" aria-label="自訂輸入" spellcheck="false"></textarea>
+              <div class="actions">
+                <button id="run-button" class="button secondary" type="button">Run code</button>
+                <button id="submit-button" class="button primary" type="button">Submit solution</button>
+              </div>
+              <section id="result-panel" class="result-panel" aria-live="polite">
+                <div class="empty-result"><span>&gt;_</span><p>Run your code or submit it against the tests.</p></div>
+              </section>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="settings-dialog">
+      <form method="dialog">
+        <div class="dialog-heading"><div><p class="eyebrow">EXECUTION ENGINE</p><h2>Compiler settings</h2></div><button value="cancel" aria-label="關閉">×</button></div>
+        <label for="judge-url">Judge0 base URL</label>
+        <input id="judge-url" type="url" value="https://ce.judge0.com">
+        <p class="field-help">課堂正式使用建議換成你自架的 Judge0；公開服務可能限流。</p>
+        <label for="judge-token">API token（optional）</label>
+        <input id="judge-token" type="password" autocomplete="off">
+        <menu><button value="cancel" class="button secondary">Cancel</button><button id="save-settings" value="default" class="button primary">Save</button></menu>
+      </form>
+    </dialog>
+  </body>
+</html>
