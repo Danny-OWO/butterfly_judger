@@ -142,6 +142,15 @@
     );
   }
 
+  async function solvedProblemIds() {
+    const { data, error } = await requireClient()
+      .from("submissions")
+      .select("problem_id")
+      .eq("status", "AC");
+    if (error) throw new Error(readableError(error));
+    return [...new Set((data || []).map((submission) => submission.problem_id))];
+  }
+
   window.ButterflyAccount = Object.freeze({
     configured,
     currentStudent,
@@ -150,5 +159,6 @@
     progress,
     register,
     saveSubmission,
+    solvedProblemIds,
   });
 })();

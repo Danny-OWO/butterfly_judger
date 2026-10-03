@@ -114,6 +114,8 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("auth.signInWithPassword", api_javascript)
         self.assertIn("auth.signUp", api_javascript)
         self.assertIn('from("submissions")', api_javascript)
+        self.assertIn("async function solvedProblemIds", api_javascript)
+        self.assertIn('.eq("status", "AC")', api_javascript)
         self.assertIn("@supabase/supabase-js@2.117.2", account_html)
         self.assertEqual(account_html.count('pattern="[A-Za-z0-9_\\-]+"'), 2)
         submit_credentials = account_javascript.split(
@@ -134,10 +136,11 @@ class FrontendContentTests(unittest.TestCase):
         tqc_javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
         cpp_javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
         for javascript in (tqc_javascript, cpp_javascript):
-            self.assertIn("ButterflyAccount.progress()", javascript)
-            self.assertIn('badge.textContent = "AC"', javascript)
+            self.assertIn("ButterflyAccount.solvedProblemIds()", javascript)
             self.assertIn("problem-status-badge", javascript)
+            self.assertIn("已通過", javascript)
             self.assertIn("已登入 · ${currentStudent.username}", javascript)
+            self.assertIn("SOLVED_CACHE_PREFIX", javascript)
 
     def test_snakify_saves_authenticated_practice_history(self) -> None:
         html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")

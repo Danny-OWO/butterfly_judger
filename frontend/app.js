@@ -1,4 +1,5 @@
 const HISTORY_KEY = "butterfly-browser-submissions";
+const SOLVED_CACHE_PREFIX = "butterfly-solved-problems";
 const PYODIDE_LOAD_TIMEOUT_MS = 120_000;
 
 const elements = {
@@ -40,19 +41,30 @@ let highlightedEditor = null;
 let currentStudent = null;
 let solvedProblemIds = new Set();
 
+function solvedCacheKey() {
+  return currentStudent ? `${SOLVED_CACHE_PREFIX}:${currentStudent.id}` : null;
+}
+
+function loadSolvedCache() {
+  const key = solvedCacheKey();
+  if (!key) return;
+  try {
+    solvedProblemIds = new Set(JSON.parse(localStorage.getItem(key) || "[]"));
+  } catch (_) {
+    solvedProblemIds = new Set();
+  }
+}
+
+function saveSolvedCache() {
+  const key = solvedCacheKey();
+  if (key) localStorage.setItem(key, JSON.stringify([...solvedProblemIds]));
+}
+
 function updateProblemBadges() {
   for (const button of elements.problemList.querySelectorAll("[data-problem-id]")) {
     const solved = solvedProblemIds.has(button.dataset.problemId);
-    let badge = button.querySelector(".problem-status-badge");
-    if (solved && !badge) {
-      badge = document.createElement("span");
-      badge.className = "problem-status-badge";
-      badge.textContent = "AC";
-      badge.setAttribute("aria-label", "已通過");
-      button.querySelector(".card-arrow").before(badge);
-    } else if (!solved && badge) {
-      badge.remove();
-    }
+    const badge = button.querySelector(".problem-status-badge");
+    if (badge) badge.hidden = !solved;
   }
 }
 
@@ -66,11 +78,11 @@ async function refreshAccountLink() {
   if (!currentStudent) return;
   elements.accountLink.textContent = `已登入 · ${currentStudent.username}`;
   elements.accountLink.classList.add("signed-in");
+  loadSolvedCache();
+  updateProblemBadges();
   try {
-    const progress = await window.ButterflyAccount.progress();
-    solvedProblemIds = new Set(
-      progress.filter((item) => item.solved).map((item) => item.problem_id)
-    );
+    solvedProblemIds = new Set(await window.ButterflyAccount.solvedProblemIds());
+    saveSolvedCache();
     updateProblemBadges();
   } catch (_) {
     // The session indicator should remain accurate even if progress cannot load.
@@ -192,14 +204,12 @@ function createProblemListItem(problem) {
   arrow.className = "card-arrow";
   arrow.setAttribute("aria-hidden", "true");
   arrow.textContent = "→";
-  button.append(id, title, arrow);
-  if (solvedProblemIds.has(problem.id)) {
-    const badge = document.createElement("span");
-    badge.className = "problem-status-badge";
-    badge.textContent = "AC";
-    badge.setAttribute("aria-label", "已通過");
-    button.insertBefore(badge, arrow);
-  }
+  const badge = document.createElement("span");
+  badge.className = "problem-status-badge";
+  badge.textContent = "AC";
+  badge.setAttribute("aria-label", "已通過");
+  badge.hidden = !solvedProblemIds.has(problem.id);
+  button.append(id, title, badge, arrow);
   button.addEventListener("click", () => openProblem(problem.id));
   item.append(button);
   return item;
@@ -466,6 +476,7 @@ async function saveCloudHistory(problem, code, summary) {
       elements.cloudSaveStatus.className = "cloud-save-status saved";
       if (summary.status === "AC") {
         solvedProblemIds.add(problem.id);
+        saveSolvedCache();
         updateProblemBadges();
       }
     }

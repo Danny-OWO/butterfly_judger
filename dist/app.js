@@ -1,4 +1,5 @@
 const JUDGE_URL = "https://ce.judge0.com";
+const SOLVED_CACHE_PREFIX = "butterfly-solved-problems";
 const $ = (selector) => document.querySelector(selector);
 
 const elements = {
@@ -26,6 +27,25 @@ let running = false;
 let currentStudent = null;
 let solvedProblemIds = new Set();
 
+function solvedCacheKey() {
+  return currentStudent ? `${SOLVED_CACHE_PREFIX}:${currentStudent.id}` : null;
+}
+
+function loadSolvedCache() {
+  const key = solvedCacheKey();
+  if (!key) return;
+  try {
+    solvedProblemIds = new Set(JSON.parse(localStorage.getItem(key) || "[]"));
+  } catch (_) {
+    solvedProblemIds = new Set();
+  }
+}
+
+function saveSolvedCache() {
+  const key = solvedCacheKey();
+  if (key) localStorage.setItem(key, JSON.stringify([...solvedProblemIds]));
+}
+
 function cloudProblemId(problemId) {
   return `snakify-${problemId}`;
 }
@@ -33,16 +53,8 @@ function cloudProblemId(problemId) {
 function updateProblemBadges() {
   for (const button of elements.problemList.querySelectorAll("[data-problem-id]")) {
     const solved = solvedProblemIds.has(cloudProblemId(button.dataset.problemId));
-    let badge = button.querySelector(".problem-status-badge");
-    if (solved && !badge) {
-      badge = document.createElement("span");
-      badge.className = "problem-status-badge";
-      badge.textContent = "AC";
-      badge.setAttribute("aria-label", "已通過");
-      button.querySelector(".card-arrow").before(badge);
-    } else if (!solved && badge) {
-      badge.remove();
-    }
+    const badge = button.querySelector(".problem-status-badge");
+    if (badge) badge.hidden = !solved;
   }
 }
 
@@ -56,11 +68,11 @@ async function refreshAccountState() {
   if (!currentStudent) return;
   elements.accountLink.textContent = `已登入 · ${currentStudent.username}`;
   elements.accountLink.classList.add("signed-in");
+  loadSolvedCache();
+  updateProblemBadges();
   try {
-    const progress = await window.ButterflyAccount.progress();
-    solvedProblemIds = new Set(
-      progress.filter((item) => item.solved).map((item) => item.problem_id)
-    );
+    solvedProblemIds = new Set(await window.ButterflyAccount.solvedProblemIds());
+    saveSolvedCache();
     updateProblemBadges();
   } catch (_) {
     // The session indicator should remain accurate even if progress cannot load.
@@ -137,9 +149,7 @@ function createProblemListItem(problem) {
   button.type = "button";
   button.className = "problem-list-item";
   button.dataset.problemId = problem.id;
-  const badge = solvedProblemIds.has(cloudProblemId(problem.id))
-    ? '<span class="problem-status-badge" aria-label="已通過">AC</span>'
-    : "";
+  const badge = `<span class="problem-status-badge" aria-label="已通過"${solvedProblemIds.has(cloudProblemId(problem.id)) ? "" : " hidden"}>AC</span>`;
   button.innerHTML = `<span class="problem-list-id">${problem.id}</span><span class="problem-list-title">${escapeHtml(problem.title)}</span>${badge}<span class="card-arrow" aria-hidden="true">→</span>`;
   button.addEventListener("click", () => openProblem(problem.id));
   item.append(button);
@@ -277,6 +287,7 @@ async function saveCloudHistory(problem, code, summary) {
       elements.cloudSaveStatus.className = "cloud-save-status saved";
       if (summary.status === "AC") {
         solvedProblemIds.add(cloudProblemId(problem.id));
+        saveSolvedCache();
         updateProblemBadges();
       }
     }
