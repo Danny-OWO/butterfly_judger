@@ -115,6 +115,7 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("auth.signUp", api_javascript)
         self.assertIn('from("submissions")', api_javascript)
         self.assertIn("@supabase/supabase-js@2.117.2", account_html)
+        self.assertEqual(account_html.count('pattern="[A-Za-z0-9_\\-]+"'), 2)
 
     def test_browser_judge_saves_authenticated_practice_history(self) -> None:
         javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
@@ -130,6 +131,7 @@ class FrontendContentTests(unittest.TestCase):
         self.assertIn("for select", schema.lower())
         self.assertIn("for insert", schema.lower())
         self.assertNotIn("service_role", config)
+        self.assertIn('authEmailDomain: "students.danny-owo.github.io"', config)
         self.assertRegex(
             config,
             r'publishableKey: "(?:YOUR_SUPABASE_PUBLISHABLE_KEY|sb_publishable_[^"]+)"',

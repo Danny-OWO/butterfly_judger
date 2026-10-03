@@ -3,7 +3,7 @@
   const url = String(config.url || "").trim().replace(/\/$/, "");
   const publishableKey = String(config.publishableKey || "").trim();
   const authEmailDomain = String(
-    config.authEmailDomain || "users.butterfly.invalid"
+    config.authEmailDomain || "students.danny-owo.github.io"
   ).trim().toLowerCase();
   const configured =
     /^https:\/\/.+\.supabase\.co$/i.test(url) &&
@@ -55,6 +55,9 @@
     if (/invalid login credentials/i.test(message)) return "使用者名稱或密碼錯誤";
     if (/user already registered/i.test(message)) return "這個使用者名稱已被註冊";
     if (/password should be/i.test(message)) return "密碼至少需要 7 個字元";
+    if (/email address.*invalid|email_address_invalid/i.test(message)) {
+      return "Supabase 拒絕了內部帳號格式，請通知老師檢查帳號設定";
+    }
     if (/failed to fetch|network/i.test(message)) return "無法連線 Supabase，請稍後重試";
     return message;
   }

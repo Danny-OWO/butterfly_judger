@@ -23,15 +23,15 @@ bypass Row Level Security and must never be committed to a public website.
 The browser normalizes a username to lowercase and maps it deterministically:
 
 ```text
-butterfly_01 → butterfly_01@users.butterfly.invalid
+butterfly_01 → butterfly_01@students.danny-owo.github.io
 ```
 
 Students never see or use this internal email. Account and password recovery are
 intentionally unsupported; a student can create a new account if either is lost.
 
-If Supabase rejects the reserved `.invalid` domain for your project, change
-`authEmailDomain` in `frontend/supabase-config.js` to a subdomain you own. No
-mailbox is needed because email confirmation remains disabled.
+No mailbox is needed for the internal address because email confirmation is
+disabled. Keep the configured domain stable: changing it later changes the
+derived login identifier for every username.
 
 ## Security boundary
 
