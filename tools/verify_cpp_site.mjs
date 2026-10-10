@@ -62,5 +62,12 @@ if (!tqc.includes('href="../">題庫首頁</a>') || !html.includes("題庫首頁
 if (!app.includes("ButterflyAccount.saveSubmission") || !app.includes("problem-status-badge")) {
   throw new Error("C++ page must save signed-in submissions and show solved badges");
 }
+const triangleArea = problems.find((problem) => problem.id === "U01-04");
+if (triangleArea?.comparison !== "numeric") {
+  throw new Error("U01-04 must compare output by numeric value");
+}
+if (!app.includes("outputMatches(result.stdout, expected, comparison)")) {
+  throw new Error("C++ judge must honor per-problem output comparison modes");
+}
 
 console.log(`Verified shared design, empty highlighted C++ editor, ${units.length} units, ${problems.length} problems, and ${problems.reduce((n, p) => n + p.tests.length, 0)} tests.`);

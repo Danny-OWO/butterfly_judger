@@ -219,6 +219,21 @@ function normalize(value) {
   return String(value ?? "").replace(/\r\n/g, "\n").trimEnd();
 }
 
+function outputMatches(actual, expected, comparison = "exact") {
+  const normalizedActual = normalize(actual);
+  const normalizedExpected = normalize(expected);
+  if (comparison !== "numeric") return normalizedActual === normalizedExpected;
+  const numericActual = normalizedActual.trim();
+  const numericExpected = normalizedExpected.trim();
+  if (numericActual === "" || numericExpected === "") return false;
+
+  const actualNumber = Number(numericActual);
+  const expectedNumber = Number(numericExpected);
+  return Number.isFinite(actualNumber)
+    && Number.isFinite(expectedNumber)
+    && actualNumber === expectedNumber;
+}
+
 function encodeBase64(text) {
   const bytes = new TextEncoder().encode(text);
   let binary = "";
@@ -254,11 +269,11 @@ async function execute(code, stdin) {
   throw new Error("判題逾時");
 }
 
-function verdict(result, expected) {
+function verdict(result, expected, comparison) {
   if (result.status?.id === 6) return { status: "CE", error: result.compile_output || result.stderr || "編譯失敗" };
   if (result.status?.id === 5) return { status: "TLE", error: "執行時間超過限制" };
   if (result.status?.id !== 3) return { status: "RE", error: result.stderr || result.message || "執行錯誤" };
-  if (normalize(result.stdout) !== normalize(expected)) return { status: "WA", error: `預期輸出：\n${normalize(expected)}\n\n你的輸出：\n${normalize(result.stdout)}` };
+  if (!outputMatches(result.stdout, expected, comparison)) return { status: "WA", error: `預期輸出：\n${normalize(expected)}\n\n你的輸出：\n${normalize(result.stdout)}` };
   return { status: "AC", error: "" };
 }
 
@@ -313,7 +328,7 @@ async function submitCode() {
   try {
     for (let index = 0; index < currentProblem.tests.length; index += 1) {
       const result = await execute(code, currentProblem.tests[index].input);
-      const judged = verdict(result, currentProblem.tests[index].output);
+      const judged = verdict(result, currentProblem.tests[index].output, currentProblem.comparison);
       rows.push({ index: index + 1, ...judged });
       if (judged.status !== "AC") break;
     }

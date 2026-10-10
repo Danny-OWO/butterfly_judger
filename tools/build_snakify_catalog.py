@@ -31,6 +31,10 @@ UNITS = [
     ("dictionaries_dicts", "Dictionaries"),
 ]
 
+PROBLEM_OVERRIDES = {
+    "U01-04": {"comparison": "numeric"},
+}
+
 
 def fetch(url: str) -> str:
     request = urllib.request.Request(url, headers={"User-Agent": "ButterflyJudgerCatalog/1.0"})
@@ -78,9 +82,9 @@ def main() -> None:
             tests = public_tests(fetch(source_url))
             if not tests:
                 raise RuntimeError(f"No public tests found for {source_url}")
-            problems.append(
-                {
-                    "id": f"U{unit:02d}-{number:02d}",
+            problem_id = f"U{unit:02d}-{number:02d}"
+            problem = {
+                    "id": problem_id,
                     "unit": unit,
                     "title": title,
                     "difficulty": f"Exercise {number}",
@@ -94,7 +98,8 @@ def main() -> None:
                     "sourceUrl": source_url,
                     "tests": tests,
                 }
-            )
+            problem.update(PROBLEM_OVERRIDES.get(problem_id, {}))
+            problems.append(problem)
             time.sleep(0.03)
 
     starter = """#include <bits/stdc++.h>

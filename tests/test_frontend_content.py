@@ -159,6 +159,20 @@ class FrontendContentTests(unittest.TestCase):
             workflow,
         )
 
+    def test_triangle_area_accepts_equivalent_numeric_output(self) -> None:
+        catalog_source = (ROOT / "dist" / "problems.js").read_text(encoding="utf-8")
+        catalog = json.loads(
+            catalog_source.split("window.COURSE_PROBLEMS = ", 1)[1].rsplit(";", 1)[0]
+        )
+        triangle_area = next(problem for problem in catalog if problem["id"] == "U01-04")
+        javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
+
+        self.assertEqual(triangle_area["comparison"], "numeric")
+        self.assertIn(
+            "outputMatches(result.stdout, expected, comparison)", javascript
+        )
+        self.assertIn("Number(numericActual)", javascript)
+
     def test_supabase_schema_enforces_per_student_access(self) -> None:
         schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
         config = (FRONTEND / "supabase-config.js").read_text(encoding="utf-8")

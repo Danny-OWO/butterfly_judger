@@ -175,6 +175,7 @@ window.COURSE_PROBLEMS = [
     "sampleOutput": "7.5",
     "hint": "先把 Python 題意翻成語言無關的演算法，再處理 C++ 的輸入與輸出格式。",
     "sourceUrl": "https://snakify.org/en/lessons/print_input_numbers/problems/area_of_right_triangle/",
+    "comparison": "numeric",
     "tests": [
       {
         "input": "3\n5\n",
