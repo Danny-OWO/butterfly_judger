@@ -10,6 +10,9 @@ const accountElements = {
   progressSummary: document.querySelector("#progress-summary"),
 };
 
+const requestedNextPage = new URLSearchParams(window.location.search).get("next");
+const safeNextPage = requestedNextPage === "community.html" ? requestedNextPage : null;
+
 function showAccountMessage(message, tone = "error") {
   accountElements.message.textContent = message;
   accountElements.message.className = `banner ${tone}`;
@@ -87,6 +90,7 @@ async function submitCredentials(event, action) {
     const student = await action(credentials.username, credentials.password);
     event.currentTarget.reset();
     await showSignedIn(student);
+    if (safeNextPage) window.location.assign(safeNextPage);
   } catch (error) {
     showAccountMessage(error.message);
     setFormsDisabled(false);
@@ -123,7 +127,8 @@ async function initializeAccountPage() {
   }
   try {
     const student = await window.ButterflyAccount.currentStudent();
-    if (student) await showSignedIn(student);
+    if (student && safeNextPage) window.location.assign(safeNextPage);
+    else if (student) await showSignedIn(student);
     else showSignedOut();
   } catch (error) {
     setFormsDisabled(true);

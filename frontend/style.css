@@ -26,7 +26,7 @@ body {
   min-height: 100vh;
 }
 
-button, input, textarea { font: inherit; }
+button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 .back-link { display: inline-block; text-decoration: none; }
 
@@ -63,6 +63,8 @@ button { cursor: pointer; }
 }
 
 .header-actions { display: flex; align-items: center; gap: 1rem; }
+.community-link { color: var(--muted); text-decoration: none; font-size: 0.86rem; font-weight: 750; }
+.community-link:hover, .community-link:focus-visible, .community-link[aria-current="page"] { color: var(--ink); outline: none; }
 .account-link { padding: 0.55rem 0.8rem; color: white; border: 1px solid #4c3675; border-radius: 0.65rem; background: var(--violet-soft); text-decoration: none; font-size: 0.86rem; font-weight: 750; }
 .account-link:hover, .account-link:focus-visible { border-color: var(--violet); outline: none; }
 .account-link.signed-in::before { content: "●"; margin-right: 0.45rem; color: var(--green); font-size: 0.65rem; }
@@ -112,6 +114,7 @@ p { color: var(--muted); line-height: 1.7; }
 
 .banner { margin-bottom: 2rem; padding: 1rem 1.1rem; color: var(--red); border: 1px solid #6d2532; border-radius: 0.8rem; background: var(--red-soft); }
 .banner.info { color: #c4b5fd; border-color: #4c3675; background: var(--violet-soft); }
+.banner.success { color: var(--green); border-color: #21583f; background: var(--mint); }
 .text-button, .icon-button { padding: 0; color: var(--violet); border: 0; background: transparent; }
 .text-button { margin-bottom: 1.25rem; font-weight: 700; }
 .icon-button { font-size: 1.8rem; line-height: 1; }
@@ -220,10 +223,63 @@ footer { padding: 2rem 5vw; color: var(--muted); text-align: center; font-size: 
 .progress-row.solved strong { color: var(--green); }
 .progress-empty { padding: 1.2rem; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 0.7rem; }
 
+.community-shell { width: min(1240px, 92vw); margin: 0 auto; padding: clamp(2.5rem, 6vw, 5rem) 0 6rem; }
+.community-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 2rem; margin-bottom: 2.5rem; }
+.community-hero h1 { max-width: 760px; margin-bottom: 0.8rem; font-size: clamp(2.3rem, 6vw, 4.8rem); line-height: 0.98; }
+.community-hero p:last-child { max-width: 700px; margin-bottom: 0; font-size: 1.05rem; }
+.community-principles { display: grid; gap: 0.55rem; justify-items: end; }
+.community-principles span { padding: 0.4rem 0.65rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 0.76rem; }
+.community-layout { display: grid; grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr); align-items: start; gap: 1.25rem; }
+.composer-card, .feed-section { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 1.2rem; background: var(--surface); box-shadow: var(--shadow); }
+.composer-card { position: sticky; top: 1.25rem; }
+.composer-heading, .feed-heading, .post-header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.composer-heading h2, .feed-heading h2 { margin-bottom: 0; }
+.identity-chip { flex: 0 0 auto; padding: 0.38rem 0.62rem; color: #c4b5fd; border: 1px solid #4c3675; border-radius: 999px; background: var(--violet-soft); font-size: 0.75rem; font-weight: 800; }
+.signin-prompt { padding: 1.15rem; border: 1px dashed #4c3675; border-radius: 0.85rem; background: #100d18; }
+.signin-prompt p { margin-bottom: 1rem; }
+.button-link { display: inline-block; width: auto; text-decoration: none; }
+.composer-card form { margin-top: 1.5rem; }
+.composer-card label { display: grid; gap: 0.5rem; color: var(--ink); font-size: 0.86rem; font-weight: 750; }
+.composer-card input, .composer-card select, .composer-card textarea { width: 100%; padding: 0.8rem; color: var(--ink); border: 1px solid #34343d; border-radius: 0.7rem; outline: none; background: #050507; }
+.composer-card select { appearance: auto; }
+.composer-card textarea { margin: 0; resize: vertical; line-height: 1.55; }
+.composer-card #post-code { font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-size: 0.85rem; tab-size: 4; }
+.composer-card input:focus, .composer-card select:focus, .composer-card textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
+.form-row { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 0.75rem; margin-bottom: 1rem; }
+.field-meta { display: flex; justify-content: space-between; gap: 1rem; margin: 0.4rem 0 1rem; color: var(--muted); font-size: 0.7rem; }
+.feed-heading { align-items: center; margin-bottom: 1.2rem; }
+.feed-heading .secondary-button { flex: 0 0 auto; }
+.community-feed { display: grid; gap: 0.8rem; }
+.community-feed[aria-busy="true"]::before { content: "正在載入全站討論…"; display: block; padding: 2rem; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 0.8rem; }
+.community-post { position: relative; padding: 1.2rem; overflow: hidden; border: 1px solid var(--line); border-radius: 0.9rem; background: linear-gradient(135deg, #101014, #0a0a0d); }
+.community-post::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--violet); }
+.community-post.post-help::before { background: #fb7185; }
+.community-post.post-share::before { background: var(--green); }
+.post-header strong { display: block; color: var(--ink); }
+.post-header time { display: block; margin-top: 0.2rem; color: var(--muted); font-size: 0.72rem; }
+.post-metadata { display: flex; flex-wrap: wrap; justify-content: end; gap: 0.45rem; }
+.post-category, .problem-reference { padding: 0.27rem 0.5rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.68rem; font-weight: 800; }
+.post-category { color: var(--muted); }
+.problem-reference { color: #c4b5fd; border-color: #4c3675; background: var(--violet-soft); text-decoration: none; }
+.post-message { margin: 1rem 0 0; color: #d4d4d8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.post-code { margin-top: 1rem; border: 1px solid #28282f; border-radius: 0.7rem; background: #050507; }
+.post-code summary { padding: 0.7rem 0.85rem; color: var(--violet); cursor: pointer; font-size: 0.78rem; font-weight: 800; }
+.post-code pre { max-height: 420px; margin: 0; padding: 1rem; overflow: auto; color: #e4e4e7; border-top: 1px solid #28282f; font: 0.82rem/1.6 "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: pre; }
+.post-actions { display: flex; justify-content: end; margin-top: 0.8rem; }
+.delete-post-button { padding: 0; color: #fb7185; border: 0; background: transparent; font-size: 0.72rem; }
+.delete-post-button:hover, .delete-post-button:focus-visible { color: var(--red); text-decoration: underline; outline: none; }
+.community-empty { display: grid; gap: 0.35rem; padding: 2.5rem 1rem; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 0.85rem; }
+.community-empty strong { color: var(--ink); }
+.community-empty span { font-size: 0.85rem; }
+
 @media (max-width: 820px) {
   .workspace { grid-template-columns: 1fr; }
   .unit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .auth-grid { grid-template-columns: 1fr; }
+  .community-hero { grid-template-columns: 1fr; }
+  .community-principles { display: flex; flex-wrap: wrap; justify-items: initial; }
+  .community-layout { grid-template-columns: 1fr; }
+  .composer-card { position: static; }
 }
 
 @media (max-width: 520px) {
@@ -234,6 +290,13 @@ footer { padding: 2rem 5vw; color: var(--muted); text-align: center; font-size: 
   .catalog-card { min-height: 124px; }
   .brand span:last-child { display: none; }
   .library-home-link { display: none; }
+  .header-actions { gap: 0.65rem; }
+  .community-link { font-size: 0.8rem; }
   .session-panel { grid-template-columns: 1fr; }
   .progress-row { align-items: start; flex-direction: column; gap: 0.25rem; }
+  .community-shell { width: min(94vw, 1240px); padding-top: 2rem; }
+  .community-hero h1 { font-size: clamp(2.2rem, 12vw, 3.4rem); }
+  .form-row { grid-template-columns: 1fr; }
+  .composer-heading, .post-header { align-items: flex-start; flex-direction: column; }
+  .post-metadata { justify-content: start; }
 }

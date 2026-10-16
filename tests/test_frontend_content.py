@@ -87,23 +87,31 @@ class FrontendContentTests(unittest.TestCase):
             )
         )
         self.assertTrue(
-            any("Highest: 31\nLowest: -2.5\n" in test["expected_output"]
-                for test in problem["tests"])
+            any(
+                "Highest: 31\nLowest: -2.5\n" in test["expected_output"]
+                for test in problem["tests"]
+            )
         )
 
     def test_javascript_selectors_exist_in_html(self) -> None:
-        javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
-        html = (FRONTEND / "index.html").read_text(encoding="utf-8")
-        parser = IdParser()
-        parser.feed(html)
-        selectors = set(re.findall(r'querySelector\("#([^\"]+)', javascript))
-        self.assertEqual(selectors - parser.ids, set())
+        for javascript_name, html_name in (
+            ("app.js", "index.html"),
+            ("community.js", "community.html"),
+        ):
+            javascript = (FRONTEND / javascript_name).read_text(encoding="utf-8")
+            html = (FRONTEND / html_name).read_text(encoding="utf-8")
+            parser = IdParser()
+            parser.feed(html)
+            selectors = set(re.findall(r'querySelector\("#([^\"]+)', javascript))
+            self.assertEqual(selectors - parser.ids, set(), javascript_name)
 
     def test_required_static_assets_exist(self) -> None:
         for filename in (
             "index.html",
             "account.html",
             "account.js",
+            "community.html",
+            "community.js",
             "api.js",
             "supabase-config.js",
             "style.css",
@@ -113,6 +121,32 @@ class FrontendContentTests(unittest.TestCase):
             ".nojekyll",
         ):
             self.assertTrue((FRONTEND / filename).exists(), filename)
+
+    def test_global_community_board_is_linked_and_uses_safe_rendering(self) -> None:
+        community_html = (FRONTEND / "community.html").read_text(encoding="utf-8")
+        community_javascript = (FRONTEND / "community.js").read_text(
+            encoding="utf-8"
+        )
+        api_javascript = (FRONTEND / "api.js").read_text(encoding="utf-8")
+        linked_pages = (
+            FRONTEND / "index.html",
+            FRONTEND / "account.html",
+            ROOT / "portal" / "index.html",
+            ROOT / "dist" / "index.html",
+        )
+
+        self.assertIn('id="community-form"', community_html)
+        self.assertIn('id="community-feed"', community_html)
+        self.assertIn('name="problem_ref"', community_html)
+        self.assertIn('name="code"', community_html)
+        self.assertIn("message.textContent = post.message", community_javascript)
+        self.assertIn("code.textContent = post.code", community_javascript)
+        self.assertNotIn("innerHTML", community_javascript)
+        self.assertIn("communityPosts", api_javascript)
+        self.assertIn("createCommunityPost", api_javascript)
+        self.assertIn("deleteCommunityPost", api_javascript)
+        for page in linked_pages:
+            self.assertIn("community", page.read_text(encoding="utf-8"), page)
 
     def test_account_page_uses_supabase_auth_and_progress(self) -> None:
         index_html = (FRONTEND / "index.html").read_text(encoding="utf-8")
@@ -202,6 +236,20 @@ class FrontendContentTests(unittest.TestCase):
         self.assertRegex(
             config,
             r'publishableKey: "(?:YOUR_SUPABASE_PUBLISHABLE_KEY|sb_publishable_[^"]+)"',
+        )
+
+    def test_community_schema_is_public_read_but_owner_write(self) -> None:
+        schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
+
+        self.assertIn("create table if not exists public.community_posts", schema)
+        self.assertIn('"Anyone can read community posts"', schema)
+        self.assertIn('"Students can create community posts"', schema)
+        self.assertIn('"Students can delete their own community posts"', schema)
+        self.assertIn("new.user_id := auth.uid()", schema)
+        self.assertIn("new.author_username := resolved_username", schema)
+        self.assertIn("Community post rate limit", schema)
+        self.assertNotIn(
+            "grant update on table public.community_posts", schema.lower()
         )
 
     def test_browser_judge_uses_strict_output_comparison(self) -> None:

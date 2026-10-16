@@ -59,6 +59,7 @@
       return "Supabase 拒絕了內部帳號格式，請通知老師檢查帳號設定";
     }
     if (/failed to fetch|network/i.test(message)) return "無法連線 Supabase，請稍後重試";
+    if (/community post rate limit/i.test(message)) return "發文太快了，請等 10 秒再試";
     return message;
   }
 
@@ -151,9 +152,54 @@
     return [...new Set((data || []).map((submission) => submission.problem_id))];
   }
 
+  async function communityPosts(limit = 100) {
+    const safeLimit = Math.min(Math.max(Number(limit) || 100, 1), 100);
+    const { data, error } = await requireClient()
+      .from("community_posts")
+      .select(
+        "id,user_id,author_username,category,problem_ref,message,code,created_at"
+      )
+      .order("created_at", { ascending: false })
+      .limit(safeLimit);
+    if (error) throw new Error(readableError(error));
+    return data || [];
+  }
+
+  async function createCommunityPost(post) {
+    const student = await currentStudent();
+    if (!student) throw new Error("請先登入再發文");
+    const { data, error } = await requireClient()
+      .from("community_posts")
+      .insert({
+        category: post.category,
+        problem_ref: post.problem_ref || null,
+        message: post.message,
+        code: post.code || "",
+      })
+      .select(
+        "id,user_id,author_username,category,problem_ref,message,code,created_at"
+      )
+      .single();
+    if (error) throw new Error(readableError(error));
+    return data;
+  }
+
+  async function deleteCommunityPost(postId) {
+    const student = await currentStudent();
+    if (!student) throw new Error("請先登入再刪除貼文");
+    const { error } = await requireClient()
+      .from("community_posts")
+      .delete()
+      .eq("id", postId);
+    if (error) throw new Error(readableError(error));
+  }
+
   window.ButterflyAccount = Object.freeze({
+    communityPosts,
     configured,
+    createCommunityPost,
     currentStudent,
+    deleteCommunityPost,
     login,
     logout,
     progress,

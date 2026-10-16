@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Butterfly Judger 全站討論區：分享程式碼、提問與提供網站回饋。">
+    <title>全站討論區｜Butterfly Judger</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2" defer></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="api.js" defer></script>
+    <script src="community.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Butterfly Judger 首頁">
+        <span class="brand-mark" aria-hidden="true">ʚɞ</span>
+        <span>Butterfly Judger</span>
+      </a>
+      <nav class="header-actions" aria-label="主要導覽">
+        <a class="library-home-link" href="../">題庫首頁</a>
+        <a class="community-link" href="community.html" aria-current="page">全站討論</a>
+        <a id="account-link" class="account-link" href="account.html">登入 / 註冊</a>
+      </nav>
+    </header>
+
+    <main class="community-shell">
+      <header class="community-hero">
+        <div>
+          <p class="eyebrow">GLOBAL COMMONS</p>
+          <h1>把卡住的地方攤在陽光下</h1>
+          <p>貼出題號、想法和程式碼。提問要具體，回饋要誠實；「不能跑」不是錯誤訊息。</p>
+        </div>
+        <div class="community-principles" aria-label="討論原則">
+          <span>公開閱讀</span>
+          <span>登入發文</span>
+          <span>程式碼純文字顯示</span>
+        </div>
+      </header>
+
+      <div id="community-message" class="banner" role="status" hidden></div>
+
+      <section class="community-layout">
+        <aside class="composer-card" aria-labelledby="composer-title">
+          <div class="composer-heading">
+            <div>
+              <p class="eyebrow">NEW POST</p>
+              <h2 id="composer-title">留下程式或回饋</h2>
+            </div>
+            <span id="composer-identity" class="identity-chip">檢查登入中</span>
+          </div>
+
+          <div id="signin-prompt" class="signin-prompt" hidden>
+            <p>任何人都能閱讀；發文前請先用站內帳號登入。</p>
+            <a class="primary-button button-link" href="account.html?next=community.html">前往登入</a>
+          </div>
+
+          <form id="community-form" hidden>
+            <div class="form-row">
+              <label>
+                類型
+                <select id="post-category" name="category" required>
+                  <option value="help">求救</option>
+                  <option value="share">程式分享</option>
+                  <option value="feedback">網站回饋</option>
+                </select>
+              </label>
+              <label>
+                題號（選填）
+                <input id="post-problem" name="problem_ref" maxlength="32" pattern="[A-Za-z0-9_\-]+" placeholder="例如 610 或 U06-10">
+              </label>
+            </div>
+
+            <label for="post-message">你想說什麼？</label>
+            <textarea id="post-message" name="message" rows="6" maxlength="2000" required placeholder="請描述你預期發生什麼、實際發生什麼，以及已經試過哪些方法。"></textarea>
+            <div class="field-meta"><span>請避免貼密碼、API key 或個資</span><span id="message-count">0 / 2000</span></div>
+
+            <label for="post-code">程式碼（選填）</label>
+            <textarea id="post-code" name="code" rows="10" maxlength="20000" spellcheck="false" placeholder="貼上能重現問題的最小程式碼"></textarea>
+            <div class="field-meta"><span>支援 Python、C++ 與純文字</span><span id="code-count">0 / 20000</span></div>
+
+            <button id="publish-button" class="primary-button" type="submit">公開發布</button>
+          </form>
+        </aside>
+
+        <section class="feed-section" aria-labelledby="feed-title">
+          <div class="feed-heading">
+            <div>
+              <p class="eyebrow">COMMUNITY FEED</p>
+              <h2 id="feed-title">最新討論</h2>
+            </div>
+            <button id="refresh-posts" class="secondary-button" type="button">重新整理</button>
+          </div>
+          <div id="community-feed" class="community-feed" aria-live="polite" aria-busy="true"></div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
