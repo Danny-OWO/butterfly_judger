@@ -74,6 +74,23 @@ class FrontendContentTests(unittest.TestCase):
                 self.assertIn("files", test)
                 self.assertIn("expected_files", test)
 
+    def test_problem_610_covers_float_temperatures(self) -> None:
+        problem = next(problem for problem in self.problems if problem["id"] == "610")
+
+        self.assertEqual(problem["title"], "平均溫度")
+        self.assertIn("浮點數", problem["input"])
+        self.assertGreaterEqual(len(problem["tests"]), 5)
+        self.assertTrue(
+            any(
+                any("." in value for value in test["input"].splitlines())
+                for test in problem["tests"]
+            )
+        )
+        self.assertTrue(
+            any("Highest: 31\nLowest: -2.5\n" in test["expected_output"]
+                for test in problem["tests"])
+        )
+
     def test_javascript_selectors_exist_in_html(self) -> None:
         javascript = (FRONTEND / "app.js").read_text(encoding="utf-8")
         html = (FRONTEND / "index.html").read_text(encoding="utf-8")
