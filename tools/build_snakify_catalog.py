@@ -33,6 +33,9 @@ UNITS = [
 
 PROBLEM_OVERRIDES = {
     "U01-04": {"comparison": "numeric"},
+    # The exercise teaches accumulation and averaging, not output formatting.
+    # Accept the roughly six significant digits produced by C++'s default cout.
+    "U06-07": {"comparison": "numeric-tolerance"},
 }
 
 

@@ -222,16 +222,20 @@ function normalize(value) {
 function outputMatches(actual, expected, comparison = "exact") {
   const normalizedActual = normalize(actual);
   const normalizedExpected = normalize(expected);
-  if (comparison !== "numeric") return normalizedActual === normalizedExpected;
+  if (comparison !== "numeric" && comparison !== "numeric-tolerance") {
+    return normalizedActual === normalizedExpected;
+  }
   const numericActual = normalizedActual.trim();
   const numericExpected = normalizedExpected.trim();
   if (numericActual === "" || numericExpected === "") return false;
 
   const actualNumber = Number(numericActual);
   const expectedNumber = Number(numericExpected);
-  return Number.isFinite(actualNumber)
-    && Number.isFinite(expectedNumber)
-    && actualNumber === expectedNumber;
+  if (!Number.isFinite(actualNumber) || !Number.isFinite(expectedNumber)) return false;
+  if (comparison === "numeric") return actualNumber === expectedNumber;
+
+  const tolerance = 1e-5 * Math.max(1, Math.abs(expectedNumber));
+  return Math.abs(actualNumber - expectedNumber) <= tolerance;
 }
 
 function encodeBase64(text) {

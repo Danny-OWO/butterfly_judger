@@ -66,6 +66,10 @@ const triangleArea = problems.find((problem) => problem.id === "U01-04");
 if (triangleArea?.comparison !== "numeric") {
   throw new Error("U01-04 must compare output by numeric value");
 }
+const sequenceAverage = problems.find((problem) => problem.id === "U06-07");
+if (sequenceAverage?.comparison !== "numeric-tolerance") {
+  throw new Error("U06-07 must compare output with floating-point tolerance");
+}
 if (!app.includes("outputMatches(result.stdout, expected, comparison)")) {
   throw new Error("C++ judge must honor per-problem output comparison modes");
 }

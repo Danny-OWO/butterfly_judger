@@ -224,6 +224,19 @@ class FrontendContentTests(unittest.TestCase):
         )
         self.assertIn("Number(numericActual)", javascript)
 
+    def test_sequence_average_accepts_normal_float_precision(self) -> None:
+        catalog_source = (ROOT / "dist" / "problems.js").read_text(encoding="utf-8")
+        catalog = json.loads(
+            catalog_source.split("window.COURSE_PROBLEMS = ", 1)[1].rsplit(";", 1)[0]
+        )
+        sequence_average = next(
+            problem for problem in catalog if problem["id"] == "U06-07"
+        )
+        javascript = (ROOT / "dist" / "app.js").read_text(encoding="utf-8")
+
+        self.assertEqual(sequence_average["comparison"], "numeric-tolerance")
+        self.assertIn("1e-5 * Math.max(1, Math.abs(expectedNumber))", javascript)
+
     def test_supabase_schema_enforces_per_student_access(self) -> None:
         schema = (ROOT / "supabase" / "schema.sql").read_text(encoding="utf-8")
         config = (FRONTEND / "supabase-config.js").read_text(encoding="utf-8")
