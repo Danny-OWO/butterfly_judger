@@ -73,5 +73,8 @@ if (sequenceAverage?.comparison !== "numeric-tolerance") {
 if (!app.includes("outputMatches(result.stdout, expected, comparison)")) {
   throw new Error("C++ judge must honor per-problem output comparison modes");
 }
+if (!html.includes('problems.js?v=20261113-1') || !html.includes('app.js?v=20261113-1')) {
+  throw new Error("C++ judge assets must use the current cache-busting version");
+}
 
 console.log(`Verified shared design, empty highlighted C++ editor, ${units.length} units, ${problems.length} problems, and ${problems.reduce((n, p) => n + p.tests.length, 0)} tests.`);
