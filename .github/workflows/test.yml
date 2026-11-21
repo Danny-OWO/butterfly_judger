@@ -24,3 +24,11 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Compile Python sources
         run: python -m compileall -q judge.py runners.py backend tests solutions
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify C++ catalog and batch judge
+        run: |
+          node tools/verify_cpp_site.mjs
+          node --test tests/cpp_batch.test.mjs

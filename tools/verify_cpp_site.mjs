@@ -73,7 +73,7 @@ if (sequenceAverage?.comparison !== "numeric-tolerance") {
 if (!app.includes("outputMatches(result.stdout, expected, comparison)")) {
   throw new Error("C++ judge must honor per-problem output comparison modes");
 }
-if (!html.includes('problems.js?v=20261113-1') || !html.includes('app.js?v=20261113-1')) {
+if (!html.includes('problems.js?v=20261113-1') || !html.includes('app.js?v=20261121-1')) {
   throw new Error("C++ judge assets must use the current cache-busting version");
 }
 

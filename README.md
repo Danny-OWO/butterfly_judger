@@ -1,5 +1,16 @@
 # Butterfly Judger
 
+## C++ 判題
+
+`dist/` 的 C++ 題庫使用 Judge0 的批次 API：每批最多 20 筆，多批同時提交，再統一查詢尚未完成的項目，減少逐筆提交、排隊及輪詢造成的累積等待。結果依原測資順序判定，遇到第一個失敗便停止查詢並顯示結果；已送出的其他測資仍可能在遠端執行。每筆測資仍各自編譯，實際速度取決於遠端服務的負載。
+
+修改判題流程後可執行：
+
+```powershell
+node tools/verify_cpp_site.mjs
+node --test tests/cpp_batch.test.mjs
+```
+
 一個以教學為目的的 Python 練習系統。公開版本部署在 GitHub Pages，使用 Pyodide 在學生自己的瀏覽器執行程式，不需要常駐後端或付費運算資源。
 
 ## 公開網站功能

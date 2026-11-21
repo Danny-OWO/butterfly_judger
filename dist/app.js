@@ -1,4 +1,5 @@
 const JUDGE_URL = "https://ce.judge0.com";
+const JUDGE_BATCH_SIZE = 20;
 const SOLVED_CACHE_PREFIX = "butterfly-solved-problems";
 const $ = (selector) => document.querySelector(selector);
 
@@ -257,18 +258,60 @@ async function responseJson(response) {
   return data;
 }
 
-async function execute(code, stdin) {
-  const created = await responseJson(await fetch(`${JUDGE_URL}/submissions?base64_encoded=true&wait=false`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ language_id: 54, source_code: encodeBase64(code), stdin: encodeBase64(stdin), cpu_time_limit: 2, wall_time_limit: 5 }),
+function judgeBatches(items) {
+  const batches = [];
+  for (let index = 0; index < items.length; index += JUDGE_BATCH_SIZE) {
+    batches.push(items.slice(index, index + JUDGE_BATCH_SIZE));
+  }
+  return batches;
+}
+
+async function executeBatch(code, tests, comparison) {
+  const source = encodeBase64(code);
+  const createdBatches = await Promise.all(judgeBatches(tests).map(async (group) => {
+    const created = await responseJson(await fetch(`${JUDGE_URL}/submissions/batch?base64_encoded=true`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(10000),
+      body: JSON.stringify({ submissions: group.map((test) => ({ language_id: 54, source_code: source, stdin: encodeBase64(test.input), cpu_time_limit: 2, wall_time_limit: 5 })) }),
+    }));
+    if (!Array.isArray(created) || created.length !== group.length) {
+      throw new Error("判題服務回傳的測資數量不正確");
+    }
+    return created;
   }));
+  const created = createdBatches.flat();
+  const rejected = created.findIndex((item) => !item?.token);
+  if (rejected !== -1) {
+    throw new Error(`測資 ${rejected + 1} 提交失敗：${JSON.stringify(created[rejected])}`);
+  }
+  const tokens = created.map((item) => item.token);
+  if (new Set(tokens).size !== tokens.length) throw new Error("判題服務回傳重複的測資識別碼");
+  const finished = new Map();
   for (let attempt = 0; attempt < 30; attempt += 1) {
     await new Promise((resolve) => setTimeout(resolve, attempt < 2 ? 650 : 1000));
-    const result = await responseJson(await fetch(`${JUDGE_URL}/submissions/${created.token}?base64_encoded=true&fields=stdout,stderr,compile_output,message,time,status`));
-    if (result.status?.id > 2) {
-      return { ...result, stdout: decodeBase64(result.stdout), stderr: decodeBase64(result.stderr), compile_output: decodeBase64(result.compile_output), message: decodeBase64(result.message) };
+    const pending = tokens.filter((token) => !finished.has(token));
+    const polled = await Promise.all(judgeBatches(pending).map(async (group) => {
+      const query = new URLSearchParams({ tokens: group.join(","), base64_encoded: "true", fields: "token,stdout,stderr,compile_output,message,time,status" });
+      const batch = await responseJson(await fetch(`${JUDGE_URL}/submissions/batch?${query}`, { signal: AbortSignal.timeout(10000) }));
+      if (!Array.isArray(batch.submissions)) throw new Error("判題服務回傳的批次結果格式不正確");
+      return batch.submissions;
+    }));
+    for (const result of polled.flat()) {
+      if (result && pending.includes(result.token) && result.status?.id > 2) {
+        finished.set(result.token, { ...result, stdout: decodeBase64(result.stdout), stderr: decodeBase64(result.stderr), compile_output: decodeBase64(result.compile_output), message: decodeBase64(result.message) });
+      }
     }
+    // Results may arrive out of order. Only report a contiguous prefix, just as
+    // the sequential judge did, and stop polling once its first failure is known.
+    const ordered = [];
+    for (let index = 0; index < tokens.length; index += 1) {
+      if (!finished.has(tokens[index])) break;
+      const result = finished.get(tokens[index]);
+      ordered.push(result);
+      if (verdict(result, tests[index].output, comparison).status !== "AC") return ordered;
+    }
+    if (ordered.length === tests.length) return ordered;
   }
   throw new Error("判題逾時");
 }
@@ -318,6 +361,7 @@ async function saveCloudHistory(problem, code, summary) {
 
 async function submitCode() {
   if (running || !currentProblem) return;
+  const problem = currentProblem;
   const code = getEditorValue().trim();
   if (!code) {
     elements.banner.textContent = "請先輸入 C++ 程式碼。";
@@ -330,14 +374,15 @@ async function submitCode() {
   elements.submitButton.textContent = "判題中…";
   const rows = [];
   try {
-    for (let index = 0; index < currentProblem.tests.length; index += 1) {
-      const result = await execute(code, currentProblem.tests[index].input);
-      const judged = verdict(result, currentProblem.tests[index].output, currentProblem.comparison);
+    const results = await executeBatch(code, problem.tests, problem.comparison);
+    for (let index = 0; index < results.length; index += 1) {
+      const result = results[index];
+      const judged = verdict(result, problem.tests[index].output, problem.comparison);
       rows.push({ index: index + 1, ...judged });
       if (judged.status !== "AC") break;
     }
-    const summary = renderResults(rows, currentProblem.tests.length);
-    await saveCloudHistory(currentProblem, code, summary);
+    const summary = renderResults(rows, problem.tests.length);
+    await saveCloudHistory(problem, code, summary);
   } catch (error) {
     elements.banner.textContent = `判題服務錯誤：${error.message}`;
     elements.banner.hidden = false;
